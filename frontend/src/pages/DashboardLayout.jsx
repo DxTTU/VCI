@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { ShieldAlert, ArrowLeft } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import OnboardingWizard from '../components/onboarding/OnboardingWizard';
@@ -176,9 +177,9 @@ export default function DashboardLayout() {
     try {
       setLoading(true);
       const [clubRes, memRes, pstRes] = await Promise.all([
-        fetch('/api/clubs').then((r) => (r.ok ? r.json() : null)).catch(() => null),
-        fetch('/api/members').then((r) => (r.ok ? r.json() : null)).catch(() => null),
-        fetch('/api/pst').then((r) => (r.ok ? r.json() : null)).catch(() => null),
+        fetch(getApiUrl('/api/clubs')).then((r) => (r.ok ? r.json() : null)).catch(() => null),
+        fetch(getApiUrl('/api/members')).then((r) => (r.ok ? r.json() : null)).catch(() => null),
+        fetch(getApiUrl('/api/pst')).then((r) => (r.ok ? r.json() : null)).catch(() => null),
       ]);
 
       if (clubRes?.success && clubRes.data?.length > 0) {

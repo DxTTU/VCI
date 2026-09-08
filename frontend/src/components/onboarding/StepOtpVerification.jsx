@@ -1,5 +1,6 @@
-﻿import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Check, Loader2 } from 'lucide-react';
+import { getApiUrl } from '../../config/api';
 
 /**
  * StepOtpVerification Component
@@ -39,7 +40,7 @@ export default function StepOtpVerification({ email, onVerified }) {
       setIsSending(true);
       setError('');
       try {
-        await fetch('/send-otp', {
+        await fetch(getApiUrl('/send-otp'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: email.toLowerCase().trim() }),
@@ -85,7 +86,7 @@ export default function StepOtpVerification({ email, onVerified }) {
     setError('');
 
     try {
-      const response = await fetch('/verify-otp', {
+      const response = await fetch(getApiUrl('/verify-otp'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -199,7 +200,7 @@ export default function StepOtpVerification({ email, onVerified }) {
     setIsSending(true);
     setError('');
     try {
-      await fetch('/send-otp', {
+      await fetch(getApiUrl('/send-otp'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.toLowerCase().trim() }),

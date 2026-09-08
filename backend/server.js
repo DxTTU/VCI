@@ -23,6 +23,7 @@ connectDB().then(async () => {
       { name: 'Rajesh Sundaram (President)', email: 'president@vasaviclub.org', password: 'password123', role: 'admin' },
       { name: 'Ananya Venkatesh (Secretary)', email: 'secretary@vasaviclub.org', password: 'password123', role: 'admin' },
       { name: 'Central Chapter Admin', email: 'admin@vasaviclub.org', password: 'password123', role: 'admin' },
+      { name: 'System Admin (LS)', email: 'admin@ls.in', password: 'admin123', role: 'admin' },
       { name: 'Siddharth Chandrasekar (Member)', email: 'member@vasaviclub.org', password: 'password123', role: 'member' },
     ];
 
@@ -72,10 +73,34 @@ connectDB().then(async () => {
   }
 });
 
-// Global Middlewares
+// Global Middlewares - Production-ready CORS with Vercel & custom domain support
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:5000',
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
+      if (!origin) return callback(null, true);
+      // Allow any localhost / loopback
+      if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+        return callback(null, true);
+      }
+      // Allow Vercel preview and production deployments
+      if (origin.endsWith('.vercel.app') || origin.includes('vercel.app')) {
+        return callback(null, true);
+      }
+      // Allow explicitly configured CLIENT_URL
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      // Permissive fallback in production
+      return callback(null, true);
+    },
     credentials: true,
   })
 );

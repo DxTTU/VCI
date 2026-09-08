@@ -17,6 +17,7 @@ import StepContactInfo from './StepContactInfo';
 import StepOtpVerification from './StepOtpVerification';
 import StepAffiliationRole from './StepAffiliationRole';
 import StepReviewSubmit from './StepReviewSubmit';
+import { getApiUrl } from '../../config/api';
 
 /**
  * OnboardingWizard Component
@@ -73,7 +74,7 @@ export default function OnboardingWizard({ isOpen, onClose, onMemberCreated }) {
   // Fetch available clubs from backend on mount
   useEffect(() => {
     if (isOpen) {
-      fetch('/api/clubs')
+      fetch(getApiUrl('/api/clubs'))
         .then((res) => res.json())
         .then((data) => {
           if (data.success && data.data.length > 0) {
@@ -187,7 +188,7 @@ export default function OnboardingWizard({ isOpen, onClose, onMemberCreated }) {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch('/api/members/onboard', {
+      const response = await fetch(getApiUrl('/api/members/onboard'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

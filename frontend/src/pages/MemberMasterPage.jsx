@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, UserPlus, AlertTriangle, CheckCircle2, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { getApiUrl } from '../config/api';
 
 export default function MemberMasterPage({
   members,
@@ -37,7 +38,7 @@ export default function MemberMasterPage({
     try {
       setActionLoading(targetId);
       const authToken = token || localStorage.getItem('vci_auth_token');
-      const res = await fetch(`/api/members/${targetId}/role`, {
+      const res = await fetch(getApiUrl(`/api/members/${targetId}/role`), {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +78,7 @@ export default function MemberMasterPage({
     try {
       setActionLoading(targetId);
       const authToken = token || localStorage.getItem('vci_auth_token');
-      const res = await fetch(`/api/members/${targetId}`, {
+      const res = await fetch(getApiUrl(`/api/members/${targetId}`), {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${authToken}`,

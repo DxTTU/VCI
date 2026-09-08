@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+import { getApiUrl } from '../config/api';
 
 const AuthContext = createContext(null);
 
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }) => {
   // Phase 1: Check credentials, trigger OTP dispatch, pause login
   const initiateLogin = async (identifier, password) => {
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(getApiUrl('/api/auth/login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ identifier, password }),
@@ -79,7 +80,7 @@ export const AuthProvider = ({ children }) => {
         return { success: true, user: fallbackUser };
       }
 
-      const response = await fetch('/api/auth/verify-otp', {
+      const response = await fetch(getApiUrl('/api/auth/verify-otp'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -110,7 +111,7 @@ export const AuthProvider = ({ children }) => {
       return { success: true, devOtp: '123456', message: 'Demo verification code re-dispatched.' };
     }
 
-    const response = await fetch('/api/auth/resend-otp', {
+    const response = await fetch(getApiUrl('/api/auth/resend-otp'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
