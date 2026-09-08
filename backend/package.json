@@ -1,0 +1,32 @@
+{
+  "name": "vasavi-club-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Vasavi Club International Chapter Management System",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.9.5",
+    "nodemailer": "^10.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "keywords": [
+    "vasavi-club",
+    "express",
+    "mongoose",
+    "mongodb",
+    "mern"
+  ],
+  "author": "Vasavi Clubs International Tech",
+  "license": "ISC"
+}

@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    border-color: #E5E5E5;
+  }
+  
+  body {
+    background-color: #FFFFFF;
+    color: #171717;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Remove default focus outlines and replace with clinical hairline borders */
+  input, select, textarea, button {
+    outline: none !important;
+  }
+}
+
+/* Clinical Minimalist Form Controls ("The Ordinary" Specification) */
+.clinical-input {
+  @apply w-full bg-white border border-neutral-300 px-3.5 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-VASAVI-blue transition-colors duration-150 rounded-none;
+}
+
+.clinical-input:focus {
+  border-color: #00338D !important;
+}
+
+.clinical-label {
+  @apply block font-mono text-[10px] tracking-clinical uppercase text-neutral-500 mb-1.5 font-medium;
+}
+
+.clinical-badge {
+  @apply inline-flex items-center px-2 py-0.5 font-mono text-[9px] tracking-widest uppercase border;
+}
+
+/* Custom hairline scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #FAFAFA;
+}
+::-webkit-scrollbar-thumb {
+  background: #D1D1D1;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00338D;
+}
