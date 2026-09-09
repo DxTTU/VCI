@@ -26,6 +26,7 @@ connectDB().then(async () => {
       { name: 'Central Chapter Admin', email: 'admin@vasaviclub.org', password: 'password123', role: 'admin' },
       { name: 'System Admin (LS)', email: 'admin@ls.in', password: 'admin123', role: 'admin' },
       { name: 'Dhatrinath Lade (Admin)', email: 'dhatrinathlade2006@gmail.com', password: 'D@12345', role: 'admin' },
+      { name: 'Harsha Vardan Bommisetti (Admin)', email: 'harshavardanbommisetti@gmail.com', password: 'H@12345', role: 'admin' },
       { name: 'Siddharth Chandrasekar (Member)', email: 'member@vasaviclub.org', password: 'password123', role: 'member' },
     ];
 
