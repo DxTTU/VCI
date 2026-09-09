@@ -8,6 +8,7 @@ import memberRoutes from './routes/memberRoutes.js';
 import pstRoutes from './routes/pstRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import otpRoutes from './routes/otpRoutes.js';
+import { verifyOTP } from './controllers/authController.js';
 import Club from './models/Club.js';
 import Member from './models/Member.js';
 import PST from './models/PST.js';
@@ -81,29 +82,58 @@ const allowedOrigins = [
   'http://localhost:5000',
 ].filter(Boolean);
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
-      if (!origin) return callback(null, true);
-      // Allow any localhost / loopback
-      if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
-        return callback(null, true);
-      }
-      // Allow Vercel preview and production deployments
-      if (origin.endsWith('.vercel.app') || origin.includes('vercel.app')) {
-        return callback(null, true);
-      }
-      // Allow explicitly configured CLIENT_URL
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      // Permissive fallback in production
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
+    if (!origin) return callback(null, true);
+    // Allow any localhost / loopback
+    if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
       return callback(null, true);
-    },
-    credentials: true,
-  })
-);
+    }
+    // Allow Vercel preview and production deployments
+    if (origin.endsWith('.vercel.app') || origin.includes('vercel.app')) {
+      return callback(null, true);
+    }
+    // Allow ngrok tunnels
+    if (origin.includes('ngrok-free.dev') || origin.includes('ngrok.io')) {
+      return callback(null, true);
+    }
+    // Allow explicitly configured CLIENT_URL
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    // Permissive fallback in production
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'Accept',
+    'Origin',
+    'X-Requested-With',
+    'ngrok-skip-browser-warning',
+  ],
+  optionsSuccessStatus: 200, // Explicitly return 200 for OPTIONS preflight
+};
+
+app.use(cors(corsOptions));
+// Handle preflight OPTIONS requests for all endpoints
+app.options('*', cors(corsOptions));
+
+// Explicit preflight middleware ensuring OPTIONS never yields 405 Method Not Allowed
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, Origin, X-Requested-With, ngrok-skip-browser-warning');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -114,9 +144,31 @@ app.use((req, res, next) => {
   next();
 });
 
+// Explicit OTP Verification Route (Guaranteed strictly defined POST handler)
+// Automatically handles both onboarding induction ({ email, otp }) and auth session sign-in ({ preAuthToken, otp })
+app.post(['/api/verify-otp', '/verify-otp', '/api/otp/verify-otp'], (req, res, next) => {
+  if (req.body?.preAuthToken || req.headers.authorization?.startsWith('Bearer ')) {
+    return verifyOTP(req, res, next);
+  }
+  return otpRoutes(req, res, next);
+});
+
+// Explicit OTP Send Route (Guaranteed strictly defined POST handler)
+app.post(['/api/send-otp', '/send-otp', '/api/otp/send-otp'], (req, res, next) => {
+  return otpRoutes(req, res, next);
+});
+
+// Explicit 405 Method Not Allowed Handler for non-POST requests to OTP endpoints
+app.all(['/api/verify-otp', '/verify-otp', '/api/send-otp', '/send-otp'], (req, res) => {
+  res.status(405).json({
+    success: false,
+    message: `Method ${req.method} Not Allowed. OTP operations require HTTP POST.`,
+  });
+});
+
 // Primary API Routes
 app.use('/api/auth', authRoutes);
-app.use(authRoutes); // Direct root /login, /authenticate, /verify-otp
+app.use(authRoutes); // Direct root /login, /authenticate
 app.use('/api/otp', otpRoutes);
 app.use(otpRoutes); // Allows direct /send-otp and /verify-otp
 app.use('/api/clubs', clubRoutes);

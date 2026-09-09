@@ -1,4 +1,4 @@
-﻿import 'dotenv/config';
+import 'dotenv/config';
 import express from 'express';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
@@ -41,11 +41,11 @@ const hashCode = (code) => {
 };
 
 /**
- * POST /send-otp
+ * POST /send-otp & POST /api/send-otp
  * Generates a 6-digit cryptographic code, hashes & stores it in MongoDB with 5-min TTL,
  * and uses nodemailer to dispatch it to the user's email address.
  */
-router.post('/send-otp', async (req, res) => {
+router.post(['/send-otp', '/api/send-otp'], async (req, res) => {
   try {
     const { email } = req.body;
 
@@ -133,10 +133,10 @@ router.post('/send-otp', async (req, res) => {
 });
 
 /**
- * POST /verify-otp
+ * POST /verify-otp & POST /api/verify-otp
  * Validates user's 6-digit submitted input against active MongoDB record
  */
-router.post('/verify-otp', async (req, res) => {
+router.post(['/verify-otp', '/api/verify-otp'], async (req, res) => {
   try {
     const { email, otp } = req.body;
 

@@ -5,7 +5,10 @@
  * - In Development: Defaults to empty string, allowing Vite proxy to handle /api, /send-otp, /verify-otp
  */
 
-const RAW_API_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '';
+const RAW_API_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? 'https://making-tapioca-umpire.ngrok-free.dev' : '');
 export const API_BASE_URL = RAW_API_URL.replace(/\/+$/, '');
 
 /**

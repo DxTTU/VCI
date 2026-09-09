@@ -40,9 +40,12 @@ export default function StepOtpVerification({ email, onVerified }) {
       setIsSending(true);
       setError('');
       try {
-        const response = await fetch(getApiUrl('/send-otp'), {
+        const response = await fetch(getApiUrl('/api/send-otp'), {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
           body: JSON.stringify({ email: email.toLowerCase().trim() }),
         });
         const text = await response.text();
@@ -98,9 +101,12 @@ export default function StepOtpVerification({ email, onVerified }) {
     setError('');
 
     try {
-      const response = await fetch(getApiUrl('/verify-otp'), {
+      const response = await fetch(getApiUrl('/api/verify-otp'), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
         body: JSON.stringify({
           email: email.toLowerCase().trim(),
           otp: otpCode.trim(),
@@ -220,9 +226,12 @@ export default function StepOtpVerification({ email, onVerified }) {
     setIsSending(true);
     setError('');
     try {
-      const response = await fetch(getApiUrl('/send-otp'), {
+      const response = await fetch(getApiUrl('/api/send-otp'), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
         body: JSON.stringify({ email: email.toLowerCase().trim() }),
       });
       const text = await response.text();
