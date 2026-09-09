@@ -1,6 +1,6 @@
 # Chapter Governance Portal
 
-A clinical, minimalist chapter administration web application designed for **Vasavi Club International / Lions Clubs International**. Built with a high-density, ultra-clean aesthetic inspired by *The Ordinary* product design language, this platform handles member onboarding, identity verification via email OTP, role-based governance, and real-time portal monitoring.
+A clinical, minimalist chapter administration web application designed for **Vasavi Club International**. Built with a high-density, ultra-clean aesthetic inspired by *The Ordinary* product design language, this platform handles member onboarding, identity verification via email OTP, role-based governance, and real-time portal monitoring.
 
 ---
 
