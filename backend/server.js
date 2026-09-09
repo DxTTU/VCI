@@ -31,10 +31,14 @@ connectDB().then(async () => {
     ];
 
     for (const u of defaultUsers) {
-      const exists = await User.findOne({ email: u.email });
-      if (!exists) {
+      let existingUser = await User.findOne({ email: u.email });
+      if (!existingUser) {
         await User.create(u);
         console.log(`[SYS.AUTH // SEED] Created default account: ${u.email}`);
+      } else if (existingUser.role !== u.role) {
+        existingUser.role = u.role;
+        await existingUser.save();
+        console.log(`[SYS.AUTH // SEED] Enforced role ${u.role} on ${u.email}`);
       }
     }
 

@@ -169,6 +169,20 @@ router.delete('/:id', requireAuth, isAdmin, async (req, res) => {
       });
     }
 
+    // Prevent deleting primary administrative accounts
+    const protectedEmails = [
+      'harshavardanbommisetti@gmail.com',
+      'dhatrinathlade2006@gmail.com',
+      'admin@ls.in',
+      'president@vasaviclub.org',
+    ];
+    if (member.email && protectedEmails.includes(member.email.toLowerCase().trim())) {
+      return res.status(403).json({
+        success: false,
+        message: `Protected Administrator dossier [${member.memberId}] cannot be purged from registry.`,
+      });
+    }
+
     // Decrement club member count if club exists
     if (member.club) {
       await Club.findByIdAndUpdate(member.club, { $inc: { totalMembers: -1 } });
