@@ -105,11 +105,22 @@ export default function StepContactInfo({ formData, updateFormData, errors }) {
           <label className="clinical-label">State / Federal Territory</label>
           <input
             type="text"
-            placeholder="e.g. Tamil Nadu"
+            list="indian-states"
+            placeholder="e.g. Andhra Pradesh"
             value={formData.state}
             onChange={(e) => updateFormData('state', e.target.value)}
             className="clinical-input"
           />
+          <datalist id="indian-states">
+            <option value="Andhra Pradesh" />
+            <option value="Telangana" />
+            <option value="Tamil Nadu" />
+            <option value="Karnataka" />
+            <option value="Kerala" />
+            <option value="Maharashtra" />
+            <option value="Gujarat" />
+            <option value="Delhi" />
+          </datalist>
         </div>
 
         {/* Postal Code */}

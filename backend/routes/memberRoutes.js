@@ -105,7 +105,7 @@ router.post('/onboard', async (req, res) => {
       phone,
       address,
       city,
-      state: state || 'Tamil Nadu',
+      state: state || 'Andhra Pradesh',
       postalCode,
       country: country || 'India',
       club: club._id,

@@ -77,7 +77,7 @@ const memberSchema = new mongoose.Schema(
     },
     state: {
       type: String,
-      default: 'Tamil Nadu',
+      default: 'Andhra Pradesh',
       trim: true,
     },
     postalCode: {
