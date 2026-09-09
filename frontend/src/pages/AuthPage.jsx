@@ -273,7 +273,15 @@ export default function AuthPage() {
                 <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400">
                   <span>QUICK-FILL TEST PROFILES:</span>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleFillDemo('dhatrinathlade2006@gmail.com', 'D@12345')}
+                    className="p-2 border border-neutral-900 bg-neutral-50 text-left font-mono text-[10px] text-neutral-800 hover:border-VASAVI-blue hover:bg-white transition-colors"
+                  >
+                    <span className="block font-semibold text-neutral-900">[A] Dhatrinath</span>
+                    <span className="text-[9px] text-neutral-500 truncate block">Admin Login</span>
+                  </button>
                   <button
                     type="button"
                     onClick={() => handleFillDemo('president@vasaviclub.org', 'password123')}
