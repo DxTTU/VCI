@@ -176,10 +176,21 @@ export default function DashboardLayout() {
   const fetchData = async () => {
     try {
       setLoading(true);
+      const safeFetch = async (endpoint) => {
+        try {
+          const res = await fetch(getApiUrl(endpoint));
+          if (!res.ok) return null;
+          const text = await res.text();
+          return text ? JSON.parse(text) : null;
+        } catch {
+          return null;
+        }
+      };
+
       const [clubRes, memRes, pstRes] = await Promise.all([
-        fetch(getApiUrl('/api/clubs')).then((r) => (r.ok ? r.json() : null)).catch(() => null),
-        fetch(getApiUrl('/api/members')).then((r) => (r.ok ? r.json() : null)).catch(() => null),
-        fetch(getApiUrl('/api/pst')).then((r) => (r.ok ? r.json() : null)).catch(() => null),
+        safeFetch('/api/clubs'),
+        safeFetch('/api/members'),
+        safeFetch('/api/pst'),
       ]);
 
       if (clubRes?.success && clubRes.data?.length > 0) {

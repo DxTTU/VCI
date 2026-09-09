@@ -4,6 +4,7 @@ import {
   login,
   verifyOTP,
   resendOTP,
+  authenticate,
 } from '../controllers/authController.js';
 import { requireAuth } from '../middleware/authMiddleware.js';
 
@@ -32,6 +33,14 @@ router.post('/verify-otp', verifyOTP);
  * @desc    Re-issues a new OTP (rate limited to 60s cooldown)
  */
 router.post('/resend-otp', resendOTP);
+
+/**
+ * @route   POST /api/auth/authenticate
+ * @route   GET /api/auth/authenticate
+ * @desc    Session token verification or credentials authentication
+ */
+router.post('/authenticate', authenticate);
+router.get('/authenticate', authenticate);
 
 /**
  * @route   GET /api/auth/me

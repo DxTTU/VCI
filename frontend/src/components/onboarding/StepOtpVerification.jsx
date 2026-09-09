@@ -40,17 +40,29 @@ export default function StepOtpVerification({ email, onVerified }) {
       setIsSending(true);
       setError('');
       try {
-        await fetch(getApiUrl('/send-otp'), {
+        const response = await fetch(getApiUrl('/send-otp'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: email.toLowerCase().trim() }),
         });
+        const text = await response.text();
+        let data = {};
+        if (text) {
+          try {
+            data = JSON.parse(text);
+          } catch {
+            data = { message: text.startsWith('<') ? `Server error (${response.status})` : text };
+          }
+        }
+        if (!response.ok) {
+          throw new Error(data.message || `Server error: ${response.status}`);
+        }
         if (isMounted) {
           setCooldown(300); // 5-minute TTL
         }
       } catch (err) {
         if (isMounted) {
-          setError('FAILED TO DISPATCH VERIFICATION CODE. PLEASE TRY AGAIN.');
+          setError(err.message || 'FAILED TO DISPATCH VERIFICATION CODE. PLEASE TRY AGAIN.');
         }
       } finally {
         if (isMounted) {
@@ -95,7 +107,15 @@ export default function StepOtpVerification({ email, onVerified }) {
         }),
       });
 
-      const data = await response.json();
+      const text = await response.text();
+      let data = {};
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch {
+          data = { message: text.startsWith('<') ? `Server error (${response.status})` : text };
+        }
+      }
 
       if (response.ok && data.success) {
         setSuccess(true);
@@ -105,14 +125,14 @@ export default function StepOtpVerification({ email, onVerified }) {
         }, 400);
       } else {
         // Minimalist error message in muted red
-        setError('INVALID CRYPTOGRAPHIC CODE. PLEASE TRY AGAIN.');
+        setError(data.message || 'INVALID CRYPTOGRAPHIC CODE. PLEASE TRY AGAIN.');
         // Clear digits on failure so user can re-type immediately
         setDigits(['', '', '', '', '', '']);
         inputRefs.current[0]?.focus();
         setActiveIndex(0);
       }
     } catch (err) {
-      setError('INVALID CRYPTOGRAPHIC CODE. PLEASE TRY AGAIN.');
+      setError(err.message || 'INVALID CRYPTOGRAPHIC CODE. PLEASE TRY AGAIN.');
     } finally {
       setIsVerifying(false);
     }
@@ -200,17 +220,29 @@ export default function StepOtpVerification({ email, onVerified }) {
     setIsSending(true);
     setError('');
     try {
-      await fetch(getApiUrl('/send-otp'), {
+      const response = await fetch(getApiUrl('/send-otp'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.toLowerCase().trim() }),
       });
+      const text = await response.text();
+      let data = {};
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch {
+          data = { message: text.startsWith('<') ? `Server error (${response.status})` : text };
+        }
+      }
+      if (!response.ok) {
+        throw new Error(data.message || `Server error: ${response.status}`);
+      }
       setCooldown(300); // Reset 5-minute TTL
       setDigits(['', '', '', '', '', '']);
       inputRefs.current[0]?.focus();
       setActiveIndex(0);
     } catch (err) {
-      setError('FAILED TO RE-DISPATCH VERIFICATION CODE.');
+      setError(err.message || 'FAILED TO RE-DISPATCH VERIFICATION CODE.');
     } finally {
       setIsSending(false);
     }

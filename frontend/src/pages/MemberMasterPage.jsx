@@ -47,7 +47,15 @@ export default function MemberMasterPage({
         body: JSON.stringify({ role: 'admin' }),
       });
 
-      const data = await res.json();
+      const text = await res.text();
+      let data = {};
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch {
+          data = { message: text.startsWith('<') ? `Server error (${res.status})` : text };
+        }
+      }
       if (!res.ok) {
         throw new Error(data.message || 'Failed to update member role');
       }
@@ -85,7 +93,15 @@ export default function MemberMasterPage({
         },
       });
 
-      const data = await res.json();
+      const text = await res.text();
+      let data = {};
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch {
+          data = { message: text.startsWith('<') ? `Server error (${res.status})` : text };
+        }
+      }
       if (!res.ok) {
         throw new Error(data.message || 'Failed to remove member dossier');
       }

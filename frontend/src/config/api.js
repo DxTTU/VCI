@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Production-ready API URL Resolver
  * Resolves API endpoints dynamically based on the environment:
  * - In Production: Uses VITE_API_BASE_URL or VITE_API_URL (set in Vercel project environment variables)
@@ -19,4 +19,27 @@ export const getApiUrl = (path = '') => {
   return `${API_BASE_URL}${normalizedPath}`;
 };
 
+/**
+ * Safely parses fetch response body as JSON.
+ * Prevents "Unexpected end of JSON input" on empty bodies or HTML error pages.
+ * @param {Response} response
+ * @returns {Promise<any>}
+ */
+export const safeParseJson = async (response) => {
+  const text = await response.text();
+  let data = {};
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { message: text.startsWith('<') ? `Server error: ${response.status}` : text };
+    }
+  }
+  if (!response.ok) {
+    throw new Error(data.message || data.error || `Server error: ${response.status}`);
+  }
+  return data;
+};
+
 export default getApiUrl;
+

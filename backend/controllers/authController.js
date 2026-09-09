@@ -4,6 +4,7 @@ import {
   signPreAuthToken,
   verifyPreAuthToken,
   signAccessToken,
+  verifyAccessToken,
   sendOTPEmail,
 } from '../utils/otpService.js';
 
@@ -320,6 +321,61 @@ export const resendOTP = async (req, res) => {
     });
   } catch (error) {
     console.error('[ANTIGRAVITY // RESEND OTP ERROR]', error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message || 'Internal server error' });
   }
 };
+
+/**
+ * 5. General Authenticate Endpoint
+ * Validates active session via Bearer token or processes credential verification.
+ * Strictly guarantees JSON responses in every scenario (success & failure).
+ */
+export const authenticate = async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      try {
+        const decoded = verifyAccessToken(token);
+        if (decoded) {
+          const user = await User.findById(decoded.id || decoded.sub);
+          if (user) {
+            return res.status(200).json({
+              success: true,
+              status: 'AUTHENTICATED',
+              message: 'Token verified successfully.',
+              user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+              },
+            });
+          }
+        }
+      } catch (tokenErr) {
+        return res.status(401).json({
+          success: false,
+          message: 'Session expired or invalid token. Please sign in again.',
+        });
+      }
+    }
+
+    // If body contains login credentials, route directly through login handler
+    if (req.body && (req.body.identifier || req.body.email) && req.body.password) {
+      return login(req, res);
+    }
+
+    return res.status(401).json({
+      success: false,
+      message: 'Authentication required. Please provide credentials or a valid token.',
+    });
+  } catch (error) {
+    console.error('[ANTIGRAVITY // AUTHENTICATE ERROR]', error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || 'Internal server error',
+    });
+  }
+};
+

@@ -116,6 +116,7 @@ app.use((req, res, next) => {
 
 // Primary API Routes
 app.use('/api/auth', authRoutes);
+app.use(authRoutes); // Direct root /login, /authenticate, /verify-otp
 app.use('/api/otp', otpRoutes);
 app.use(otpRoutes); // Allows direct /send-otp and /verify-otp
 app.use('/api/clubs', clubRoutes);
@@ -285,21 +286,13 @@ app.post('/api/seed', async (req, res) => {
   }
 });
 
-// 404 Route Handler
-app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: `Resource not located at endpoint: ${req.originalUrl}`,
-  });
-});
+// 404 Fallback Route Handler
+app.use((req, res) => res.status(404).json({ success: false, message: 'Route not found' }));
 
 // Global Error Handler
 app.use((err, req, res, next) => {
   console.error('[SYS.ERR]', err);
-  res.status(500).json({
-    success: false,
-    message: err.message || 'Internal Server Fault',
-  });
+  res.status(500).json({ success: false, message: err.message || 'Internal server error' });
 });
 
 app.listen(PORT, () => {

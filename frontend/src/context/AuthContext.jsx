@@ -38,10 +38,20 @@ export const AuthProvider = ({ children }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ identifier, password }),
       });
-      const data = await response.json();
+
+      const contentType = response.headers.get('content-type') || '';
+      const text = await response.text();
+      let data = {};
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch {
+          data = { message: text.startsWith('<') ? `Server error (${response.status})` : text };
+        }
+      }
 
       if (!response.ok) {
-        throw new Error(data.message || 'Authentication failed. Please verify credentials.');
+        throw new Error(data.message || data.error || `Server error: ${response.status}`);
       }
 
       return data; // { status: 'OTP_REQUIRED', preAuthToken, maskedEmail, devOtp }
@@ -88,10 +98,20 @@ export const AuthProvider = ({ children }) => {
         },
         body: JSON.stringify({ otp, preAuthToken }),
       });
-      const data = await response.json();
+
+      const contentType = response.headers.get('content-type') || '';
+      const text = await response.text();
+      let data = {};
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch {
+          data = { message: text.startsWith('<') ? `Server error (${response.status})` : text };
+        }
+      }
 
       if (!response.ok) {
-        throw new Error(data.message || 'OTP verification failed.');
+        throw new Error(data.message || data.error || `Server error: ${response.status}`);
       }
 
       localStorage.setItem('vci_auth_token', data.token);
@@ -119,10 +139,20 @@ export const AuthProvider = ({ children }) => {
       },
       body: JSON.stringify({ preAuthToken }),
     });
-    const data = await response.json();
+
+    const contentType = response.headers.get('content-type') || '';
+    const text = await response.text();
+    let data = {};
+    if (text) {
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = { message: text.startsWith('<') ? `Server error (${response.status})` : text };
+      }
+    }
 
     if (!response.ok) {
-      throw new Error(data.message || 'Failed to resend verification code.');
+      throw new Error(data.message || data.error || `Server error: ${response.status}`);
     }
     return data;
   };

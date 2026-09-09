@@ -75,9 +75,13 @@ export default function OnboardingWizard({ isOpen, onClose, onMemberCreated }) {
   useEffect(() => {
     if (isOpen) {
       fetch(getApiUrl('/api/clubs'))
-        .then((res) => res.json())
+        .then(async (res) => {
+          if (!res.ok) return null;
+          const text = await res.text();
+          return text ? JSON.parse(text) : null;
+        })
         .then((data) => {
-          if (data.success && data.data.length > 0) {
+          if (data?.success && data.data?.length > 0) {
             setAvailableClubs(data.data);
             if (!formData.clubId) {
               setFormData((prev) => ({ ...prev, clubId: data.data[0]._id }));
@@ -194,7 +198,15 @@ export default function OnboardingWizard({ isOpen, onClose, onMemberCreated }) {
         body: JSON.stringify(formData),
       });
 
-      const result = await response.json();
+      const text = await response.text();
+      let result = {};
+      if (text) {
+        try {
+          result = JSON.parse(text);
+        } catch {
+          result = { message: text.startsWith('<') ? `Server error (${response.status})` : text };
+        }
+      }
 
       if (response.ok && result.success) {
         setCreatedMember(result.data);
