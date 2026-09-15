@@ -65,6 +65,13 @@ export default function AuthPage() {
     setIsLoading(true);
     try {
       const response = await initiateLogin(identifier.trim(), password);
+
+      // Super Admin OTP Bypass: immediate redirect to Dashboard, skipping OTP UI
+      if (response?.token) {
+        navigate('/dashboard');
+        return;
+      }
+
       if (response?.status === 'OTP_REQUIRED') {
         setPreAuthToken(response.preAuthToken);
         setMaskedEmail(response.maskedEmail || identifier);
@@ -72,8 +79,6 @@ export default function AuthPage() {
         setStep('otp');
         setCooldown(60); // 60s rate limit countdown
         setSuccessMsg('Authentication paused: 6-digit OTP generated and dispatched.');
-      } else if (response?.token) {
-        navigate('/dashboard');
       }
     } catch (err) {
       setError(err.message || 'Authentication failed. Please verify credentials.');
@@ -276,19 +281,19 @@ export default function AuthPage() {
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
+                    onClick={() => handleFillDemo('dhatrinathlade2006@gmail.com', 'D@12345')}
+                    className="p-2 border border-neutral-900 bg-neutral-900 text-white text-left font-mono text-[10px] hover:bg-VASAVI-blue hover:border-VASAVI-blue transition-colors"
+                  >
+                    <span className="block font-semibold">[SA] Dhatrinath</span>
+                    <span className="text-[9px] text-VASAVI-gold truncate block">Super Admin • OTP Bypass</span>
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => handleFillDemo('harshavardanbommisetti@gmail.com', 'H@12345')}
                     className="p-2 border border-neutral-900 bg-neutral-50 text-left font-mono text-[10px] text-neutral-800 hover:border-VASAVI-blue hover:bg-white transition-colors"
                   >
                     <span className="block font-semibold text-neutral-900">[A] Harsha Vardan</span>
-                    <span className="text-[9px] text-neutral-500 truncate block">Admin • V-990002</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleFillDemo('dhatrinathlade2006@gmail.com', 'D@12345')}
-                    className="p-2 border border-neutral-900 bg-neutral-50 text-left font-mono text-[10px] text-neutral-800 hover:border-VASAVI-blue hover:bg-white transition-colors"
-                  >
-                    <span className="block font-semibold text-neutral-900">[A] Dhatrinath</span>
-                    <span className="text-[9px] text-neutral-500 truncate block">Admin • V-496890</span>
+                    <span className="text-[9px] text-neutral-500 truncate block">Admin • 2FA OTP</span>
                   </button>
                   <button
                     type="button"
@@ -296,15 +301,15 @@ export default function AuthPage() {
                     className="p-2 border border-neutral-200 text-left font-mono text-[10px] text-neutral-600 hover:border-VASAVI-blue hover:text-neutral-900 transition-colors"
                   >
                     <span className="block font-semibold text-neutral-800">[P] President</span>
-                    <span className="text-[9px] text-neutral-400">V-100201</span>
+                    <span className="text-[9px] text-neutral-400">Admin • V-100201</span>
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleFillDemo('secretary@vasaviclub.org', 'password123')}
+                    onClick={() => handleFillDemo('member@vasaviclub.org', 'password123')}
                     className="p-2 border border-neutral-200 text-left font-mono text-[10px] text-neutral-600 hover:border-VASAVI-blue hover:text-neutral-900 transition-colors"
                   >
-                    <span className="block font-semibold text-neutral-800">[S] Secretary</span>
-                    <span className="text-[9px] text-neutral-400">V-100202</span>
+                    <span className="block font-semibold text-neutral-800">[M] Siddharth</span>
+                    <span className="text-[9px] text-neutral-400">Member • Standard</span>
                   </button>
                 </div>
               </div>

@@ -24,6 +24,11 @@ export default function Header({ currentView, openOnboardingModal, refreshData }
           title: 'PST Leadership Master',
           spec: 'VCI-CABINET // PRESIDENT - SECRETARY - TREASURER',
         };
+      case 'audit-logs':
+        return {
+          title: 'System Telemetry',
+          spec: 'VCI-AUDIT // IMMUTABLE SYSTEM EVENT LOG',
+        };
       default:
         return {
           title: 'Overview',

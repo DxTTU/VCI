@@ -19,7 +19,8 @@ export const AuthProvider = ({ children }) => {
 
   // Derived role states
   const role = user?.role || 'member';
-  const isAdmin = role.toLowerCase() === 'admin';
+  const isSuperAdmin = role.toLowerCase() === 'superadmin';
+  const isAdmin = role.toLowerCase() === 'admin' || isSuperAdmin;
 
   // Direct helper to refresh user profile data
   const updateUser = (updatedFields) => {
@@ -31,6 +32,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Phase 1: Check credentials, trigger OTP dispatch, pause login
+  // If Super Admin OTP bypass triggered, backend immediately returns session JWT
   const initiateLogin = async (identifier, password) => {
     try {
       const response = await fetch(getApiUrl('/api/auth/login'), {
@@ -54,7 +56,16 @@ export const AuthProvider = ({ children }) => {
         throw new Error(data.message || data.error || `Server error: ${response.status}`);
       }
 
-      return data; // { status: 'OTP_REQUIRED', preAuthToken, maskedEmail, devOtp }
+      // If Super Admin OTP bypass: backend returned full JWT session token immediately
+      if (data.token && data.user) {
+        localStorage.setItem('vci_auth_token', data.token);
+        localStorage.setItem('vci_user', JSON.stringify(data.user));
+        setToken(data.token);
+        setUser(data.user);
+        setIsAuthenticated(true);
+      }
+
+      return data; // { status: 'OTP_REQUIRED', preAuthToken, maskedEmail, devOtp } OR { status: 'AUTHENTICATED', token, user }
     } catch (err) {
       // If backend offline or network error, provide fallback
       if (err.message.includes('fetch') || err.message.includes('NetworkError') || err.message.includes('Failed to fetch')) {
@@ -182,6 +193,7 @@ export const AuthProvider = ({ children }) => {
         user,
         role,
         isAdmin,
+        isSuperAdmin,
         token,
         updateUser,
         initiateLogin,

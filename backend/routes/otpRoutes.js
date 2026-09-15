@@ -3,6 +3,7 @@ import express from 'express';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import OTP from '../models/OTP.js';
+import createAuditLog from '../utils/auditLogger.js';
 
 const router = express.Router();
 
@@ -117,6 +118,17 @@ router.post(['/send-otp', '/api/send-otp'], async (req, res) => {
       console.error(`[SMTP // SEND ERROR] Failed to send via Gmail SMTP: ${smtpError.message}`);
     }
 
+    await createAuditLog({
+      module: 'AUTH',
+      action: 'OTP_SENT',
+      reference: cleanEmail,
+      user: cleanEmail,
+      role: 'candidate',
+      status: 'Success',
+      remarks: 'Candidate induction verification code dispatched',
+      req,
+    });
+
     return res.status(200).json({
       success: true,
       message: 'Verification code dispatched to your email address.',
@@ -151,6 +163,16 @@ router.post(['/verify-otp', '/api/verify-otp'], async (req, res) => {
     const cleanOtp = otp.toString().trim();
 
     if (cleanOtp.length !== 6) {
+      await createAuditLog({
+        module: 'AUTH',
+        action: 'OTP_VERIFY_FAILED',
+        reference: cleanEmail,
+        user: cleanEmail,
+        role: 'candidate',
+        status: 'Failed',
+        remarks: 'Invalid OTP length entered during induction',
+        req,
+      });
       return res.status(400).json({
         success: false,
         message: 'INVALID CRYPTOGRAPHIC CODE. PLEASE TRY AGAIN.',
@@ -166,6 +188,16 @@ router.post(['/verify-otp', '/api/verify-otp'], async (req, res) => {
     });
 
     if (!activeDoc) {
+      await createAuditLog({
+        module: 'AUTH',
+        action: 'OTP_VERIFY_FAILED',
+        reference: cleanEmail,
+        user: cleanEmail,
+        role: 'candidate',
+        status: 'Failed',
+        remarks: 'Mismatch or expired code entered during induction',
+        req,
+      });
       return res.status(400).json({
         success: false,
         message: 'INVALID CRYPTOGRAPHIC CODE. PLEASE TRY AGAIN.',
@@ -174,6 +206,17 @@ router.post(['/verify-otp', '/api/verify-otp'], async (req, res) => {
 
     // Immediately delete the verified OTP record to enforce single-use protection
     await OTP.deleteOne({ _id: activeDoc._id });
+
+    await createAuditLog({
+      module: 'AUTH',
+      action: 'OTP_VERIFIED',
+      reference: cleanEmail,
+      user: cleanEmail,
+      role: 'candidate',
+      status: 'Success',
+      remarks: 'Candidate successfully verified email via single-use OTP',
+      req,
+    });
 
     return res.status(200).json({
       success: true,

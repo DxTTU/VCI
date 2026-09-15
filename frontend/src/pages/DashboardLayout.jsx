@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ShieldAlert, ArrowLeft } from 'lucide-react';
 import { getApiUrl } from '../config/api';
@@ -9,14 +10,28 @@ import DashboardPage from './DashboardPage';
 import ClubMasterPage from './ClubMasterPage';
 import MemberMasterPage from './MemberMasterPage';
 import PSTMasterPage from './PSTMasterPage';
+import AuditLogs from './AuditLogs';
 
 /**
  * DashboardLayout Component
  * Houses the protected Chapter Portal interface (Sidebar, Header, and Master Views).
  * Preserves the exact clinical "The Ordinary" aesthetic and existing components.
  */
-export default function DashboardLayout() {
-  const [currentView, setCurrentView] = useState('dashboard');
+export default function DashboardLayout({ initialView }) {
+  const location = useLocation();
+  const [currentView, setCurrentView] = useState(() => {
+    if (initialView) return initialView;
+    if (location.pathname === '/audit-logs' || location.pathname.includes('audit-logs')) {
+      return 'audit-logs';
+    }
+    return 'dashboard';
+  });
+
+  useEffect(() => {
+    if (location.pathname === '/audit-logs' || location.pathname.includes('audit-logs')) {
+      setCurrentView('audit-logs');
+    }
+  }, [location.pathname]);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
   const [members, setMembers] = useState([]);
   const [clubs, setClubs] = useState([]);
@@ -242,7 +257,7 @@ export default function DashboardLayout() {
   };
 
   // Check if current view is a master module requiring admin privilege
-  const isMasterView = ['club-master', 'member-master', 'pst-master'].includes(currentView);
+  const isMasterView = ['club-master', 'member-master', 'pst-master', 'audit-logs'].includes(currentView);
   const isAccessDenied = isMasterView && !isAdmin;
 
   return (
@@ -316,6 +331,10 @@ export default function DashboardLayout() {
 
               {currentView === 'pst-master' && (
                 <PSTMasterPage psts={psts} />
+              )}
+
+              {currentView === 'audit-logs' && (
+                <AuditLogs />
               )}
             </>
           )}

@@ -8,11 +8,13 @@ import memberRoutes from './routes/memberRoutes.js';
 import pstRoutes from './routes/pstRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import otpRoutes from './routes/otpRoutes.js';
+import auditRoutes from './routes/auditRoutes.js';
 import { verifyOTP } from './controllers/authController.js';
 import Club from './models/Club.js';
 import Member from './models/Member.js';
 import PST from './models/PST.js';
 import User from './models/User.js';
+import AuditLog from './models/AuditLog.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,7 +27,7 @@ connectDB().then(async () => {
       { name: 'Ananya Venkatesh (Secretary)', email: 'secretary@vasaviclub.org', password: 'password123', role: 'admin' },
       { name: 'Central Chapter Admin', email: 'admin@vasaviclub.org', password: 'password123', role: 'admin' },
       { name: 'System Admin (LS)', email: 'admin@ls.in', password: 'admin123', role: 'admin' },
-      { name: 'Dhatrinath Lade (Admin)', email: 'dhatrinathlade2006@gmail.com', password: 'D@12345', role: 'admin' },
+      { name: 'Dhatrinath Lade (Super Admin)', email: 'dhatrinathlade2006@gmail.com', password: 'D@12345', role: 'superadmin' },
       { name: 'Harsha Vardan Bommisetti (Admin)', email: 'harshavardanbommisetti@gmail.com', password: 'H@12345', role: 'admin' },
       { name: 'Siddharth Chandrasekar (Member)', email: 'member@vasaviclub.org', password: 'password123', role: 'member' },
     ];
@@ -42,11 +44,70 @@ connectDB().then(async () => {
       }
     }
 
-    // Normalize any legacy member roles in MongoDB to 'admin' or 'member'
+    // Sync member collection roles with superadmin and admin specifications
+    await Member.findOneAndUpdate(
+      { email: 'dhatrinathlade2006@gmail.com' },
+      { $set: { role: 'superadmin' } }
+    );
+    await Member.findOneAndUpdate(
+      { email: 'harshavardanbommisetti@gmail.com' },
+      { $set: { role: 'admin' } }
+    );
+
+    // Normalize any legacy member roles in MongoDB to 'admin', 'member', or 'superadmin'
     await Member.updateMany(
-      { role: { $nin: ['admin', 'member'] } },
+      { role: { $nin: ['admin', 'member', 'superadmin'] } },
       { $set: { role: 'member' } }
     );
+
+    // Seed initial Audit Logs if telemetry collection is empty
+    const auditCount = await AuditLog.countDocuments();
+    if (auditCount === 0) {
+      const initialLogs = [
+        {
+          timestamp: new Date(Date.now() - 3600 * 1000 * 4),
+          module: 'SYSTEM',
+          action: 'DAEMON_BOOT',
+          reference: 'INIT-001',
+          user: 'SYSTEM_KERNEL',
+          role: 'system',
+          status: 'Success',
+          remarks: 'Chapter backend service booted on localhost:5000 | MongoDB 27017 initialized',
+        },
+        {
+          timestamp: new Date(Date.now() - 3600 * 1000 * 3),
+          module: 'AUTH',
+          action: 'LOGIN',
+          reference: 'V-496890',
+          user: 'dhatrinathlade2006@gmail.com',
+          role: 'superadmin',
+          status: 'Success',
+          remarks: 'Super Admin authenticated via OTP bypass protocol | IP: 127.0.0.1',
+        },
+        {
+          timestamp: new Date(Date.now() - 3600 * 1000 * 2),
+          module: 'AUTH',
+          action: 'LOGIN',
+          reference: 'V-990002',
+          user: 'harshavardanbommisetti@gmail.com',
+          role: 'admin',
+          status: 'Success',
+          remarks: 'Administrator 2FA OTP verification succeeded | IP: 127.0.0.1',
+        },
+        {
+          timestamp: new Date(Date.now() - 3600 * 1000 * 1),
+          module: 'MEMBERS',
+          action: 'ROLE_UPDATED',
+          reference: 'V-990002',
+          user: 'dhatrinathlade2006@gmail.com',
+          role: 'superadmin',
+          status: 'Success',
+          remarks: "Elevated member 'Harsha Vardan Bommisetti' to Administrator role",
+        },
+      ];
+      await AuditLog.insertMany(initialLogs);
+      console.log('[SYS.TELEMETRY // SEED] Initialized default audit records archive');
+    }
 
     let defaultClub = await Club.findOne({ status: 'Active' });
     if (!defaultClub) {
@@ -180,6 +241,8 @@ app.use(otpRoutes); // Allows direct /send-otp and /verify-otp
 app.use('/api/clubs', clubRoutes);
 app.use('/api/members', memberRoutes);
 app.use('/api/pst', pstRoutes);
+app.use('/api/audit-logs', auditRoutes);
+app.use('/api/audit', auditRoutes);
 
 // System Health & Telemetry Endpoint
 app.get('/api/health', (req, res) => {

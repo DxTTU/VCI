@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 import Member from '../models/Member.js';
 import Club from '../models/Club.js';
 import User from '../models/User.js';
-import { requireAuth, isAdmin } from '../middleware/authMiddleware.js';
+import { requireAuth, isAdmin, isSuperAdmin } from '../middleware/authMiddleware.js';
+import createAuditLog from '../utils/auditLogger.js';
 
 const router = express.Router();
 
@@ -138,6 +139,18 @@ router.post('/onboard', async (req, res) => {
       'clubName clubNumber district'
     );
 
+    // Record audit telemetry
+    await createAuditLog({
+      module: 'MEMBERS',
+      action: 'MEMBER_INDUCTED',
+      reference: newMember.memberId,
+      user: cleanEmail,
+      role: newMember.role || 'member',
+      status: 'Success',
+      remarks: `Inducted: ${firstName} ${lastName} | Phone: ${phone} | Club: ${club.clubName}`,
+      req,
+    });
+
     res.status(201).json({
       success: true,
       message: 'Member induction dossier registered successfully',
@@ -196,6 +209,18 @@ router.delete('/:id', requireAuth, isAdmin, async (req, res) => {
       await User.findOneAndDelete({ email: member.email.toLowerCase().trim() });
     }
 
+    // Record audit telemetry
+    await createAuditLog({
+      module: 'MEMBERS',
+      action: 'MEMBER_PURGED',
+      reference: member.memberId,
+      user: req.user?.email || 'ADMIN',
+      role: req.user?.role || 'admin',
+      status: 'Success',
+      remarks: `Purged dossier: ${member.firstName} ${member.lastName} (${member.email})`,
+      req,
+    });
+
     res.json({
       success: true,
       message: `Member dossier [${member.memberId}] successfully removed from registry.`,
@@ -208,9 +233,10 @@ router.delete('/:id', requireAuth, isAdmin, async (req, res) => {
 
 /**
  * @route   PATCH /api/members/:id/role
- * @desc    Updates a specific member's role (e.g. promoting to 'admin') (Admin only)
+ * @desc    Updates a specific member's role (Strictly Super Admin only)
+ *          Allows Super Admin to toggle any user's role to 'admin' or 'member'.
  */
-router.patch('/:id/role', requireAuth, isAdmin, async (req, res) => {
+router.patch('/:id/role', requireAuth, isSuperAdmin, async (req, res) => {
   try {
     const { role } = req.body;
 
@@ -229,6 +255,15 @@ router.patch('/:id/role', requireAuth, isAdmin, async (req, res) => {
       });
     }
 
+    // Prevent demoting protected Super Admin accounts
+    if (member.role === 'superadmin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Super Administrator privileges cannot be downgraded via this interface.',
+      });
+    }
+
+    const previousRole = member.role;
     member.role = role;
     await member.save();
 
@@ -244,6 +279,18 @@ router.patch('/:id/role', requireAuth, isAdmin, async (req, res) => {
       'club',
       'clubName clubNumber district'
     );
+
+    // Record audit telemetry
+    await createAuditLog({
+      module: 'MEMBERS',
+      action: 'ROLE_UPDATED',
+      reference: member.memberId,
+      user: req.user?.email || 'SUPERADMIN',
+      role: req.user?.role || 'superadmin',
+      status: 'Success',
+      remarks: `Role changed from '${previousRole}' to '${role}' for ${member.firstName} ${member.lastName} (${member.email})`,
+      req,
+    });
 
     res.json({
       success: true,

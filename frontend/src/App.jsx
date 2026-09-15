@@ -30,6 +30,16 @@ export default function App() {
             }
           />
 
+          {/* Protected Dedicated System Telemetry / Audit Records Route */}
+          <Route
+            path="/audit-logs"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout initialView="audit-logs" />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Catch-all redirect to Root */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

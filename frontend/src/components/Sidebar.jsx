@@ -11,7 +11,8 @@ import {
   ChevronRight,
   Sparkles,
   LogOut,
-  Lock
+  Lock,
+  Activity
 } from 'lucide-react';
 
 /**
@@ -23,7 +24,7 @@ import {
  * - Restrained VASAVI Blue (#00338D) active borders and VASAVI Gold (#F2A900) micro-accents
  */
 export default function Sidebar({ currentView, setCurrentView, openOnboardingModal }) {
-  const { logout, user, isAdmin, role } = useAuth();
+  const { logout, user, isAdmin, isSuperAdmin, role } = useAuth();
   const navigate = useNavigate();
 
   const handleSignOut = () => {
@@ -64,6 +65,15 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
       description: 'Presidents, Secretaries & Treasurers',
       adminOnly: true,
     },
+    {
+      id: 'audit-logs',
+      label: 'System Telemetry',
+      code: 'NAV.05',
+      icon: Activity,
+      description: 'Audit records & system telemetry',
+      adminOnly: true,
+      path: '/audit-logs',
+    },
   ];
 
   return (
@@ -89,9 +99,30 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
           </div>
           
           <div className="mt-3 pt-3 border-t border-dashed border-neutral-200 flex items-center justify-between text-[10px] font-mono text-neutral-400">
-            <span>ROLE: <span className={isAdmin ? 'text-VASAVI-blue font-bold' : 'text-neutral-700 font-bold'}>{isAdmin ? 'ADMIN' : 'MEMBER'}</span></span>
-            <span className={isAdmin ? 'text-emerald-600 font-semibold text-[9px]' : 'text-neutral-400 text-[9px]'}>
-              {isAdmin ? '[FULL ACCESS]' : '[RESTRICTED]'}
+            <span>
+              ROLE:{' '}
+              <span
+                className={
+                  isSuperAdmin
+                    ? 'text-VASAVI-gold font-bold'
+                    : isAdmin
+                    ? 'text-VASAVI-blue font-bold'
+                    : 'text-neutral-700 font-bold'
+                }
+              >
+                {isSuperAdmin ? 'SUPER ADMIN' : isAdmin ? 'ADMIN' : 'MEMBER'}
+              </span>
+            </span>
+            <span
+              className={
+                isSuperAdmin
+                  ? 'text-VASAVI-gold font-semibold text-[9px]'
+                  : isAdmin
+                  ? 'text-emerald-600 font-semibold text-[9px]'
+                  : 'text-neutral-400 text-[9px]'
+              }
+            >
+              {isSuperAdmin ? '[ROOT ACCESS]' : isAdmin ? '[FULL ACCESS]' : '[RESTRICTED]'}
             </span>
           </div>
         </div>
@@ -125,10 +156,19 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
             const isActive = currentView === item.id;
             const isLocked = !isAdmin && item.adminOnly;
 
+            const handleClick = () => {
+              setCurrentView(item.id);
+              if (item.path) {
+                navigate(item.path);
+              } else {
+                navigate('/dashboard');
+              }
+            };
+
             return (
               <button
                 key={item.id}
-                onClick={() => setCurrentView(item.id)}
+                onClick={handleClick}
                 className={`w-full flex items-center justify-between px-3 py-2.5 text-left text-xs transition-colors duration-150 relative ${
                   isActive
                     ? 'bg-neutral-50 text-neutral-900 font-medium'

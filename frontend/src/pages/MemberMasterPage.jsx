@@ -10,7 +10,7 @@ export default function MemberMasterPage({
   onMemberRoleUpdated,
   refreshData,
 }) {
-  const { isAdmin, token } = useAuth();
+  const { isAdmin, isSuperAdmin, token } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBlood, setSelectedBlood] = useState('ALL');
   const [actionLoading, setActionLoading] = useState(null);
@@ -32,8 +32,8 @@ export default function MemberMasterPage({
 
   const bloodGroups = ['ALL', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
-  // Handle Role Promotion to 'admin'
-  const handlePromote = async (member) => {
+  // Handle Role Assignment (Super Admin Only: [ MAKE ADMIN ] & [ REVOKE ADMIN ])
+  const handleRoleChange = async (member, newRole) => {
     const targetId = member._id || member.memberId;
     try {
       setActionLoading(targetId);
@@ -44,7 +44,7 @@ export default function MemberMasterPage({
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authToken}`,
         },
-        body: JSON.stringify({ role: 'admin' }),
+        body: JSON.stringify({ role: newRole }),
       });
 
       const text = await res.text();
@@ -57,17 +57,20 @@ export default function MemberMasterPage({
         }
       }
       if (!res.ok) {
-        throw new Error(data.message || 'Failed to update member role');
+        throw new Error(data.message || `Failed to update member role to '${newRole}'`);
       }
 
       if (onMemberRoleUpdated) {
-        onMemberRoleUpdated(targetId, 'admin');
+        onMemberRoleUpdated(targetId, newRole);
       }
       if (refreshData) refreshData();
 
       setFeedback({
         type: 'success',
-        text: `MEMBER [${member.memberId}] ELEVATED TO ADMINISTRATOR PRIVILEGE.`,
+        text:
+          newRole === 'admin'
+            ? `MEMBER [${member.memberId}] ELEVATED TO ADMINISTRATOR PRIVILEGE.`
+            : `MEMBER [${member.memberId}] ADMINISTRATOR PRIVILEGE REVOKED TO REGULAR MEMBER.`,
       });
       setTimeout(() => setFeedback(null), 4000);
     } catch (err) {
@@ -135,11 +138,15 @@ export default function MemberMasterPage({
               <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
                 MEMBERSHIP DIRECTORY // DISTRICT V-324
               </span>
-              {isAdmin && (
+              {isSuperAdmin ? (
+                <span className="font-mono text-[8px] bg-neutral-900 text-VASAVI-gold border border-neutral-700 px-1.5 py-0.5 uppercase tracking-wider font-semibold">
+                  SUPER ADMIN CONSOLE ACTIVE
+                </span>
+              ) : isAdmin ? (
                 <span className="font-mono text-[8px] bg-neutral-900 text-white px-1.5 py-0.5 uppercase tracking-wider">
                   ADMIN CONSOLE ACTIVE
                 </span>
-              )}
+              ) : null}
             </div>
             <h2 className="text-base font-semibold uppercase tracking-wider text-neutral-900 mt-1">
               Member Master Dossier
@@ -235,6 +242,7 @@ export default function MemberMasterPage({
           <tbody className="divide-y divide-neutral-100">
             {filteredMembers.length > 0 ? (
               filteredMembers.map((m) => {
+                const isItemSuperAdmin = m.role === 'superadmin';
                 const isItemAdmin = m.role === 'admin';
                 const memberKey = m._id || m.memberId;
                 const isOperating = actionLoading === memberKey;
@@ -252,7 +260,12 @@ export default function MemberMasterPage({
                         <span>
                           {m.firstName} {m.lastName}
                         </span>
-                        {isItemAdmin && (
+                        {isItemSuperAdmin && (
+                          <span className="font-mono text-[8px] bg-neutral-900 text-VASAVI-gold border border-neutral-700 px-1 py-0.2 tracking-tighter uppercase font-semibold">
+                            SUPER ADMIN
+                          </span>
+                        )}
+                        {isItemAdmin && !isItemSuperAdmin && (
                           <span className="font-mono text-[8px] bg-neutral-100 border border-neutral-300 text-neutral-700 px-1 py-0.2 tracking-tighter uppercase">
                             ADMIN
                           </span>
@@ -269,7 +282,12 @@ export default function MemberMasterPage({
                     </td>
                     <td className="py-3.5 px-4">
                       <div className="text-neutral-900 font-medium capitalize">
-                        {m.designation || (isItemAdmin ? 'Club Administrator' : 'Vasavi Member')}
+                        {m.designation ||
+                          (isItemSuperAdmin
+                            ? 'Super Administrator'
+                            : isItemAdmin
+                            ? 'Club Administrator'
+                            : 'Vasavi Member')}
                       </div>
                       <div className="font-mono text-[10px] text-neutral-400 truncate max-w-[180px]">
                         {m.club?.clubName || 'Vasavi Club Metropolitan'}
@@ -286,28 +304,48 @@ export default function MemberMasterPage({
                       </span>
                     </td>
 
-                    {/* Admin Actions Column */}
+                    {/* Actions Column (Role Management strictly conditional on isSuperAdmin) */}
                     {isAdmin && (
                       <td className="py-3.5 px-4 font-mono text-[10px]">
                         <div className="flex items-center space-x-3 whitespace-nowrap">
-                          {!isItemAdmin ? (
-                            <button
-                              onClick={() => handlePromote(m)}
-                              disabled={isOperating}
-                              className="text-amber-600 hover:text-amber-700 font-mono text-[10px] font-medium tracking-wider transition-colors disabled:opacity-40"
-                              title="Promote member to Administrator"
-                            >
-                              {isOperating ? '[ PROCESSING... ]' : '[ PROMOTE ]'}
-                            </button>
-                          ) : (
+                          {/* Super Admin Role Assignment Controls */}
+                          {isSuperAdmin && (
+                            <>
+                              {isItemSuperAdmin ? (
+                                <span className="text-neutral-400 font-mono text-[9px] tracking-widest">
+                                  [ ROOT ]
+                                </span>
+                              ) : isItemAdmin ? (
+                                <button
+                                  onClick={() => handleRoleChange(m, 'member')}
+                                  disabled={isOperating}
+                                  className="text-amber-700 hover:text-amber-800 font-mono text-[10px] font-medium tracking-wider transition-colors disabled:opacity-40"
+                                  title="Revoke Administrator privilege"
+                                >
+                                  {isOperating ? '[ PROCESSING... ]' : '[ REVOKE ADMIN ]'}
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() => handleRoleChange(m, 'admin')}
+                                  disabled={isOperating}
+                                  className="text-VASAVI-blue hover:text-VASAVI-blueDark font-mono text-[10px] font-medium tracking-wider transition-colors disabled:opacity-40"
+                                  title="Elevate member to Administrator"
+                                >
+                                  {isOperating ? '[ PROCESSING... ]' : '[ MAKE ADMIN ]'}
+                                </button>
+                              )}
+                            </>
+                          )}
+
+                          {!isSuperAdmin && (
                             <span className="text-neutral-400 font-mono text-[9px] tracking-widest">
-                              [ ADMIN ]
+                              {isItemAdmin ? '[ ADMIN ]' : '[ MEMBER ]'}
                             </span>
                           )}
 
                           <button
                             onClick={() => setMemberToDelete(m)}
-                            disabled={isOperating}
+                            disabled={isOperating || isItemSuperAdmin}
                             className="text-red-600 hover:text-red-700 font-mono text-[10px] font-medium tracking-wider transition-colors disabled:opacity-40"
                             title="Purge member dossier from database"
                           >

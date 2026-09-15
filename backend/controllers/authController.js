@@ -9,6 +9,7 @@ import {
 } from '../utils/otpService.js';
 
 import Member from '../models/Member.js';
+import createAuditLog from '../utils/auditLogger.js';
 
 /**
  * Mask email address for secure client response (e.g. j***e@example.com)
@@ -86,6 +87,16 @@ export const login = async (req, res) => {
     const loginId = (identifier || email || '').trim();
 
     if (!loginId || !password) {
+      await createAuditLog({
+        module: 'AUTH',
+        action: 'LOGIN_FAILED',
+        reference: 'N/A',
+        user: loginId || 'UNKNOWN',
+        role: 'anonymous',
+        status: 'Failed',
+        remarks: 'Missing email/password credentials',
+        req,
+      });
       return res.status(400).json({
         success: false,
         message: 'Please provide both Member ID/Email and password.',
@@ -105,6 +116,16 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email: searchEmail }).select('+password');
 
     if (!user) {
+      await createAuditLog({
+        module: 'AUTH',
+        action: 'LOGIN_FAILED',
+        reference: loginId,
+        user: searchEmail,
+        role: 'anonymous',
+        status: 'Failed',
+        remarks: 'User account not located in registry',
+        req,
+      });
       return res.status(401).json({
         success: false,
         message: 'Invalid email or password credentials.',
@@ -112,6 +133,16 @@ export const login = async (req, res) => {
     }
 
     if (!user.isActive) {
+      await createAuditLog({
+        module: 'AUTH',
+        action: 'LOGIN_BLOCKED',
+        reference: user._id.toString(),
+        user: user.email,
+        role: user.role,
+        status: 'Failed',
+        remarks: 'Account is deactivated',
+        req,
+      });
       return res.status(403).json({
         success: false,
         message: 'This account has been deactivated. Please contact administrator.',
@@ -121,19 +152,71 @@ export const login = async (req, res) => {
     // Verify Password
     const isPasswordCorrect = await user.comparePassword(password);
     if (!isPasswordCorrect) {
+      await createAuditLog({
+        module: 'AUTH',
+        action: 'LOGIN_FAILED',
+        reference: user._id.toString(),
+        user: user.email,
+        role: user.role,
+        status: 'Failed',
+        remarks: 'Invalid password credential',
+        req,
+      });
       return res.status(401).json({
         success: false,
         message: 'Invalid email or password credentials.',
       });
     }
 
-    // CREDENTIALS VALID: Generate OTP and pause login
+    // SUPER ADMIN OTP BYPASS:
+    // If role is superadmin, bypass OTP generation entirely and immediately return final JWT
+    if (user.role === 'superadmin') {
+      const token = signAccessToken(user);
+
+      await createAuditLog({
+        module: 'AUTH',
+        action: 'LOGIN',
+        reference: user._id.toString(),
+        user: user.email,
+        role: 'superadmin',
+        status: 'Success',
+        remarks: 'Super Admin authentication authorized (OTP verification bypassed)',
+        req,
+      });
+
+      return res.status(200).json({
+        success: true,
+        status: 'AUTHENTICATED',
+        message: 'Super Administrator authenticated. Welcome to Antigravity Chapter Console.',
+        token,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+      });
+    }
+
+    // Standard Member / Admin flow: Generate OTP and pause login
     const rawOtp = generateSecureOTP();
     user.setOTP(rawOtp, 5); // 5 minutes expiration
     await user.save();
 
     // Dispatch OTP (Email / Notification)
     await sendOTPEmail(user.email, rawOtp);
+
+    // Audit log OTP challenge
+    await createAuditLog({
+      module: 'AUTH',
+      action: 'OTP_CHALLENGE_ISSUED',
+      reference: user._id.toString(),
+      user: user.email,
+      role: user.role,
+      status: 'Success',
+      remarks: '6-digit OTP verification code dispatched to email',
+      req,
+    });
 
     // Issue short-lived Pre-Auth Token (10 minutes)
     const preAuthToken = signPreAuthToken(user._id.toString(), user.email);
@@ -208,6 +291,17 @@ export const verifyOTP = async (req, res) => {
     if (!verification.valid) {
       await user.save(); // Persist attempt counter
 
+      await createAuditLog({
+        module: 'AUTH',
+        action: 'OTP_VERIFY_FAILED',
+        reference: user._id.toString(),
+        user: user.email,
+        role: user.role,
+        status: 'Failed',
+        remarks: `Verification failure [${verification.reason}] | ${verification.remainingAttempts || 0} attempt(s) remaining`,
+        req,
+      });
+
       switch (verification.reason) {
         case 'EXPIRED':
           return res.status(400).json({
@@ -242,6 +336,18 @@ export const verifyOTP = async (req, res) => {
 
     // Issue production Access Token
     const token = signAccessToken(user);
+
+    // Audit log successful authentication
+    await createAuditLog({
+      module: 'AUTH',
+      action: 'LOGIN',
+      reference: user._id.toString(),
+      user: user.email,
+      role: user.role,
+      status: 'Success',
+      remarks: 'Full session authenticated via 2FA OTP verification',
+      req,
+    });
 
     return res.status(200).json({
       success: true,
