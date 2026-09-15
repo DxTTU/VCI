@@ -41,7 +41,12 @@ export default function Header({ currentView, openOnboardingModal, refreshData }
 
   return (
     <header className="h-16 bg-white border-b border-neutral-200 px-6 md:px-8 flex items-center justify-between sticky top-0 z-20">
-      <div>
+      <div className="flex items-center space-x-3">
+        <img
+          src="/logo.png"
+          alt="Vasavi Clubs International"
+          className="w-7 h-7 object-contain flex-shrink-0 hidden sm:block"
+        />
         <div className="flex items-center space-x-2">
           <h1 className="text-sm font-sans font-bold uppercase tracking-wider text-neutral-900">
             {viewInfo.title}

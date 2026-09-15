@@ -319,7 +319,11 @@ export default function OnboardingWizard({ isOpen, onClose, onMemberCreated }) {
         {/* Top Clinical Header */}
         <div className="px-6 py-4 border-b border-neutral-200 flex items-center justify-between bg-white">
           <div className="flex items-center space-x-3">
-            <div className="w-2.5 h-2.5 bg-VASAVI-blue"></div>
+            <img
+              src="/logo.png"
+              alt="Vasavi Clubs International"
+              className="w-6 h-6 object-contain flex-shrink-0"
+            />
             <div>
               <h2 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900">
                 Vasavi Club International // Member Induction Protocol

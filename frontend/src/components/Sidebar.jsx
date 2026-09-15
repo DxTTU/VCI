@@ -82,12 +82,12 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
       <div>
         <div className="p-6 border-b border-neutral-200">
           <div className="flex items-center space-x-3 mb-2">
-            {/* Minimalist Clinical Monogram with Vasavi Accent */}
-            <div className="w-8 h-8 border border-neutral-900 flex items-center justify-center bg-white relative">
-              <span className="font-mono text-xs font-bold text-neutral-900 tracking-tighter">VC</span>
-              {/* Subtle Vasavi Gold Accent Pip */}
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-VASAVI-gold rounded-full ring-2 ring-white"></span>
-            </div>
+            {/* Official Vasavi Clubs International Logo */}
+            <img
+              src="/logo.png"
+              alt="Vasavi Clubs International"
+              className="w-9 h-9 object-contain flex-shrink-0"
+            />
             <div>
               <h1 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900">
                 Vasavi Club Intl.

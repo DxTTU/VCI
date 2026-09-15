@@ -150,10 +150,12 @@ export default function AuthPage() {
       {/* Top Clinical Masthead */}
       <header className="w-full max-w-4xl flex items-center justify-between border-b border-neutral-200 pb-4">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 border border-neutral-900 flex items-center justify-center bg-white relative">
-            <span className="font-mono text-xs font-bold text-neutral-900 tracking-tighter">VC</span>
-            <span className="absolute -top-1 -right-1 w-2 h-2 bg-VASAVI-gold rounded-full ring-2 ring-white"></span>
-          </div>
+          {/* Official Vasavi Clubs International Logo */}
+          <img
+            src="/logo.png"
+            alt="Vasavi Clubs International"
+            className="w-9 h-9 object-contain flex-shrink-0"
+          />
           <div>
             <h1 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900">
               Vasavi Club International
@@ -177,14 +179,24 @@ export default function AuthPage() {
           {/* Subtle Top Blue Accent Line */}
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-VASAVI-blue"></div>
 
-          {/* Header Description */}
-          <div className="border-b border-neutral-200 pb-4">
-            <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
-              PORTAL ACCESS // PROTOCOL 2.4
-            </span>
-            <h2 className="text-lg font-sans font-bold tracking-tight text-neutral-900 mt-1">
-              Chapter Governance <span className="font-sans font-bold text-neutral-900">Sign In</span>
-            </h2>
+          {/* Official Emblem & Header Description */}
+          <div className="border-b border-neutral-200 pb-4 text-center sm:text-left flex flex-col sm:flex-row items-center sm:items-start space-y-3 sm:space-y-0 sm:space-x-4">
+            <img
+              src="/logo.png"
+              alt="Vasavi Clubs International Emblem"
+              className="w-16 h-16 object-contain flex-shrink-0"
+            />
+            <div className="flex-1">
+              <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
+                PORTAL ACCESS // PROTOCOL 2.4
+              </span>
+              <h2 className="text-lg font-sans font-bold tracking-tight text-neutral-900 mt-0.5">
+                Chapter Governance <span className="font-sans font-bold text-neutral-900">Sign In</span>
+              </h2>
+              <p className="font-sans text-xs italic text-neutral-500 mt-1">
+                "Live to Serve"
+              </p>
+            </div>
           </div>
 
           {/* Sleek Minimalist Tab Switcher */}
