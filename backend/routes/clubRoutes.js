@@ -117,4 +117,64 @@ router.post('/', requireAuth, isSuperAdmin, async (req, res) => {
   }
 });
 
+/**
+ * @route   DELETE /api/clubs/:id
+ * @desc    Disbands and permanently purges a chartered club entity from District V-324 registry
+ * @access  Strictly Super Admin Only
+ */
+router.delete('/:id', requireAuth, isSuperAdmin, async (req, res) => {
+  try {
+    const targetIdentifier = req.params.id;
+    const isObjectId = /^[0-9a-fA-F]{24}$/.test(targetIdentifier);
+
+    const club = await Club.findOne({
+      $or: [
+        { _id: isObjectId ? targetIdentifier : null },
+        { clubNumber: targetIdentifier },
+      ],
+    });
+
+    if (!club) {
+      return res.status(404).json({
+        success: false,
+        message: `Charter entity [${targetIdentifier}] not found in registry.`,
+      });
+    }
+
+    const clubDetails = {
+      _id: club._id,
+      clubNumber: club.clubNumber,
+      clubName: club.clubName,
+      district: club.district,
+    };
+
+    // Remove document from MongoDB collection
+    await Club.findByIdAndDelete(club._id);
+
+    // Record immutable audit telemetry log
+    await createAuditLog({
+      module: 'CLUBS',
+      action: 'CLUB_DELETED',
+      reference: club.clubNumber || club._id.toString(),
+      user: req.user?.email || 'SUPERADMIN',
+      role: req.user?.role || 'superadmin',
+      status: 'Success',
+      remarks: `Super Admin disbanded/deleted charter entity: ${club.clubName} (${club.clubNumber})`,
+      req,
+    });
+
+    res.json({
+      success: true,
+      message: `Charter entity [${club.clubName}] (${club.clubNumber}) successfully disbanded and removed from registry.`,
+      data: clubDetails,
+    });
+  } catch (error) {
+    console.error('[CLUB CONTROLLER // DELETE ERROR]', error);
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Server error occurred while disbanding club.',
+    });
+  }
+});
+
 export default router;

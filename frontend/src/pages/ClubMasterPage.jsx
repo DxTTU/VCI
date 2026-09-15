@@ -12,13 +12,18 @@ import { getApiUrl } from '../config/api';
  * - [ ADD NEW CLUB ] button restricted strictly to Super Admin role
  *   with subtle Lions Gold (#F2A900) hover state and thin border
  */
-export default function ClubMasterPage({ clubs = [], onClubCreated }) {
+export default function ClubMasterPage({ clubs = [], onClubCreated, onClubDeleted }) {
   const { isSuperAdmin, token } = useAuth();
   const [clubList, setClubList] = useState(clubs);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
   const [feedback, setFeedback] = useState(null);
+
+  // Deletion modal state
+  const [clubToDelete, setClubToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState(null);
 
   // Form input state
   const [formData, setFormData] = useState({
@@ -107,6 +112,55 @@ export default function ClubMasterPage({ clubs = [], onClubCreated }) {
     }
   };
 
+  const handleConfirmDelete = async () => {
+    if (!clubToDelete) return;
+    setDeleteError(null);
+
+    try {
+      setIsDeleting(true);
+      const authToken = token || localStorage.getItem('vci_auth_token');
+      const targetIdentifier = clubToDelete._id || clubToDelete.clubNumber;
+
+      const response = await fetch(getApiUrl(`/api/clubs/${targetIdentifier}`), {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+
+      const text = await response.text();
+      let data = {};
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch {
+          data = { message: text.startsWith('<') ? `Server error (${response.status})` : text };
+        }
+      }
+
+      if (!response.ok) {
+        throw new Error(data.message || `Failed to remove club (${response.status})`);
+      }
+
+      // Instantly filter out the removed club from the React state array
+      setClubList((prev) =>
+        prev.filter((c) => c._id !== clubToDelete._id && c.clubNumber !== clubToDelete.clubNumber)
+      );
+
+      if (onClubDeleted) {
+        onClubDeleted(clubToDelete);
+      }
+
+      setFeedback(`CHARTERED ENTITY [${clubToDelete.clubNumber}] SUCCESSFULLY DISBANDED AND REMOVED.`);
+      setTimeout(() => setFeedback(null), 5000);
+      setClubToDelete(null);
+    } catch (err) {
+      setDeleteError(err.message || 'Failed to disband club. Please verify network and permissions.');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header Info */}
@@ -177,9 +231,24 @@ export default function ClubMasterPage({ clubs = [], onClubCreated }) {
               <span className="font-mono text-[10px] text-VASAVI-blue font-semibold">
                 {club.clubNumber}
               </span>
-              <span className="font-mono text-[9px] px-2 py-0.5 border border-neutral-200 text-neutral-600 uppercase">
-                {club.status || 'Active'}
-              </span>
+              <div className="flex items-center space-x-2">
+                <span className="font-mono text-[9px] px-2 py-0.5 border border-neutral-200 text-neutral-600 uppercase">
+                  {club.status || 'Active'}
+                </span>
+                {isSuperAdmin && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setClubToDelete(club);
+                      setDeleteError(null);
+                    }}
+                    className="font-mono text-[9px] uppercase tracking-wider text-neutral-400 hover:text-red-700 hover:border-red-300 border border-neutral-200 px-1.5 py-0.5 transition-colors cursor-pointer"
+                    title={`Remove ${club.clubName}`}
+                  >
+                    [ REMOVE ]
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Club Name & District */}
@@ -377,6 +446,87 @@ export default function ClubMasterPage({ clubs = [], onClubCreated }) {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* "The Ordinary" Clinical Disband / Remove Confirmation Modal */}
+      {clubToDelete && (
+        <div className="fixed inset-0 bg-neutral-900/40 backdrop-blur-[2px] z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-gray-200 max-w-md w-full p-6 space-y-4 text-left animate-in fade-in zoom-in-95 duration-150 shadow-none">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-gray-200 pb-3">
+              <div>
+                <span className="font-mono text-[9px] uppercase tracking-widest text-red-700 block">
+                  TERMINATION ACTION // SUPER ADMIN ONLY
+                </span>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-neutral-900 mt-0.5 font-mono">
+                  CONFIRM DELETION OF CHARTERED ENTITY?
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  if (!isDeleting) {
+                    setClubToDelete(null);
+                    setDeleteError(null);
+                  }
+                }}
+                disabled={isDeleting}
+                className="font-mono text-xs text-neutral-400 hover:text-neutral-900 px-1 py-0.5 disabled:opacity-40"
+                title="Close"
+              >
+                [ X ]
+              </button>
+            </div>
+
+            {/* Error Message */}
+            {deleteError && (
+              <div className="p-3 border border-red-200 bg-red-50 text-red-700 font-mono text-[11px] flex items-center space-x-2">
+                <AlertTriangle className="w-3.5 h-3.5 text-red-600 flex-shrink-0" />
+                <span>[ERR // PURGE] {deleteError}</span>
+              </div>
+            )}
+
+            {/* Target Specification */}
+            <div className="p-3 border border-neutral-100 bg-neutral-50/50 font-mono text-xs space-y-1">
+              <div className="text-[9px] text-neutral-400 uppercase tracking-widest">
+                TARGET CHARTER REGISTRY:
+              </div>
+              <div className="font-semibold text-neutral-900 text-sm">
+                {clubToDelete.clubName}
+              </div>
+              <div className="text-neutral-500 text-[10px]">
+                ID: <span className="font-bold text-neutral-800">{clubToDelete.clubNumber}</span> // DISTRICT: {clubToDelete.district || 'District V-324'}
+              </div>
+            </div>
+
+            <p className="font-mono text-xs text-neutral-600 leading-relaxed">
+              Are you sure you wish to permanently remove this chartered entity from the District V-324 registry? This destructive action cannot be undone.
+            </p>
+
+            {/* Modal Actions */}
+            <div className="pt-3 border-t border-gray-200 flex items-center justify-end space-x-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setClubToDelete(null);
+                  setDeleteError(null);
+                }}
+                disabled={isDeleting}
+                className="px-4 py-2 border border-gray-200 hover:border-neutral-900 text-neutral-700 text-xs font-mono uppercase tracking-wider transition-colors disabled:opacity-40 cursor-pointer"
+              >
+                [ CANCEL ]
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmDelete}
+                disabled={isDeleting}
+                className="px-4 py-2 border border-red-700 bg-red-700 hover:bg-red-800 text-white text-xs font-mono uppercase tracking-wider transition-colors disabled:opacity-40 flex items-center space-x-1.5 cursor-pointer"
+              >
+                <span>{isDeleting ? '[ REMOVING... ]' : '[ CONFIRM REMOVAL ]'}</span>
+              </button>
+            </div>
           </div>
         </div>
       )}

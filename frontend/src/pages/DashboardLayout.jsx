@@ -248,6 +248,11 @@ export default function DashboardLayout({ initialView }) {
     setClubs((prev) => [newClub, ...prev]);
   };
 
+  const handleClubDeleted = (deletedClub) => {
+    const deletedId = typeof deletedClub === 'string' ? deletedClub : (deletedClub?._id || deletedClub?.clubNumber);
+    setClubs((prev) => prev.filter((c) => c._id !== deletedId && c.clubNumber !== deletedId));
+  };
+
   const handleMemberDeleted = (deletedId) => {
     setMembers((prev) => prev.filter((m) => m._id !== deletedId && m.memberId !== deletedId));
   };
@@ -320,7 +325,11 @@ export default function DashboardLayout({ initialView }) {
               )}
 
               {currentView === 'club-master' && (
-                <ClubMasterPage clubs={clubs} onClubCreated={handleClubCreated} />
+                <ClubMasterPage
+                  clubs={clubs}
+                  onClubCreated={handleClubCreated}
+                  onClubDeleted={handleClubDeleted}
+                />
               )}
 
               {currentView === 'member-master' && (
