@@ -1,24 +1,33 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import AuthPage from './pages/AuthPage';
+import LandingPage from './pages/LandingPage';
+import AuthScreen from './pages/AuthScreen';
 import DashboardLayout from './pages/DashboardLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 
 /**
  * App Root Component
  * Configures React Router and Authentication Gatekeeping:
- * - / -> AuthGate: Full-screen Sign In & Sign Up (redirects to /dashboard if authenticated)
+ * - / -> Public Landing Page (Unified Digital Community Portal)
+ * - /login -> Public Authentication Screen (Sign In & Sign Up / Onboarding)
  * - /dashboard/* -> Protected Chapter Portal Layout (Sidebar, Header, Dashboard & Masters)
- * - Fallback -> Redirects unauthenticated access back to /
+ * - /member-master -> Protected Member Master View
+ * - /club-master -> Protected Club Master View
+ * - /pst-master -> Protected PST Master View
+ * - /audit-logs -> Protected Dedicated System Telemetry / Audit Records Route
+ * - Fallback -> Redirects back to /
  */
 export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Root Auth Gate (Sign In & Sign Up) */}
-          <Route path="/" element={<AuthPage />} />
+          {/* Public Landing Page */}
+          <Route path="/" element={<LandingPage />} />
+
+          {/* Public Authentication Screen */}
+          <Route path="/login" element={<AuthScreen />} />
 
           {/* Protected Chapter Management Console */}
           <Route
@@ -26,6 +35,34 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <DashboardLayout />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Protected Direct Master Modules */}
+          <Route
+            path="/member-master"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout initialView="member-master" />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/club-master"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout initialView="club-master" />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/pst-master"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout initialView="pst-master" />
               </ProtectedRoute>
             }
           />
@@ -40,7 +77,7 @@ export default function App() {
             }
           />
 
-          {/* Catch-all redirect to Root */}
+          {/* Catch-all redirect to Landing Page */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

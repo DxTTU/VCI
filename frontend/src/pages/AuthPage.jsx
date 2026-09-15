@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ShieldCheck, ArrowRight, UserPlus, Lock, Mail, KeyRound, Sparkles, Check, RefreshCw, Key } from 'lucide-react';
 import OnboardingWizard from '../components/onboarding/OnboardingWizard';
@@ -16,8 +16,21 @@ import OnboardingWizard from '../components/onboarding/OnboardingWizard';
 export default function AuthPage() {
   const { isAuthenticated, initiateLogin, verifyOTP, resendOTP, directLogin } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
-  const [activeTab, setActiveTab] = useState('signin'); // 'signin' | 'signup'
+  const tabParam = searchParams.get('tab');
+  const [activeTab, setActiveTab] = useState(
+    tabParam === 'register' || tabParam === 'signup' ? 'signup' : 'signin'
+  ); // 'signin' | 'signup'
+
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab === 'register' || tab === 'signup') {
+      setActiveTab('signup');
+    } else if (tab === 'login' || tab === 'signin') {
+      setActiveTab('signin');
+    }
+  }, [searchParams]);
   const [step, setStep] = useState('credentials'); // 'credentials' | 'otp'
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');

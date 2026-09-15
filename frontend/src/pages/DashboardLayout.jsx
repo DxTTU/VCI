@@ -21,15 +21,24 @@ export default function DashboardLayout({ initialView }) {
   const location = useLocation();
   const [currentView, setCurrentView] = useState(() => {
     if (initialView) return initialView;
-    if (location.pathname === '/audit-logs' || location.pathname.includes('audit-logs')) {
-      return 'audit-logs';
-    }
+    if (location.pathname.includes('audit-logs')) return 'audit-logs';
+    if (location.pathname.includes('member-master')) return 'member-master';
+    if (location.pathname.includes('club-master')) return 'club-master';
+    if (location.pathname.includes('pst-master')) return 'pst-master';
     return 'dashboard';
   });
 
   useEffect(() => {
-    if (location.pathname === '/audit-logs' || location.pathname.includes('audit-logs')) {
+    if (location.pathname.includes('audit-logs')) {
       setCurrentView('audit-logs');
+    } else if (location.pathname.includes('member-master')) {
+      setCurrentView('member-master');
+    } else if (location.pathname.includes('club-master')) {
+      setCurrentView('club-master');
+    } else if (location.pathname.includes('pst-master')) {
+      setCurrentView('pst-master');
+    } else if (location.pathname === '/dashboard' || location.pathname === '/dashboard/') {
+      setCurrentView('dashboard');
     }
   }, [location.pathname]);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
