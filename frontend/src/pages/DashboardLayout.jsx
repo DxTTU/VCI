@@ -244,6 +244,10 @@ export default function DashboardLayout({ initialView }) {
     setMembers((prev) => [newMember, ...prev]);
   };
 
+  const handleClubCreated = (newClub) => {
+    setClubs((prev) => [newClub, ...prev]);
+  };
+
   const handleMemberDeleted = (deletedId) => {
     setMembers((prev) => prev.filter((m) => m._id !== deletedId && m.memberId !== deletedId));
   };
@@ -316,7 +320,7 @@ export default function DashboardLayout({ initialView }) {
               )}
 
               {currentView === 'club-master' && (
-                <ClubMasterPage clubs={clubs} />
+                <ClubMasterPage clubs={clubs} onClubCreated={handleClubCreated} />
               )}
 
               {currentView === 'member-master' && (

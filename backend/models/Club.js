@@ -49,11 +49,16 @@ const clubSchema = new mongoose.Schema(
       default: 'Active',
       index: true,
     },
+    location: {
+      type: String,
+      trim: true,
+      default: '',
+    },
     meetingSchedule: {
       frequency: {
         type: String,
-        enum: ['Weekly', 'Bi-Weekly', 'Monthly', 'First and Third Thursdays', 'Custom'],
         default: 'Bi-Weekly',
+        trim: true,
       },
       day: {
         type: String,
