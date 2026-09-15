@@ -89,7 +89,7 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-VASAVI-gold rounded-full ring-2 ring-white"></span>
             </div>
             <div>
-              <h1 className="text-xs font-semibold uppercase tracking-wider text-neutral-900">
+              <h1 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900">
                 Vasavi Club Intl.
               </h1>
               <p className="font-mono text-[9px] text-neutral-400 tracking-clinical uppercase">
@@ -190,7 +190,7 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
                   />
                   <div>
                     <div className="flex items-center space-x-1.5">
-                      <span className={`block leading-snug ${isLocked ? 'text-neutral-400' : ''}`}>{item.label}</span>
+                      <span className={`block font-sans font-medium leading-snug ${isLocked ? 'text-neutral-400' : ''}`}>{item.label}</span>
                       {isLocked && <Lock className="w-2.5 h-2.5 text-neutral-400" />}
                     </div>
                     <span className="font-mono text-[9px] text-neutral-400 tracking-wider">

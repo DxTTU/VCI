@@ -32,13 +32,11 @@ export default {
       },
       fontFamily: {
         sans: [
-          "-apple-system",
-          "BlinkMacSystemFont",
-          '"Segoe UI"',
-          "Roboto",
-          "Helvetica",
-          "Arial",
-          "sans-serif",
+          '"Helvetica Neue"',
+          'Helvetica',
+          'Arial',
+          '"Open Sans"',
+          'sans-serif',
         ],
         mono: [
           '"SF Mono"',

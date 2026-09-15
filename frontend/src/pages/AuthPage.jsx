@@ -155,7 +155,7 @@ export default function AuthPage() {
             <span className="absolute -top-1 -right-1 w-2 h-2 bg-VASAVI-gold rounded-full ring-2 ring-white"></span>
           </div>
           <div>
-            <h1 className="text-xs font-semibold uppercase tracking-wider text-neutral-900">
+            <h1 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900">
               Vasavi Club International
             </h1>
             <p className="font-mono text-[9px] text-neutral-400 tracking-clinical uppercase">
@@ -182,8 +182,8 @@ export default function AuthPage() {
             <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
               PORTAL ACCESS // PROTOCOL 2.4
             </span>
-            <h2 className="text-lg font-light tracking-tight text-neutral-900 mt-1">
-              Chapter Governance <span className="font-semibold text-neutral-900">Sign In</span>
+            <h2 className="text-lg font-sans font-bold tracking-tight text-neutral-900 mt-1">
+              Chapter Governance <span className="font-sans font-bold text-neutral-900">Sign In</span>
             </h2>
           </div>
 
@@ -324,7 +324,7 @@ export default function AuthPage() {
                   <span>STAGE: 2-STEP VERIFICATION</span>
                   <span className="text-VASAVI-blue font-semibold">PAUSED FOR OTP</span>
                 </div>
-                <p className="text-neutral-700 text-xs font-sans">
+                <p className="text-neutral-700 text-xs font-sans font-normal">
                   A 6-digit security challenge has been generated for{' '}
                   <strong className="font-mono text-neutral-900">{maskedEmail}</strong>.
                 </p>

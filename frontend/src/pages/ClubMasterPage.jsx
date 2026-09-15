@@ -177,10 +177,10 @@ export default function ClubMasterPage({ clubs = [], onClubCreated, onClubDelete
                 </span>
               )}
             </div>
-            <h2 className="text-base font-semibold uppercase tracking-wider text-neutral-900 mt-1">
+            <h2 className="text-base font-sans font-bold uppercase tracking-wider text-neutral-900 mt-1">
               Club Master Registry
             </h2>
-            <p className="text-xs text-neutral-500 mt-0.5">
+            <p className="text-xs font-sans font-normal text-neutral-500 mt-0.5">
               Official chartered clubs operating under Vasavi Clubs International (District V-324) jurisdiction.
             </p>
           </div>
@@ -253,7 +253,7 @@ export default function ClubMasterPage({ clubs = [], onClubCreated, onClubDelete
 
             {/* Club Name & District */}
             <div>
-              <h3 className="text-sm font-semibold text-neutral-900 leading-snug">
+              <h3 className="text-sm font-sans font-bold text-neutral-900 leading-snug">
                 {club.clubName}
               </h3>
               <p className="font-mono text-[10px] text-neutral-400 tracking-wider uppercase mt-1">
@@ -262,7 +262,7 @@ export default function ClubMasterPage({ clubs = [], onClubCreated, onClubDelete
             </div>
 
             {/* Details */}
-            <div className="space-y-2 text-xs text-neutral-600 border-t border-neutral-100 pt-3">
+            <div className="space-y-2 text-xs font-sans font-normal text-neutral-600 border-t border-neutral-100 pt-3">
               <div className="flex items-center space-x-2">
                 <Calendar className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
                 <span>

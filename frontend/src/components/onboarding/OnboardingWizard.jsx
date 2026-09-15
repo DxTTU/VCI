@@ -321,7 +321,7 @@ export default function OnboardingWizard({ isOpen, onClose, onMemberCreated }) {
           <div className="flex items-center space-x-3">
             <div className="w-2.5 h-2.5 bg-VASAVI-blue"></div>
             <div>
-              <h2 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
+              <h2 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900">
                 Vasavi Club International // Member Induction Protocol
               </h2>
               <p className="font-mono text-[9px] text-neutral-400 tracking-clinical uppercase">

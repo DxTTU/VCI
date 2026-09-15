@@ -43,7 +43,7 @@ export default function Header({ currentView, openOnboardingModal, refreshData }
     <header className="h-16 bg-white border-b border-neutral-200 px-6 md:px-8 flex items-center justify-between sticky top-0 z-20">
       <div>
         <div className="flex items-center space-x-2">
-          <h1 className="text-sm font-semibold uppercase tracking-wider text-neutral-900">
+          <h1 className="text-sm font-sans font-bold uppercase tracking-wider text-neutral-900">
             {viewInfo.title}
           </h1>
           <span className="text-neutral-300">|</span>

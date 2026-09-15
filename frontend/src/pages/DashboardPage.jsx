@@ -50,10 +50,10 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
             <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400">
               OPERATIONAL JURISDICTION // DISTRICT V-324
             </span>
-            <h2 className="text-xl font-light tracking-tight text-neutral-900">
-              Vasavi Club International <span className="font-semibold text-neutral-900">Executive Console</span>
+            <h2 className="text-xl font-sans font-bold tracking-tight text-neutral-900">
+              Vasavi Club International <span className="font-sans font-bold text-neutral-900">Executive Console</span>
             </h2>
-            <p className="text-xs text-neutral-500 max-w-xl">
+            <p className="text-xs font-sans font-normal text-neutral-500 max-w-xl">
               Minimalist chapter administration system. Monitor charter entities, member dossiers, and cabinet governance in real-time.
             </p>
           </div>
@@ -78,11 +78,11 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
               </span>
               <span className="w-1.5 h-1.5 bg-VASAVI-blue"></span>
             </div>
-            <div className={`text-2xl font-light tracking-tight ${s.color}`}>
+            <div className={`text-2xl font-sans font-bold tracking-tight ${s.color}`}>
               {s.value}
             </div>
             <div className="pt-2 border-t border-neutral-100 flex items-center justify-between text-xs">
-              <span className="font-medium text-neutral-800 text-[11px] uppercase tracking-wide">
+              <span className="font-sans font-medium text-neutral-800 text-[11px] uppercase tracking-wide">
                 {s.label}
               </span>
               <span className="font-mono text-[9px] text-neutral-400">
@@ -102,7 +102,7 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
               <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
                 PERSONNEL REGISTRY
               </span>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
+              <h3 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900">
                 Recent Member Inductions
               </h3>
             </div>
@@ -115,7 +115,7 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+            <table className="w-full text-left text-xs font-sans font-normal">
               <thead>
                 <tr className="border-b border-neutral-200 font-mono text-[9px] text-neutral-400 uppercase tracking-clinical">
                   <th className="py-2">MEMBER ID</th>
@@ -129,11 +129,11 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
                 {members.slice(0, 5).map((m) => (
                   <tr key={m._id || m.memberId} className="hover:bg-neutral-50/70">
                     <td className="py-3 font-mono text-neutral-600">{m.memberId}</td>
-                    <td className="py-3 font-medium text-neutral-900">
+                    <td className="py-3 font-sans font-medium text-neutral-900">
                       {m.firstName} {m.lastName}
                     </td>
                     <td className="py-3 font-mono text-neutral-600">{m.bloodGroup}</td>
-                    <td className="py-3 text-neutral-600">{m.role || 'Vasavi Member'}</td>
+                    <td className="py-3 font-sans font-normal text-neutral-600">{m.role || 'Vasavi Member'}</td>
                     <td className="py-3">
                       <span className="inline-flex items-center space-x-1 px-2 py-0.5 border border-neutral-200 font-mono text-[9px] text-neutral-700">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
@@ -153,7 +153,7 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
             <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
               EXECUTIVE LEADERSHIP
             </span>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-900">
+            <h3 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900">
               PST Cabinet // 2024-2025
             </h3>
           </div>
@@ -165,10 +165,10 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
                 <span>[P] CLUB PRESIDENT</span>
                 <span className="text-VASAVI-blue font-bold">INCUMBENT</span>
               </div>
-              <div className="font-sans font-semibold text-neutral-900 text-sm">
+              <div className="font-sans font-bold text-neutral-900 text-sm">
                 Rajesh Sundaram
               </div>
-              <div className="text-[10px] text-neutral-500 truncate">
+              <div className="font-sans font-normal text-[10px] text-neutral-500 truncate">
                 president@vasaviclub.org
               </div>
             </div>
@@ -179,10 +179,10 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
                 <span>[S] CLUB SECRETARY</span>
                 <span className="text-VASAVI-blue font-bold">INCUMBENT</span>
               </div>
-              <div className="font-sans font-semibold text-neutral-900 text-sm">
+              <div className="font-sans font-bold text-neutral-900 text-sm">
                 Dr. Ananya Venkatesh
               </div>
-              <div className="text-[10px] text-neutral-500 truncate">
+              <div className="font-sans font-normal text-[10px] text-neutral-500 truncate">
                 secretary@vasaviclub.org
               </div>
             </div>
@@ -193,10 +193,10 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
                 <span>[T] CLUB TREASURER</span>
                 <span className="text-VASAVI-blue font-bold">INCUMBENT</span>
               </div>
-              <div className="font-sans font-semibold text-neutral-900 text-sm">
+              <div className="font-sans font-bold text-neutral-900 text-sm">
                 Karthik Narayanan
               </div>
-              <div className="text-[10px] text-neutral-500 truncate">
+              <div className="font-sans font-normal text-[10px] text-neutral-500 truncate">
                 treasurer@vasaviclub.org
               </div>
             </div>

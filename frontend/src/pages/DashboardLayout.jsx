@@ -270,7 +270,7 @@ export default function DashboardLayout({ initialView }) {
   const isAccessDenied = isMasterView && !isAdmin;
 
   return (
-    <div className="min-h-screen bg-white text-neutral-900 flex">
+    <div className="min-h-screen bg-white text-neutral-900 font-sans font-normal flex">
       {/* Persistent Left Sidebar */}
       <Sidebar
         currentView={currentView}
@@ -294,10 +294,10 @@ export default function DashboardLayout({ initialView }) {
                 <ShieldAlert className="w-4 h-4" />
                 <span>SEC.AUTH.403 // RESTRICTED CHAPTER DOSSIER</span>
               </div>
-              <h2 className="text-xl font-bold uppercase tracking-wide text-neutral-900 mb-2">
+              <h2 className="text-xl font-sans font-bold uppercase tracking-wide text-neutral-900 mb-2">
                 Administrator Privilege Required
               </h2>
-              <p className="text-xs text-neutral-600 font-sans leading-relaxed mb-6">
+              <p className="text-xs text-neutral-600 font-sans font-normal leading-relaxed mb-6">
                 Access to this Master module ({currentView.toUpperCase().replace('-', ' ')}) is restricted to authenticated Chapter Administrators. Your current session is authenticated under role: <span className="font-mono font-bold text-neutral-900 bg-neutral-100 px-1.5 py-0.5 uppercase">{role}</span>.
               </p>
               <div className="border-t border-neutral-100 pt-6 flex items-center justify-between">

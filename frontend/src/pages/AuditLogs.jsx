@@ -136,11 +136,11 @@ export default function AuditLogs() {
                 </span>
               )}
             </div>
-            <h2 className="text-base font-semibold uppercase tracking-wider text-neutral-900 mt-1 flex items-center space-x-2">
+            <h2 className="text-base font-sans font-bold uppercase tracking-wider text-neutral-900 mt-1 flex items-center space-x-2">
               <span>System Telemetry & Audit Records</span>
               <Terminal className="w-4 h-4 text-neutral-400" />
             </h2>
-            <p className="text-xs text-neutral-500 mt-0.5">
+            <p className="text-xs font-sans font-normal text-neutral-500 mt-0.5">
               Cryptographic audit log recording user authentications, role elevations, member lifecycle changes, and security operations.
             </p>
           </div>
@@ -161,19 +161,19 @@ export default function AuditLogs() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-5 border-t border-neutral-100 font-mono text-xs">
           <div className="p-3 border border-neutral-100 bg-neutral-50/50 space-y-1">
             <span className="text-[9px] text-neutral-400 uppercase tracking-clinical block">TOTAL TELEMETRY EVENTS</span>
-            <span className="text-xl font-semibold text-neutral-900">{totalEvents}</span>
+            <span className="text-xl font-sans font-bold text-neutral-900">{totalEvents}</span>
           </div>
           <div className="p-3 border border-neutral-100 bg-neutral-50/50 space-y-1">
             <span className="text-[9px] text-neutral-400 uppercase tracking-clinical block">AUTHENTICATED SUCCESS</span>
-            <span className="text-xl font-semibold text-emerald-700">{successEvents}</span>
+            <span className="text-xl font-sans font-bold text-emerald-700">{successEvents}</span>
           </div>
           <div className="p-3 border border-neutral-100 bg-neutral-50/50 space-y-1">
             <span className="text-[9px] text-neutral-400 uppercase tracking-clinical block">FAILED / REJECTED ACTIONS</span>
-            <span className="text-xl font-semibold text-red-700">{failedEvents}</span>
+            <span className="text-xl font-sans font-bold text-red-700">{failedEvents}</span>
           </div>
           <div className="p-3 border border-neutral-100 bg-neutral-50/50 space-y-1">
             <span className="text-[9px] text-neutral-400 uppercase tracking-clinical block">TELEMETRY RELIABILITY</span>
-            <span className="text-xl font-semibold text-neutral-900">{successRate}%</span>
+            <span className="text-xl font-sans font-bold text-neutral-900">{successRate}%</span>
           </div>
         </div>
 

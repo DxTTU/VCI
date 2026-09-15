@@ -148,10 +148,10 @@ export default function MemberMasterPage({
                 </span>
               ) : null}
             </div>
-            <h2 className="text-base font-semibold uppercase tracking-wider text-neutral-900 mt-1">
+            <h2 className="text-base font-sans font-bold uppercase tracking-wider text-neutral-900 mt-1">
               Member Master Dossier
             </h2>
-            <p className="text-xs text-neutral-500 mt-0.5">
+            <p className="text-xs font-sans font-normal text-neutral-500 mt-0.5">
               Comprehensive personnel records, blood donor classifications, and chapter administrative controls.
             </p>
           </div>
@@ -227,7 +227,7 @@ export default function MemberMasterPage({
 
       {/* Member Table */}
       <div className="border border-neutral-200 bg-white overflow-x-auto">
-        <table className="w-full text-left text-xs">
+        <table className="w-full text-left text-xs font-sans font-normal">
           <thead>
             <tr className="border-b border-neutral-200 font-mono text-[9px] text-neutral-400 uppercase tracking-clinical bg-neutral-50/50">
               <th className="py-3 px-4">MEMBER ID</th>
@@ -256,7 +256,7 @@ export default function MemberMasterPage({
                       {m.memberId}
                     </td>
                     <td className="py-3.5 px-4">
-                      <div className="font-semibold text-neutral-900 flex items-center space-x-1.5">
+                      <div className="font-sans font-bold text-neutral-900 flex items-center space-x-1.5">
                         <span>
                           {m.firstName} {m.lastName}
                         </span>
@@ -271,7 +271,7 @@ export default function MemberMasterPage({
                           </span>
                         )}
                       </div>
-                      <div className="text-[11px] text-neutral-500 truncate max-w-[180px]">
+                      <div className="text-[11px] font-sans font-normal text-neutral-500 truncate max-w-[180px]">
                         {m.occupation || 'N/A'}
                       </div>
                     </td>
@@ -281,7 +281,7 @@ export default function MemberMasterPage({
                       </span>
                     </td>
                     <td className="py-3.5 px-4">
-                      <div className="text-neutral-900 font-medium capitalize">
+                      <div className="text-neutral-900 font-sans font-normal capitalize">
                         {m.designation ||
                           (isItemSuperAdmin
                             ? 'Super Administrator'

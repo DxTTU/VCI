@@ -49,11 +49,11 @@ export default function StepAffiliationRole({ formData, updateFormData, errors, 
       <div>
         <div className="flex items-center space-x-2">
           <span className="font-mono text-xs text-VASAVI-blue font-bold">03.0</span>
-          <h2 className="text-sm font-semibold tracking-wider uppercase text-neutral-900">
+          <h2 className="text-sm font-sans font-bold tracking-wider uppercase text-neutral-900">
             Institutional Affiliation & Cabinet Role
           </h2>
         </div>
-        <p className="text-xs text-neutral-500 mt-1">
+        <p className="text-xs font-sans font-normal text-neutral-500 mt-1">
           Specify local chapter designation, operational classification, and governance assignments.
         </p>
       </div>

@@ -19,11 +19,11 @@ export default function StepReviewSubmit({
       <div>
         <div className="flex items-center space-x-2">
           <span className="font-mono text-xs text-VASAVI-blue font-bold">04.0</span>
-          <h2 className="text-sm font-semibold tracking-wider uppercase text-neutral-900">
+          <h2 className="text-sm font-sans font-bold tracking-wider uppercase text-neutral-900">
             Dossier Verification & Formal Induction
           </h2>
         </div>
-        <p className="text-xs text-neutral-500 mt-1">
+        <p className="text-xs font-sans font-normal text-neutral-500 mt-1">
           Perform analytical audit of candidate profile before writing record to the Vasavi Clubs International registry.
         </p>
       </div>

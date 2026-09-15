@@ -11,10 +11,10 @@ export default function PSTMasterPage({ psts }) {
             <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
               EXECUTIVE GOVERNANCE
             </span>
-            <h2 className="text-base font-semibold uppercase tracking-wider text-neutral-900">
+            <h2 className="text-base font-sans font-bold uppercase tracking-wider text-neutral-900">
               PST Master // President - Secretary - Treasurer
             </h2>
-            <p className="text-xs text-neutral-500 mt-0.5">
+            <p className="text-xs font-sans font-normal text-neutral-500 mt-0.5">
               The core executive cabinet responsible for administrative, operational, and fiduciary leadership.
             </p>
           </div>
@@ -37,7 +37,7 @@ export default function PSTMasterPage({ psts }) {
                 <span className="font-mono text-[9px] text-neutral-400 uppercase tracking-clinical">
                   EXECUTIVE ROSTER
                 </span>
-                <h3 className="text-sm font-semibold text-neutral-900">
+                <h3 className="text-sm font-sans font-bold text-neutral-900">
                   {pst.club?.clubName || 'Vasavi Club of Metropolitan Central'}
                 </h3>
               </div>
@@ -63,7 +63,7 @@ export default function PSTMasterPage({ psts }) {
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-semibold text-neutral-900">
+                  <h4 className="text-sm font-sans font-bold text-neutral-900">
                     {pst.president?.member?.firstName
                       ? `${pst.president.member.firstName} ${pst.president.member.lastName}`
                       : 'Rajesh Sundaram'}
@@ -73,7 +73,7 @@ export default function PSTMasterPage({ psts }) {
                   </span>
                 </div>
 
-                <div className="space-y-1.5 text-xs text-neutral-600 border-t border-neutral-100 pt-3">
+                <div className="space-y-1.5 text-xs font-sans font-normal text-neutral-600 border-t border-neutral-100 pt-3">
                   <div className="flex items-center space-x-2">
                     <Mail className="w-3.5 h-3.5 text-neutral-400" />
                     <span className="font-mono text-[11px] truncate">
@@ -88,7 +88,7 @@ export default function PSTMasterPage({ psts }) {
                   </div>
                 </div>
 
-                <p className="text-[11px] text-neutral-500 italic border-t border-neutral-100 pt-2 leading-relaxed">
+                <p className="text-[11px] font-sans font-normal text-neutral-500 italic border-t border-neutral-100 pt-2 leading-relaxed">
                   "{pst.president?.termBio || 'Dedicated to community welfare, educational scholarships, and civic outreach.'}"
                 </p>
               </div>
@@ -103,7 +103,7 @@ export default function PSTMasterPage({ psts }) {
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-semibold text-neutral-900">
+                  <h4 className="text-sm font-sans font-bold text-neutral-900">
                     {pst.secretary?.member?.firstName
                       ? `${pst.secretary.member.firstName} ${pst.secretary.member.lastName}`
                       : 'Dr. Ananya Venkatesh'}
@@ -113,7 +113,7 @@ export default function PSTMasterPage({ psts }) {
                   </span>
                 </div>
 
-                <div className="space-y-1.5 text-xs text-neutral-600 border-t border-neutral-100 pt-3">
+                <div className="space-y-1.5 text-xs font-sans font-normal text-neutral-600 border-t border-neutral-100 pt-3">
                   <div className="flex items-center space-x-2">
                     <Mail className="w-3.5 h-3.5 text-neutral-400" />
                     <span className="font-mono text-[11px] truncate">
@@ -128,7 +128,7 @@ export default function PSTMasterPage({ psts }) {
                   </div>
                 </div>
 
-                <p className="text-[11px] text-neutral-500 italic border-t border-neutral-100 pt-2 leading-relaxed">
+                <p className="text-[11px] font-sans font-normal text-neutral-500 italic border-t border-neutral-100 pt-2 leading-relaxed">
                   "{pst.secretary?.termBio || 'Directing administrative governance, member correspondence, and district records.'}"
                 </p>
               </div>
@@ -143,7 +143,7 @@ export default function PSTMasterPage({ psts }) {
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-semibold text-neutral-900">
+                  <h4 className="text-sm font-sans font-bold text-neutral-900">
                     {pst.treasurer?.member?.firstName
                       ? `${pst.treasurer.member.firstName} ${pst.treasurer.member.lastName}`
                       : 'Karthik Narayanan'}
@@ -153,7 +153,7 @@ export default function PSTMasterPage({ psts }) {
                   </span>
                 </div>
 
-                <div className="space-y-1.5 text-xs text-neutral-600 border-t border-neutral-100 pt-3">
+                <div className="space-y-1.5 text-xs font-sans font-normal text-neutral-600 border-t border-neutral-100 pt-3">
                   <div className="flex items-center space-x-2">
                     <Mail className="w-3.5 h-3.5 text-neutral-400" />
                     <span className="font-mono text-[11px] truncate">
@@ -168,7 +168,7 @@ export default function PSTMasterPage({ psts }) {
                   </div>
                 </div>
 
-                <p className="text-[11px] text-neutral-500 italic border-t border-neutral-100 pt-2 leading-relaxed">
+                <p className="text-[11px] font-sans font-normal text-neutral-500 italic border-t border-neutral-100 pt-2 leading-relaxed">
                   "{pst.treasurer?.termBio || 'Overseeing club dues, VCI trust contributions, and audited statements.'}"
                 </p>
               </div>
