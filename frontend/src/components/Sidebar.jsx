@@ -12,7 +12,8 @@ import {
   Sparkles,
   LogOut,
   Lock,
-  Activity
+  Activity,
+  Network
 } from 'lucide-react';
 
 /**
@@ -66,9 +67,18 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
       adminOnly: true,
     },
     {
+      id: 'drz-master',
+      label: 'DRZ Master',
+      code: 'NAV.05',
+      icon: Network,
+      description: 'District, Region & Zone hierarchy',
+      adminOnly: true,
+      path: '/drz-master',
+    },
+    {
       id: 'audit-logs',
       label: 'System Telemetry',
-      code: 'NAV.05',
+      code: 'NAV.06',
       icon: Activity,
       description: 'Audit records & system telemetry',
       adminOnly: true,

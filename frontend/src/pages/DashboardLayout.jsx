@@ -11,6 +11,7 @@ import ClubMasterPage from './ClubMasterPage';
 import MemberMasterPage from './MemberMasterPage';
 import PSTMasterPage from './PSTMasterPage';
 import AuditLogs from './AuditLogs';
+import DRZMasterPage from './DRZMasterPage';
 
 /**
  * DashboardLayout Component
@@ -22,6 +23,7 @@ export default function DashboardLayout({ initialView }) {
   const [currentView, setCurrentView] = useState(() => {
     if (initialView) return initialView;
     if (location.pathname.includes('audit-logs')) return 'audit-logs';
+    if (location.pathname.includes('drz-master')) return 'drz-master';
     if (location.pathname.includes('member-master')) return 'member-master';
     if (location.pathname.includes('club-master')) return 'club-master';
     if (location.pathname.includes('pst-master')) return 'pst-master';
@@ -31,6 +33,8 @@ export default function DashboardLayout({ initialView }) {
   useEffect(() => {
     if (location.pathname.includes('audit-logs')) {
       setCurrentView('audit-logs');
+    } else if (location.pathname.includes('drz-master')) {
+      setCurrentView('drz-master');
     } else if (location.pathname.includes('member-master')) {
       setCurrentView('member-master');
     } else if (location.pathname.includes('club-master')) {
@@ -275,7 +279,7 @@ export default function DashboardLayout({ initialView }) {
   };
 
   // Check if current view is a master module requiring admin privilege
-  const isMasterView = ['club-master', 'member-master', 'pst-master', 'audit-logs'].includes(currentView);
+  const isMasterView = ['club-master', 'member-master', 'pst-master', 'audit-logs', 'drz-master'].includes(currentView);
   const isAccessDenied = isMasterView && !isAdmin;
 
   return (
@@ -353,6 +357,10 @@ export default function DashboardLayout({ initialView }) {
 
               {currentView === 'pst-master' && (
                 <PSTMasterPage psts={psts} />
+              )}
+
+              {currentView === 'drz-master' && (
+                <DRZMasterPage />
               )}
 
               {currentView === 'audit-logs' && (

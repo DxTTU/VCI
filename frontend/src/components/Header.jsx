@@ -24,6 +24,11 @@ export default function Header({ currentView, openOnboardingModal, refreshData }
           title: 'PST Leadership Master',
           spec: 'VCI-CABINET // PRESIDENT - SECRETARY - TREASURER',
         };
+      case 'drz-master':
+        return {
+          title: 'DRZ Hierarchy Master',
+          spec: 'VCI-HIERARCHY // DISTRICT - REGION - ZONE',
+        };
       case 'audit-logs':
         return {
           title: 'System Telemetry',

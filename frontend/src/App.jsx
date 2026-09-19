@@ -67,6 +67,15 @@ export default function App() {
             }
           />
 
+          <Route
+            path="/drz-master"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout initialView="drz-master" />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Protected Dedicated System Telemetry / Audit Records Route */}
           <Route
             path="/audit-logs"

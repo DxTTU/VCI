@@ -9,12 +9,16 @@ import pstRoutes from './routes/pstRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import otpRoutes from './routes/otpRoutes.js';
 import auditRoutes from './routes/auditRoutes.js';
+import drzRoutes from './routes/drzRoutes.js';
 import { verifyOTP } from './controllers/authController.js';
 import Club from './models/Club.js';
 import Member from './models/Member.js';
 import PST from './models/PST.js';
 import User from './models/User.js';
 import AuditLog from './models/AuditLog.js';
+import District from './models/District.js';
+import Region from './models/Region.js';
+import Zone from './models/Zone.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -136,6 +140,46 @@ connectDB().then(async () => {
       });
       console.log(`[SYS.DB // SEED] Initialized default Vasavi Club: ${defaultClub.clubName}`);
     }
+
+    // Seed default DRZ (District, Region, Zone) hierarchy if empty
+    const districtCount = await District.countDocuments();
+    if (districtCount === 0) {
+      const defaultDistrict = await District.create({
+        name: 'District V-324',
+        code: 'V-324',
+        description: 'Primary administrative jurisdiction for Vasavi Clubs International District 324',
+      });
+
+      const reg1 = await Region.create({
+        name: 'Region I',
+        code: 'REG-01',
+        districtId: defaultDistrict._id,
+        description: 'Metropolitan Northern & Central Jurisdiction',
+      });
+
+      const reg2 = await Region.create({
+        name: 'Region II',
+        code: 'REG-02',
+        districtId: defaultDistrict._id,
+        description: 'Metropolitan Southern & Coastal Jurisdiction',
+      });
+
+      await Zone.create({
+        name: 'Zone 1',
+        code: 'ZN-01',
+        regionId: reg1._id,
+        description: 'North-Central Chapter Cluster',
+      });
+
+      await Zone.create({
+        name: 'Zone 2',
+        code: 'ZN-02',
+        regionId: reg2._id,
+        description: 'South-Coastal Chapter Cluster',
+      });
+
+      console.log('[SYS.DB // SEED] Initialized default DRZ hierarchy (District V-324, Regions & Zones)');
+    }
   } catch (e) {
     console.warn('[SYS.AUTH // SEED WARN]', e.message);
   }
@@ -241,6 +285,7 @@ app.use(otpRoutes); // Allows direct /send-otp and /verify-otp
 app.use('/api/clubs', clubRoutes);
 app.use('/api/members', memberRoutes);
 app.use('/api/pst', pstRoutes);
+app.use('/api/drz', drzRoutes);
 app.use('/api/audit-logs', auditRoutes);
 app.use('/api/audit', auditRoutes);
 
