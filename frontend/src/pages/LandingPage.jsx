@@ -36,6 +36,116 @@ import {
 export default function LandingPage() {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [donateModalOpen, setDonateModalOpen] = useState(false);
+
+  // Executive Leadership Profile Cards (5 official portrait photographs)
+  const leadershipTeam = [
+    {
+      code: 'PST.01',
+      name: 'VN. SOWBHAGYA SEVASANKALP KCGF SIDDA VENKATA SURYA PRAKASA RAO',
+      role: 'PRESIDENT',
+      image: '/leadership/leader_president.png',
+      spec: 'DISTRICT GOVERNANCE',
+    },
+    {
+      code: 'PST.02',
+      name: 'VN. PRATHIBHA SANKALP KCGF GARLAPATI SRINIVASULU',
+      role: 'EXECUTIVE VICE PRESIDENT',
+      image: '/leadership/leader_evp.png',
+      spec: 'OPERATIONAL OVERSIGHT',
+    },
+    {
+      code: 'PST.03',
+      name: 'VN. VIDYASANKALPKCGF DARISI SRINIVAS RAOGUPTA',
+      role: 'SECRETARY (ADMINISTRATION)',
+      image: '/leadership/leader_sec_admin.png',
+      spec: 'CENTRAL SECRETARIAT',
+    },
+    {
+      code: 'PST.04',
+      name: 'VN.SEVASANKALAP *KCGF JULURI RAMESH BABU',
+      role: 'SECRETARY (SERVICE ACTIVITIES)',
+      image: '/leadership/leader_sec_service.png',
+      spec: 'SERVICE & ENDOWMENTS',
+    },
+    {
+      code: 'PST.05',
+      name: 'VN. SOWBHAGYA SEVASANKALP KCGF V.SENTHIL KUMAR',
+      role: 'TREASURER',
+      image: '/leadership/leader_treasurer.png',
+      spec: 'FINANCIAL AUDIT & TRUST',
+    },
+  ];
+
+  // Movement Historical Milestones
+  const movementMilestones = [
+    {
+      tag: '1961',
+      title: 'FOUNDATION IN HYDERABAD',
+      description:
+        'First chartered Vasavi Club assembly established in Hyderabad, unifying regional merchant and civic leaders into an organized fellowship dedicated to social upliftment.',
+    },
+    {
+      tag: 'SERVICE',
+      title: 'HUMANITARIAN MOBILIZATION',
+      description:
+        'Pioneered nationwide pulse polio immunizations, free cataract surgeries, rural diagnostic camps, and permanent educational scholarships.',
+    },
+    {
+      tag: '2008',
+      title: 'INTERNATIONAL REGISTRATION',
+      description:
+        'Formally registered as Vasavi Clubs International, expanding institutional governance, charter entities, and philanthropic missions across the global diaspora.',
+    },
+  ];
+
+  // Latest Dispatches / News
+  const dashboardNews = [
+    {
+      day: '28',
+      month: 'SEPT',
+      title: 'Member Welfare Fund Allocation & Medical Grant Extension',
+      category: 'GOVERNANCE',
+      summary:
+        'Central Executive Board authorizes quarterly corpus disbursement for emergency healthcare assistance and member bereavement endowments.',
+    },
+    {
+      day: '23',
+      month: 'SEPT',
+      title: 'Ganesh Nimajjanam Community Service Holiday Notice',
+      category: 'PUBLIC NOTICE',
+      summary:
+        'Special community volunteer stations and Annadanam camps active along coastal procession zones; administrative secretariat observed holiday.',
+    },
+    {
+      day: '20',
+      month: 'SEPT',
+      title: 'Central Chapter Secretariat Administrative Assembly',
+      category: 'CABINET',
+      summary:
+        'Cabinet review completed regarding club charter certifications, DRZ Master hierarchical alignments, and lion-year convention plans.',
+    },
+  ];
+
+  // Latest Events & Conclaves
+  const dashboardEvents = [
+    {
+      day: '16',
+      month: 'SEPT',
+      title: 'Annual Public Meeting & Community Service Awards',
+      venue: 'Vasavi Seva Bhavan, Mount Road, Chennai',
+      time: '10:00 AM IST',
+      badge: 'PUBLIC CONCLAVE',
+    },
+    {
+      day: '25',
+      month: 'SEPT',
+      title: 'VCI District V-324 Leadership & PST Cabinet Assembly',
+      venue: 'Metropolitan Convention Hall, Adyar',
+      time: '06:30 PM IST',
+      badge: 'PST CABINET ONLY',
+    },
+  ];
 
   // Floating Action Cards specification
   const actionCards = [
@@ -440,6 +550,301 @@ export default function LandingPage() {
               </motion.div>
             );
           })}
+        </div>
+      </section>
+
+      {/* 4.5 COMPREHENSIVE INFORMATION DASHBOARD (Leadership, Movement Notes, News, Events & Support) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 space-y-6">
+        {/* ROW 1: [ OUR LEADERSHIP ] (2/3 width) + [ MOVEMENT NOTES ] (1/3 width) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* OUR LEADERSHIP (lg:col-span-8) */}
+          <div className="lg:col-span-8 border border-gray-200 bg-white p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-none text-left">
+            <div>
+              {/* Module Header */}
+              <div className="border-b border-gray-200 pb-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400 block">
+                    VCI-CABINET // CENTRAL GOVERNANCE COUNCIL
+                  </span>
+                  <h3 className="font-mono text-xs sm:text-sm font-bold uppercase tracking-widest text-neutral-900 mt-0.5">
+                    [ OUR LEADERSHIP ]
+                  </h3>
+                </div>
+                <span className="font-mono text-[10px] text-neutral-500 uppercase border border-neutral-200 px-2 py-0.5 self-start sm:self-auto bg-neutral-50 rounded-none">
+                  INCUMBENT CABINET 2024-2025
+                </span>
+              </div>
+
+              {/* 5-Card Horizontal Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4">
+                {leadershipTeam.map((leader) => (
+                  <div
+                    key={leader.code}
+                    className="border border-gray-200 bg-white p-2.5 flex flex-col justify-between group hover:border-neutral-900 transition-colors rounded-none"
+                  >
+                    <div>
+                      {/* Portrait Image Container */}
+                      <div className="w-full aspect-[4/5] overflow-hidden bg-neutral-100 border border-neutral-200 mb-2.5 relative rounded-none">
+                        <img
+                          src={leader.image}
+                          alt={leader.name}
+                          className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-300"
+                        />
+                        <div className="absolute top-1 left-1 bg-neutral-900/80 text-white font-mono text-[8px] px-1 py-0.5 tracking-wider">
+                          {leader.code}
+                        </div>
+                      </div>
+
+                      {/* Name */}
+                      <h4 className="font-sans font-bold text-[10px] sm:text-[11px] uppercase tracking-tight text-neutral-900 leading-tight line-clamp-3">
+                        {leader.name}
+                      </h4>
+                    </div>
+
+                    {/* Role */}
+                    <div className="mt-2.5 pt-2 border-t border-neutral-100">
+                      <span className="font-mono text-[9px] font-semibold uppercase tracking-wider text-VASAVI-blue block leading-tight">
+                        {leader.role}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-6 pt-3 border-t border-gray-100 flex items-center justify-between font-mono text-[9px] text-neutral-400 uppercase tracking-clinical">
+              <span>VASAVI CLUBS INTERNATIONAL CABINET</span>
+              <span>CONSTITUTIONAL MANDATE</span>
+            </div>
+          </div>
+
+          {/* MOVEMENT NOTES (lg:col-span-4) */}
+          <div className="lg:col-span-4 border border-gray-200 bg-white p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-none text-left">
+            <div>
+              {/* Module Header */}
+              <div className="border-b border-gray-200 pb-4 mb-6 flex items-center justify-between">
+                <div>
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400 block">
+                    VCI-CHRONOLOGY // HISTORICAL MILESTONES
+                  </span>
+                  <h3 className="font-mono text-xs sm:text-sm font-bold uppercase tracking-widest text-neutral-900 mt-0.5">
+                    [ MOVEMENT NOTES ]
+                  </h3>
+                </div>
+                <span className="font-mono text-[10px] text-neutral-400">
+                  MILESTONES
+                </span>
+              </div>
+
+              {/* Milestone Stack */}
+              <div className="space-y-4">
+                {movementMilestones.map((milestone) => (
+                  <div
+                    key={milestone.tag}
+                    className="border border-neutral-200 p-3.5 bg-neutral-50/40 hover:bg-white transition-colors text-left space-y-1.5 rounded-none"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <span className="border border-neutral-900 bg-neutral-900 text-white font-mono text-[10px] font-bold px-2 py-0.5 tracking-wider rounded-none">
+                        {milestone.tag}
+                      </span>
+                      <span className="font-mono text-[10px] font-bold uppercase text-neutral-900 tracking-wider">
+                        {milestone.title}
+                      </span>
+                    </div>
+                    <p className="font-sans font-normal text-xs text-neutral-600 leading-relaxed pt-0.5">
+                      {milestone.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-6 pt-3 border-t border-gray-100 flex items-center justify-between font-mono text-[9px] text-neutral-400 uppercase tracking-clinical">
+              <span>CHRONICLE STATUS: VERIFIED</span>
+              <span>EST. 1961</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ROW 2: [ LATEST NEWS ] (1/3 width) + [ LATEST EVENTS ] (1/3 width) + [ SUPPORT VCI SERVICE ] (1/3 width) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* LATEST NEWS (lg:col-span-4) */}
+          <div className="lg:col-span-4 border border-gray-200 bg-white p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-none text-left">
+            <div>
+              {/* Module Header */}
+              <div className="border-b border-gray-200 pb-4 mb-5 flex items-center justify-between">
+                <div>
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400 block">
+                    VCI-GAZETTE // CHAPTER DISPATCHES
+                  </span>
+                  <h3 className="font-mono text-xs sm:text-sm font-bold uppercase tracking-widest text-neutral-900 mt-0.5">
+                    [ LATEST NEWS ]
+                  </h3>
+                </div>
+                <span className="font-mono text-[10px] text-neutral-400">
+                  OCTET.2024
+                </span>
+              </div>
+
+              {/* News List */}
+              <div className="divide-y divide-gray-100 space-y-3.5">
+                {dashboardNews.map((item, idx) => (
+                  <div key={idx} className="pt-3 first:pt-0 flex items-start space-x-3 text-left">
+                    {/* Tabular Block Date Badge */}
+                    <div className="flex-shrink-0 border border-neutral-300 bg-neutral-50 px-2.5 py-1.5 text-center w-14 font-mono rounded-none">
+                      <div className="text-xs font-bold text-neutral-900 leading-none">
+                        {item.day}
+                      </div>
+                      <div className="text-[9px] text-neutral-500 tracking-wider mt-0.5 leading-none">
+                        // {item.month}
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 space-y-1">
+                      <div className="font-mono text-[8px] uppercase tracking-wider text-VASAVI-blue font-semibold">
+                        {item.category}
+                      </div>
+                      <h4 className="font-sans font-bold text-xs text-neutral-900 leading-snug">
+                        {item.title}
+                      </h4>
+                      <p className="font-sans font-normal text-[11px] text-neutral-600 leading-relaxed line-clamp-2">
+                        {item.summary}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between font-mono text-[10px]">
+              <a
+                href="#news"
+                className="text-neutral-900 hover:text-VASAVI-blue uppercase tracking-wider transition-colors inline-flex items-center space-x-1"
+              >
+                <span>[ VIEW FULL GAZETTE ]</span>
+                <ArrowRight className="w-3 h-3" />
+              </a>
+            </div>
+          </div>
+
+          {/* LATEST EVENTS (lg:col-span-4) */}
+          <div className="lg:col-span-4 border border-gray-200 bg-white p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-none text-left">
+            <div>
+              {/* Module Header */}
+              <div className="border-b border-gray-200 pb-4 mb-5 flex items-center justify-between">
+                <div>
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400 block">
+                    VCI-CALENDAR // DISTRICT SUMMITS
+                  </span>
+                  <h3 className="font-mono text-xs sm:text-sm font-bold uppercase tracking-widest text-neutral-900 mt-0.5">
+                    [ LATEST EVENTS ]
+                  </h3>
+                </div>
+                <span className="font-mono text-[10px] text-neutral-400">
+                  UPCOMING
+                </span>
+              </div>
+
+              {/* Events List */}
+              <div className="divide-y divide-gray-100 space-y-4">
+                {dashboardEvents.map((evt, idx) => (
+                  <div key={idx} className="pt-3.5 first:pt-0 flex items-start space-x-3 text-left">
+                    {/* Tabular Block Date Badge */}
+                    <div className="flex-shrink-0 border border-neutral-300 bg-neutral-50 px-2.5 py-1.5 text-center w-14 font-mono rounded-none">
+                      <div className="text-xs font-bold text-neutral-900 leading-none">
+                        {evt.day}
+                      </div>
+                      <div className="text-[9px] text-neutral-500 tracking-wider mt-0.5 leading-none">
+                        // {evt.month}
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 space-y-1.5">
+                      <div className="flex items-center space-x-2">
+                        <span className="font-mono text-[8px] border border-neutral-200 bg-neutral-100 px-1.5 py-0.2 uppercase text-neutral-700 rounded-none">
+                          {evt.badge}
+                        </span>
+                        <span className="font-mono text-[9px] text-neutral-400">
+                          {evt.time}
+                        </span>
+                      </div>
+                      <h4 className="font-sans font-bold text-xs text-neutral-900 leading-snug">
+                        {evt.title}
+                      </h4>
+                      <div className="font-mono text-[10px] text-neutral-500 flex items-center space-x-1">
+                        <MapPin className="w-3 h-3 text-neutral-400 flex-shrink-0" />
+                        <span className="truncate">{evt.venue}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between font-mono text-[10px]">
+              <a
+                href="#events"
+                className="text-neutral-900 hover:text-VASAVI-blue uppercase tracking-wider transition-colors inline-flex items-center space-x-1"
+              >
+                <span>[ COMPLETE CALENDAR ]</span>
+                <ArrowRight className="w-3 h-3" />
+              </a>
+            </div>
+          </div>
+
+          {/* SUPPORT VCI SERVICE (lg:col-span-4) */}
+          <div className="lg:col-span-4 border border-gray-200 bg-white p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-none text-left">
+            <div>
+              {/* Module Header */}
+              <div className="border-b border-gray-200 pb-4 mb-5 flex items-center justify-between">
+                <div>
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400 block">
+                    VCI-ENDOWMENT // PHILANTHROPIC TRUST
+                  </span>
+                  <h3 className="font-mono text-xs sm:text-sm font-bold uppercase tracking-widest text-neutral-900 mt-0.5">
+                    [ SUPPORT VCI SERVICE ]
+                  </h3>
+                </div>
+                <HeartHandshake className="w-4 h-4 text-VASAVI-blue" />
+              </div>
+
+              {/* Explanatory Narrative */}
+              <div className="space-y-4 text-left">
+                <p className="font-sans font-normal text-xs text-neutral-600 leading-relaxed">
+                  Vasavi Clubs International District V-324 administers non-profit humanitarian endowments for sight restoration, food sustenance, and educational sponsorship.
+                </p>
+
+                {/* Direct Contact Coordinates */}
+                <div className="border border-neutral-200 bg-neutral-50/70 p-3.5 space-y-2 font-mono text-[11px] rounded-none">
+                  <div className="flex items-center space-x-2 text-neutral-700">
+                    <Mail className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                    <span className="truncate">secretariat@vasaviclubs.org</span>
+                  </div>
+                  <div className="flex items-center space-x-2 text-neutral-700">
+                    <Phone className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                    <span>+91 44 2851 4090</span>
+                  </div>
+                  <div className="pt-1.5 border-t border-neutral-200 text-[10px] text-neutral-500 flex items-center justify-between">
+                    <span>TAX EXEMPTION:</span>
+                    <span className="font-bold text-neutral-800">80G CERTIFIED</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Flat Solid High-Contrast Donate Button */}
+            <div className="mt-6 pt-3 border-t border-gray-100">
+              <button
+                type="button"
+                onClick={() => setDonateModalOpen(true)}
+                className="w-full py-3 px-4 bg-neutral-900 hover:bg-VASAVI-blue text-white font-mono text-xs uppercase tracking-widest transition-colors cursor-pointer border-none rounded-none text-center block shadow-none"
+              >
+                [ DONATE TO SERVICE FUND ]
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -878,6 +1283,67 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+
+      {/* Clinical Donation Information Modal */}
+      {donateModalOpen && (
+        <div className="fixed inset-0 bg-neutral-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-neutral-200 max-w-lg w-full p-6 sm:p-8 space-y-5 text-left shadow-none rounded-none">
+            <div className="border-b border-gray-200 pb-3 flex items-center justify-between">
+              <div>
+                <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400 block">
+                  VCI-ENDOWMENT // DIRECT DISBURSEMENT
+                </span>
+                <h3 className="text-base font-sans font-bold uppercase tracking-wide text-neutral-900">
+                  Support Humanitarian Service Fund
+                </h3>
+              </div>
+              <button
+                onClick={() => setDonateModalOpen(false)}
+                className="text-neutral-400 hover:text-neutral-900 p-1 border border-neutral-200"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="text-xs font-sans text-neutral-600 leading-relaxed">
+              Donations directly fund cataract surgeries, daily Annadanam feeding drives, and student scholarship trusts across District V-324. All donations are certified under Section 80G of the Income Tax Act.
+            </p>
+
+            <div className="border border-neutral-200 bg-neutral-50 p-4 font-mono text-xs space-y-2">
+              <div className="flex justify-between border-b border-neutral-200 pb-2">
+                <span className="text-neutral-400">BENEFICIARY:</span>
+                <span className="font-bold text-neutral-900 text-right">VASAVI CLUBS INTL. DISTRICT V-324 TRUST</span>
+              </div>
+              <div className="flex justify-between border-b border-neutral-200 pb-2">
+                <span className="text-neutral-400">BANK / BRANCH:</span>
+                <span className="text-neutral-800 text-right">STATE BANK OF INDIA // MOUNT ROAD</span>
+              </div>
+              <div className="flex justify-between border-b border-neutral-200 pb-2">
+                <span className="text-neutral-400">ACCOUNT NUMBER:</span>
+                <span className="font-bold text-VASAVI-blue text-right">389201049281</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-neutral-400">IFSC CODE:</span>
+                <span className="font-bold text-neutral-900 text-right">SBIN0001234</span>
+              </div>
+            </div>
+
+            <div className="text-[10px] font-mono text-neutral-500 leading-relaxed border-l-2 border-VASAVI-gold pl-3">
+              After transfer, please dispatch transaction receipt to <span className="font-bold text-neutral-800">secretariat@vasaviclubs.org</span> along with PAN number to receive formal Section 80G tax exemption certification.
+            </div>
+
+            <div className="pt-2 border-t border-neutral-100 flex items-center justify-end">
+              <button
+                type="button"
+                onClick={() => setDonateModalOpen(false)}
+                className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white font-mono text-xs uppercase tracking-wider rounded-none"
+              >
+                [ CLOSE DISPATCH ]
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
