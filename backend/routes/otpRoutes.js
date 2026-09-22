@@ -1,31 +1,11 @@
 import 'dotenv/config';
 import express from 'express';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import crypto from 'crypto';
 import OTP from '../models/OTP.js';
 import createAuditLog from '../utils/auditLogger.js';
 
 const router = express.Router();
-
-/**
- * Get configured Gmail SMTP Transporter
- * Reads process.env dynamically and sanitizes credentials
- */
-const getTransporter = () => {
-  const user = (process.env.EMAIL_USER || '').trim();
-  const pass = (process.env.EMAIL_PASS || '').trim().replace(/\s+/g, '');
-
-  return nodemailer.createTransport({
-    service: 'gmail',
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user,
-      pass,
-    },
-  });
-};
 
 /**
  * Generate a cryptographically random 6-digit numerical OTP
@@ -42,9 +22,49 @@ const hashCode = (code) => {
 };
 
 /**
+ * Clinical "The Ordinary" HTML Email Template
+ * Stark white background, 1px border (#e5e7eb), 0px rounded corners,
+ * monospace typography, clinical header, spaced-out code, expiration warning.
+ */
+const buildClinicalEmailHtml = (email, otp) => `
+<div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 0px; max-width: 540px; margin: 20px auto; padding: 32px; font-family: 'Courier New', Courier, monospace; color: #111827;">
+  <div style="border-bottom: 2px solid #00338D; padding-bottom: 14px; margin-bottom: 24px;">
+    <div style="font-size: 14px; font-weight: bold; letter-spacing: 0.12em; color: #00338D; text-transform: uppercase;">
+      [ VCI PORTAL // IDENTITY CHALLENGE ]
+    </div>
+    <div style="font-size: 10px; color: #6b7280; margin-top: 4px; letter-spacing: 0.05em;">
+      VASAVI CLUBS INTERNATIONAL // ACCESS VERIFICATION
+    </div>
+  </div>
+
+  <p style="font-size: 13px; line-height: 1.6; color: #374151; margin: 0 0 20px 0;">
+    A verification challenge has been generated for <strong>${email}</strong>. Use the single-use cryptographic verification code below to authorize your registration:
+  </p>
+
+  <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 0px; padding: 24px; text-align: center; margin: 24px 0;">
+    <div style="font-family: 'Courier New', Courier, monospace; font-size: 36px; font-weight: bold; letter-spacing: 8px; color: #00338D; display: inline-block; padding-left: 8px;">
+      ${otp}
+    </div>
+  </div>
+
+  <div style="border-top: 1px solid #e5e7eb; border-radius: 0px; padding-top: 16px; margin-top: 24px; font-size: 11px; line-height: 1.6; color: #6b7280;">
+    <div style="color: #b91c1c; font-weight: bold;">
+      WARNING: Valid for 5 minutes. Single-use only.
+    </div>
+    <div style="margin-top: 4px;">
+      STATUS: CRYPTOGRAPHIC SINGLE-USE CHALLENGE
+    </div>
+    <div style="margin-top: 8px; color: #9ca3af;">
+      If you did not request this verification code, please disregard this transmission.
+    </div>
+  </div>
+</div>
+`;
+
+/**
  * POST /send-otp & POST /api/send-otp
  * Generates a 6-digit cryptographic code, hashes & stores it in MongoDB with 5-min TTL,
- * and uses nodemailer to dispatch it to the user's email address.
+ * and uses Resend SDK to dispatch it to the user's email address.
  */
 router.post(['/send-otp', '/api/send-otp'], async (req, res) => {
   try {
@@ -71,70 +91,57 @@ router.post(['/send-otp', '/api/send-otp'], async (req, res) => {
       createdAt: new Date(),
     });
 
-    const senderEmail = process.env.EMAIL_USER?.trim() || 'no-reply@vasaviclub.org';
+    console.log(`[OTP // GENERATED] Code: ${rawOtp} for ${cleanEmail}`);
 
-    // Professional VASAVI Club International email template
-    const mailOptions = {
-      from: `"VASAVI Club International" <${senderEmail}>`,
-      to: cleanEmail,
-      subject: 'Your VASAVI Club International Verification Code',
-      text: `Your VASAVI Club International verification code is: ${rawOtp}. This code expires in 5 minutes.`,
-      html: `
-        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 28px; border: 1px solid #E5E5E5; background-color: #FFFFFF; color: #171717;">
-          <div style="border-bottom: 2px solid #00338D; padding-bottom: 14px; margin-bottom: 20px;">
-            <div style="font-size: 10px; font-family: monospace; color: #737373; letter-spacing: 0.18em; text-transform: uppercase;">
-              VASAVI CLUB INTERNATIONAL // DISTRICT V-324
-            </div>
-            <h2 style="margin: 6px 0 0 0; font-size: 18px; font-weight: 600; letter-spacing: -0.01em; color: #171717;">
-              Your VASAVI Club International Verification Code
-            </h2>
-          </div>
-          
-          <p style="font-size: 13px; color: #404040; line-height: 1.6; margin: 0 0 16px 0;">
-            A candidate induction session has been initiated for <strong style="color: #171717;">${cleanEmail}</strong>. Please input the 6-digit cryptographic verification code below to authorize your registration:
-          </p>
-
-          <div style="background-color: #FAFAFA; border: 1px solid #E5E5E5; padding: 20px; text-align: center; margin: 24px 0;">
-            <span style="font-family: monospace; font-size: 34px; font-weight: 700; letter-spacing: 0.35em; color: #00338D; display: inline-block; padding-left: 0.35em;">
-              ${rawOtp}
-            </span>
-          </div>
-
-          <div style="font-size: 11px; font-family: monospace; color: #737373; border-top: 1px solid #F5F5F5; padding-top: 14px; line-height: 1.6;">
-            <div>EXPIRATION: 5 MINUTES (300 SECONDS)</div>
-            <div>STATUS: SINGLE-USE CRYPTOGRAPHIC CODE</div>
-            <div style="margin-top: 8px; color: #A3A3A3;">If you did not request this code, please disregard this email.</div>
-          </div>
-        </div>
-      `,
-    };
-
-    // Dispatch via nodemailer using real SMTP credentials
+    // Dispatch via Resend SDK
     try {
-      const transporter = getTransporter();
-      await transporter.sendMail(mailOptions);
-      console.log(`[SMTP // DISPATCH SUCCESS] Real email dispatched to ${cleanEmail}`);
-    } catch (smtpError) {
-      console.error(`[SMTP // SEND ERROR] Failed to send via Gmail SMTP: ${smtpError.message}`);
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      const { data, error } = await resend.emails.send({
+        from: 'onboarding@resend.dev',
+        to: cleanEmail,
+        subject: `[ VCI PORTAL // IDENTITY CHALLENGE ] Verification Code: ${rawOtp}`,
+        text: `[ VCI PORTAL // IDENTITY CHALLENGE ]\n\nYour 6-digit verification code: ${rawOtp}\n\nValid for 5 minutes. Single-use only.`,
+        html: buildClinicalEmailHtml(cleanEmail, rawOtp),
+      });
+
+      if (error) {
+        console.error('[RESEND // DISPATCH ERROR]', error);
+        await OTP.deleteMany({ email: cleanEmail });
+        return res.status(400).json({
+          success: false,
+          message: error.message || 'Failed to dispatch verification code via Resend.',
+          error: error.name || 'ResendApiError',
+        });
+      }
+
+      console.log(`[RESEND // DISPATCH SUCCESS] Real email dispatched to ${cleanEmail}, id: ${data?.id}`);
+
+      await createAuditLog({
+        module: 'AUTH',
+        action: 'OTP_SENT',
+        reference: cleanEmail,
+        user: cleanEmail,
+        role: 'candidate',
+        status: 'Success',
+        remarks: `Candidate induction verification code dispatched via Resend (ID: ${data?.id})`,
+        req,
+      });
+
+      return res.status(200).json({
+        success: true,
+        message: 'Verification code dispatched to your email address.',
+        email: cleanEmail,
+        id: data?.id,
+        expiresInSeconds: 300,
+      });
+    } catch (dispatchError) {
+      console.error('[RESEND // DISPATCH EXCEPTION]', dispatchError);
+      await OTP.deleteMany({ email: cleanEmail });
+      return res.status(500).json({
+        success: false,
+        message: dispatchError.message || 'Failed to dispatch verification code via Resend.',
+      });
     }
-
-    await createAuditLog({
-      module: 'AUTH',
-      action: 'OTP_SENT',
-      reference: cleanEmail,
-      user: cleanEmail,
-      role: 'candidate',
-      status: 'Success',
-      remarks: 'Candidate induction verification code dispatched',
-      req,
-    });
-
-    return res.status(200).json({
-      success: true,
-      message: 'Verification code dispatched to your email address.',
-      email: cleanEmail,
-      expiresInSeconds: 300,
-    });
   } catch (error) {
     console.error('[SEND-OTP // ERROR]', error);
     return res.status(500).json({

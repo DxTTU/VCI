@@ -9,7 +9,7 @@ A clinical, minimalist chapter administration web application designed for **Vas
 * **Clinical-Minimalist UI:** Monochromatic base, ultra-thin borders (`border-gray-200`), uppercase monospace telemetry fonts, with subtle Lions Blue (`#00338D`) and Lions Gold (`#F2A900`) accents.
 * **Authentication Gate:** Protected routes powered by JWT. Unauthenticated visitors are automatically routed to the sign-in/sign-up portal.
 * **Multi-Step Onboarding Wizard:** Sequential, multi-phase registration flow that guides new inductees step-by-step.
-* **Cryptographic Email OTP:** 6-digit verification codes dispatched via Nodemailer with automatic 5-minute MongoDB TTL index expiration.
+* **Cryptographic Email OTP:** 6-digit verification codes dispatched via Resend SDK with clinical email template and automatic 5-minute MongoDB TTL index expiration.
 * **Role-Based Access Control (RBAC):** Tiered permissions separating standard **Members** from **Admins**, enabling administrative privileges like promoting or removing member records.
 * **Executive Dashboard & Masters:** Centralized tracking for Club Master, Member Master, and PST Master (President, Secretary, Treasurer) rosters.
 
@@ -27,7 +27,7 @@ A clinical, minimalist chapter administration web application designed for **Vas
 * **Runtime:** Node.js & Express.js
 * **Database:** MongoDB (via Mongoose)
 * **Authentication:** JSON Web Tokens (JWT), Bcrypt.js
-* **Mailing Service:** Nodemailer (Gmail SMTP / Google App Passwords)
+* **Mailing Service:** Resend SDK (Transactional Email API)
 
 ---
 
