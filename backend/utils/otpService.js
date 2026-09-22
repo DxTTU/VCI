@@ -78,37 +78,25 @@ export const verifyAccessToken = (token) => {
  * Clinical "The Ordinary" HTML Email Template for Login OTP
  */
 const buildClinicalLoginEmailHtml = (email, otp) => `
-<div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 0px; max-width: 540px; margin: 20px auto; padding: 32px; font-family: 'Courier New', Courier, monospace; color: #111827;">
-  <div style="border-bottom: 2px solid #00338D; padding-bottom: 14px; margin-bottom: 24px;">
-    <div style="font-size: 14px; font-weight: bold; letter-spacing: 0.12em; color: #00338D; text-transform: uppercase;">
-      [ VCI PORTAL // IDENTITY CHALLENGE ]
-    </div>
-    <div style="font-size: 10px; color: #6b7280; margin-top: 4px; letter-spacing: 0.05em;">
-      VASAVI CLUBS INTERNATIONAL // ACCESS VERIFICATION
-    </div>
-  </div>
-
-  <p style="font-size: 13px; line-height: 1.6; color: #374151; margin: 0 0 20px 0;">
-    A sign-in verification challenge has been issued for <strong>${email}</strong>. Use the single-use cryptographic verification code below to authorize your session:
+<div style="font-family: 'Courier New', Courier, monospace; max-width: 500px; margin: 0 auto; border: 1px solid #e5e7eb; padding: 40px; background-color: #ffffff; color: #111827;">
+  <p style="font-size: 12px; font-weight: bold; color: #6b7280; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px;">
+    [ VCI PORTAL // IDENTITY CHALLENGE ]
   </p>
-
-  <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 0px; padding: 24px; text-align: center; margin: 24px 0;">
-    <div style="font-family: 'Courier New', Courier, monospace; font-size: 36px; font-weight: bold; letter-spacing: 8px; color: #00338D; display: inline-block; padding-left: 8px;">
+  
+  <p style="font-size: 14px; line-height: 1.5; margin-bottom: 20px;">
+    A verification request was initiated for your portal account (${email}). Provide the following cryptographic sequence to authorize entry.
+  </p>
+  
+  <div style="margin: 40px 0; padding: 20px; border: 1px solid #e5e7eb; text-align: center;">
+    <span style="font-size: 32px; font-weight: bold; letter-spacing: 8px; color: #00338D; display: inline-block; padding-left: 8px;">
       ${otp}
-    </div>
+    </span>
   </div>
-
-  <div style="border-top: 1px solid #e5e7eb; border-radius: 0px; padding-top: 16px; margin-top: 24px; font-size: 11px; line-height: 1.6; color: #6b7280;">
-    <div style="color: #b91c1c; font-weight: bold;">
-      WARNING: Valid for 5 minutes. Single-use only.
-    </div>
-    <div style="margin-top: 4px;">
-      STATUS: CRYPTOGRAPHIC SINGLE-USE CHALLENGE
-    </div>
-    <div style="margin-top: 8px; color: #9ca3af;">
-      If you did not request this verification code, please disregard this transmission.
-    </div>
-  </div>
+  
+  <p style="font-size: 12px; color: #9ca3af; text-transform: uppercase; letter-spacing: 1px; line-height: 1.6;">
+    TTL DURATION: 5 MINUTES<br/>
+    IF UNAUTHORIZED, DISREGARD.
+  </p>
 </div>
 `;
 
@@ -133,8 +121,8 @@ export const sendOTPEmail = async (email, otp) => {
       const { data, error } = await resend.emails.send({
         from: 'onboarding@resend.dev',
         to: email,
-        subject: `[ VCI PORTAL // IDENTITY CHALLENGE ] Verification Code: ${otp}`,
-        text: `[ VCI PORTAL // IDENTITY CHALLENGE ]\n\nYour 6-digit verification code: ${otp}\n\nValid for 5 minutes. Single-use only.`,
+        subject: 'VCI PORTAL // IDENTITY CHALLENGE',
+        text: `[ VCI PORTAL // IDENTITY CHALLENGE ]\n\nA verification request was initiated for your portal account.\n\nYour 6-digit verification code: ${otp}\n\nTTL DURATION: 5 MINUTES\nIF UNAUTHORIZED, DISREGARD.`,
         html: buildClinicalLoginEmailHtml(email, otp),
       });
 

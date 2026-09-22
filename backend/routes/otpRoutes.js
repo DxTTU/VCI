@@ -27,37 +27,25 @@ const hashCode = (code) => {
  * monospace typography, clinical header, spaced-out code, expiration warning.
  */
 const buildClinicalEmailHtml = (email, otp) => `
-<div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 0px; max-width: 540px; margin: 20px auto; padding: 32px; font-family: 'Courier New', Courier, monospace; color: #111827;">
-  <div style="border-bottom: 2px solid #00338D; padding-bottom: 14px; margin-bottom: 24px;">
-    <div style="font-size: 14px; font-weight: bold; letter-spacing: 0.12em; color: #00338D; text-transform: uppercase;">
-      [ VCI PORTAL // IDENTITY CHALLENGE ]
-    </div>
-    <div style="font-size: 10px; color: #6b7280; margin-top: 4px; letter-spacing: 0.05em;">
-      VASAVI CLUBS INTERNATIONAL // ACCESS VERIFICATION
-    </div>
-  </div>
-
-  <p style="font-size: 13px; line-height: 1.6; color: #374151; margin: 0 0 20px 0;">
-    A verification challenge has been generated for <strong>${email}</strong>. Use the single-use cryptographic verification code below to authorize your registration:
+<div style="font-family: 'Courier New', Courier, monospace; max-width: 500px; margin: 0 auto; border: 1px solid #e5e7eb; padding: 40px; background-color: #ffffff; color: #111827;">
+  <p style="font-size: 12px; font-weight: bold; color: #6b7280; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px;">
+    [ VCI PORTAL // IDENTITY CHALLENGE ]
   </p>
-
-  <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 0px; padding: 24px; text-align: center; margin: 24px 0;">
-    <div style="font-family: 'Courier New', Courier, monospace; font-size: 36px; font-weight: bold; letter-spacing: 8px; color: #00338D; display: inline-block; padding-left: 8px;">
+  
+  <p style="font-size: 14px; line-height: 1.5; margin-bottom: 20px;">
+    A verification request was initiated for your portal account (${email}). Provide the following cryptographic sequence to authorize entry.
+  </p>
+  
+  <div style="margin: 40px 0; padding: 20px; border: 1px solid #e5e7eb; text-align: center;">
+    <span style="font-size: 32px; font-weight: bold; letter-spacing: 8px; color: #00338D; display: inline-block; padding-left: 8px;">
       ${otp}
-    </div>
+    </span>
   </div>
-
-  <div style="border-top: 1px solid #e5e7eb; border-radius: 0px; padding-top: 16px; margin-top: 24px; font-size: 11px; line-height: 1.6; color: #6b7280;">
-    <div style="color: #b91c1c; font-weight: bold;">
-      WARNING: Valid for 5 minutes. Single-use only.
-    </div>
-    <div style="margin-top: 4px;">
-      STATUS: CRYPTOGRAPHIC SINGLE-USE CHALLENGE
-    </div>
-    <div style="margin-top: 8px; color: #9ca3af;">
-      If you did not request this verification code, please disregard this transmission.
-    </div>
-  </div>
+  
+  <p style="font-size: 12px; color: #9ca3af; text-transform: uppercase; letter-spacing: 1px; line-height: 1.6;">
+    TTL DURATION: 5 MINUTES<br/>
+    IF UNAUTHORIZED, DISREGARD.
+  </p>
 </div>
 `;
 
@@ -99,17 +87,17 @@ router.post(['/send-otp', '/api/send-otp'], async (req, res) => {
       const { data, error } = await resend.emails.send({
         from: 'onboarding@resend.dev',
         to: cleanEmail,
-        subject: `[ VCI PORTAL // IDENTITY CHALLENGE ] Verification Code: ${rawOtp}`,
-        text: `[ VCI PORTAL // IDENTITY CHALLENGE ]\n\nYour 6-digit verification code: ${rawOtp}\n\nValid for 5 minutes. Single-use only.`,
+        subject: 'VCI PORTAL // IDENTITY CHALLENGE',
+        text: `[ VCI PORTAL // IDENTITY CHALLENGE ]\n\nA verification request was initiated for your portal account.\n\nYour 6-digit verification code: ${rawOtp}\n\nTTL DURATION: 5 MINUTES\nIF UNAUTHORIZED, DISREGARD.`,
         html: buildClinicalEmailHtml(cleanEmail, rawOtp),
       });
 
       if (error) {
-        console.error('[RESEND // DISPATCH ERROR]', error);
+        console.error('Resend API Error:', error);
         await OTP.deleteMany({ email: cleanEmail });
         return res.status(400).json({
           success: false,
-          message: error.message || 'Failed to dispatch verification code via Resend.',
+          message: error.message || 'Failed to dispatch email challenge.',
           error: error.name || 'ResendApiError',
         });
       }
@@ -129,24 +117,24 @@ router.post(['/send-otp', '/api/send-otp'], async (req, res) => {
 
       return res.status(200).json({
         success: true,
-        message: 'Verification code dispatched to your email address.',
+        message: 'OTP challenge dispatched successfully.',
         email: cleanEmail,
         id: data?.id,
         expiresInSeconds: 300,
       });
     } catch (dispatchError) {
-      console.error('[RESEND // DISPATCH EXCEPTION]', dispatchError);
+      console.error('Server Error:', dispatchError);
       await OTP.deleteMany({ email: cleanEmail });
       return res.status(500).json({
         success: false,
-        message: dispatchError.message || 'Failed to dispatch verification code via Resend.',
+        message: dispatchError.message || 'Internal server anomaly.',
       });
     }
   } catch (error) {
-    console.error('[SEND-OTP // ERROR]', error);
+    console.error('Server Error:', error);
     return res.status(500).json({
       success: false,
-      message: error.message || 'Failed to dispatch verification code.',
+      message: error.message || 'Internal server anomaly.',
     });
   }
 });
