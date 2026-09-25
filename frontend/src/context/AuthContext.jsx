@@ -65,18 +65,8 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true);
       }
 
-      return data; // { status: 'OTP_REQUIRED', preAuthToken, maskedEmail, devOtp } OR { status: 'AUTHENTICATED', token, user }
+      return data; // { status: 'OTP_REQUIRED', preAuthToken, maskedEmail } OR { status: 'AUTHENTICATED', token, user }
     } catch (err) {
-      // If backend offline or network error, provide fallback
-      if (err.message.includes('fetch') || err.message.includes('NetworkError') || err.message.includes('Failed to fetch')) {
-        return {
-          status: 'OTP_REQUIRED',
-          preAuthToken: 'demo-preauth-token',
-          maskedEmail: identifier.includes('@') ? identifier : `${identifier.toLowerCase()}@vasaviclub.org`,
-          devOtp: '123456',
-          isOfflineDemo: true,
-        };
-      }
       throw err;
     }
   };
@@ -84,33 +74,19 @@ export const AuthProvider = ({ children }) => {
   // Phase 2: Verify OTP and issue JWT access token
   const verifyOTP = async (otp, preAuthToken, emailHint) => {
     try {
-      // If offline demo token
-      if (preAuthToken === 'demo-preauth-token') {
-        if (otp !== '123456' && otp.length !== 6) {
-          throw new Error('Invalid verification code. Enter 123456 for demo mode.');
-        }
-        const fallbackUser = {
-          name: emailHint?.split('@')[0] || 'Lion Member',
-          email: emailHint || 'member@vasaviclub.org',
-          role: 'Club Officer',
-        };
-        localStorage.setItem('vci_auth_token', 'demo-jwt-token-active');
-        localStorage.setItem('vci_user', JSON.stringify(fallbackUser));
-        setUser(fallbackUser);
-        setIsAuthenticated(true);
-        return { success: true, user: fallbackUser };
-      }
-
-      const response = await fetch(getApiUrl('/api/auth/verify-otp'), {
+      const response = await fetch(getApiUrl('/api/verify-otp'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${preAuthToken}`,
+          'Accept': 'application/json',
         },
-        body: JSON.stringify({ otp, preAuthToken }),
+        body: JSON.stringify({
+          email: emailHint?.toLowerCase()?.trim(),
+          otp: otp.trim(),
+          preAuthToken,
+        }),
       });
 
-      const contentType = response.headers.get('content-type') || '';
       const text = await response.text();
       let data = {};
       if (text) {
@@ -125,11 +101,13 @@ export const AuthProvider = ({ children }) => {
         throw new Error(data.message || data.error || `Server error: ${response.status}`);
       }
 
-      localStorage.setItem('vci_auth_token', data.token);
-      localStorage.setItem('vci_user', JSON.stringify(data.user));
-      setToken(data.token);
-      setUser(data.user);
-      setIsAuthenticated(true);
+      if (data.token && data.user) {
+        localStorage.setItem('vci_auth_token', data.token);
+        localStorage.setItem('vci_user', JSON.stringify(data.user));
+        setToken(data.token);
+        setUser(data.user);
+        setIsAuthenticated(true);
+      }
       return { success: true, user: data.user, token: data.token };
     } catch (err) {
       throw err;
@@ -138,10 +116,6 @@ export const AuthProvider = ({ children }) => {
 
   // Resend OTP with cooldown
   const resendOTP = async (preAuthToken) => {
-    if (preAuthToken === 'demo-preauth-token') {
-      return { success: true, devOtp: '123456', message: 'Demo verification code re-dispatched.' };
-    }
-
     const response = await fetch(getApiUrl('/api/auth/resend-otp'), {
       method: 'POST',
       headers: {

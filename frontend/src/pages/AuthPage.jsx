@@ -37,7 +37,6 @@ export default function AuthPage() {
   const [otpCode, setOtpCode] = useState('');
   const [preAuthToken, setPreAuthToken] = useState('');
   const [maskedEmail, setMaskedEmail] = useState('');
-  const [devOtp, setDevOtp] = useState('');
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -79,19 +78,14 @@ export default function AuthPage() {
     try {
       const response = await initiateLogin(identifier.trim(), password);
 
-      // Super Admin OTP Bypass: immediate redirect to Dashboard, skipping OTP UI
-      if (response?.token) {
-        navigate('/dashboard');
-        return;
-      }
-
       if (response?.status === 'OTP_REQUIRED') {
         setPreAuthToken(response.preAuthToken);
         setMaskedEmail(response.maskedEmail || identifier);
-        if (response.devOtp) setDevOtp(response.devOtp);
         setStep('otp');
         setCooldown(60); // 60s rate limit countdown
         setSuccessMsg('Authentication paused: 6-digit OTP generated and dispatched.');
+      } else if (response?.token) {
+        navigate('/dashboard');
       }
     } catch (err) {
       setError(err.message || 'Authentication failed. Please verify credentials.');
@@ -101,23 +95,35 @@ export default function AuthPage() {
   };
 
   // Phase 2: Verify OTP & Issue Full Session JWT
+  const triggerVerify = async (codeToVerify) => {
+    if (isLoading) return;
+    setError('');
+    setIsLoading(true);
+    try {
+      await verifyOTP(codeToVerify, preAuthToken, identifier);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message || '[ERR] CRYPTOGRAPHIC SEQUENCE MISMATCH');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleVerifyOtpSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-
     if (!otpCode || otpCode.length !== 6) {
       setError('Please input the complete 6-digit numerical OTP.');
       return;
     }
+    triggerVerify(otpCode);
+  };
 
-    setIsLoading(true);
-    try {
-      await verifyOTP(otpCode, preAuthToken, identifier);
-      navigate('/dashboard');
-    } catch (err) {
-      setError(err.message || 'Verification failed. Invalid or expired OTP.');
-    } finally {
-      setIsLoading(false);
+  const handleOtpChange = (e) => {
+    const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+    setOtpCode(val);
+    setError('');
+    if (val.length === 6) {
+      triggerVerify(val);
     }
   };
 
@@ -127,9 +133,8 @@ export default function AuthPage() {
     setIsResending(true);
     setError('');
     try {
-      const res = await resendOTP(preAuthToken);
+      await resendOTP(preAuthToken);
       setCooldown(60);
-      if (res?.devOtp) setDevOtp(res.devOtp);
       setSuccessMsg('A fresh verification code has been dispatched.');
     } catch (err) {
       setError(err.message || 'Failed to resend verification code.');
@@ -310,7 +315,7 @@ export default function AuthPage() {
                     className="p-2 border border-neutral-900 bg-neutral-900 text-white text-left font-mono text-[10px] hover:bg-VASAVI-blue hover:border-VASAVI-blue transition-colors"
                   >
                     <span className="block font-semibold">[SA] Dhatrinath</span>
-                    <span className="text-[9px] text-VASAVI-gold truncate block">Super Admin • OTP Bypass</span>
+                    <span className="text-[9px] text-VASAVI-gold truncate block">Super Admin • 2FA OTP</span>
                   </button>
                   <button
                     type="button"
@@ -356,8 +361,8 @@ export default function AuthPage() {
               </div>
 
               {error && (
-                <div className="p-3 border border-red-200 bg-red-50 text-red-700 font-mono text-[11px] leading-relaxed">
-                  [ERR // OTP_INVALID] {error}
+                <div className="p-3 border border-red-200 bg-red-50 text-red-700 font-mono text-[11px] leading-relaxed uppercase tracking-wider">
+                  {error}
                 </div>
               )}
 
@@ -377,7 +382,7 @@ export default function AuthPage() {
                     maxLength={6}
                     placeholder="••••••"
                     value={otpCode}
-                    onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
+                    onChange={handleOtpChange}
                     className="w-full text-center text-2xl font-mono tracking-[0.4em] py-3 px-4 border border-neutral-300 focus:border-VASAVI-blue focus:ring-1 focus:ring-VASAVI-blue outline-none transition-all"
                     autoFocus
                   />

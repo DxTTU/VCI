@@ -1,6 +1,9 @@
+import mongoose from 'mongoose';
 import User from '../models/User.js';
+import OTP from '../models/OTP.js';
 import {
   generateSecureOTP,
+  hashOTP,
   signPreAuthToken,
   verifyPreAuthToken,
   signAccessToken,
@@ -168,40 +171,18 @@ export const login = async (req, res) => {
       });
     }
 
-    // SUPER ADMIN OTP BYPASS:
-    // If role is superadmin, bypass OTP generation entirely and immediately return final JWT
-    if (user.role === 'superadmin') {
-      const token = signAccessToken(user);
-
-      await createAuditLog({
-        module: 'AUTH',
-        action: 'LOGIN',
-        reference: user._id.toString(),
-        user: user.email,
-        role: 'superadmin',
-        status: 'Success',
-        remarks: 'Super Admin authentication authorized (OTP verification bypassed)',
-        req,
-      });
-
-      return res.status(200).json({
-        success: true,
-        status: 'AUTHENTICATED',
-        message: 'Super Administrator authenticated. Welcome to Antigravity Chapter Console.',
-        token,
-        user: {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        },
-      });
-    }
-
-    // Standard Member / Admin flow: Generate OTP and pause login
+    // Generate 6-digit cryptographic OTP and pause login
     const rawOtp = generateSecureOTP();
     user.setOTP(rawOtp, 5); // 5 minutes expiration
     await user.save();
+
+    // Store in MongoDB OTP collection (TTL index purges document after 5 minutes)
+    await OTP.deleteMany({ email: user.email.toLowerCase().trim() });
+    await OTP.create({
+      email: user.email.toLowerCase().trim(),
+      otp: hashOTP(rawOtp),
+      createdAt: new Date(),
+    });
 
     // Dispatch OTP (Email / Notification)
     await sendOTPEmail(user.email, rawOtp);
@@ -227,9 +208,9 @@ export const login = async (req, res) => {
       status: 'OTP_REQUIRED',
       message: 'Credentials authenticated. A 6-digit verification code has been dispatched to your email.',
       preAuthToken,
+      email: user.email,
       maskedEmail: maskEmail(user.email),
       expiresInSeconds: 300,
-      devOtp: rawOtp,
     });
   } catch (error) {
     console.error('[ANTIGRAVITY // LOGIN ERROR]', error);
@@ -239,126 +220,139 @@ export const login = async (req, res) => {
 
 /**
  * 3. Verify OTP (Phase 2)
- * Validates the temporary Pre-Auth Token and user-entered OTP.
- * On success, clears OTP state and issues production session JWT.
+ * Strictly validates user-submitted 6-digit code against the MongoDB OTP collection.
+ * Deletes document upon match, issues production session JWT, and returns user payload.
  */
 export const verifyOTP = async (req, res) => {
   try {
-    const { otp, preAuthToken: bodyToken } = req.body;
-    
-    // Extract Pre-Auth Token from Authorization header or body
+    const { otp, email, preAuthToken: bodyToken } = req.body;
+
     const authHeader = req.headers.authorization;
     const preAuthToken =
       authHeader && authHeader.startsWith('Bearer ')
         ? authHeader.split(' ')[1]
         : bodyToken;
 
-    if (!preAuthToken) {
-      return res.status(401).json({
-        success: false,
-        message: 'Missing verification session token (preAuthToken). Please log in again.',
-      });
-    }
+    let targetEmail = (email || '').toLowerCase().trim();
 
-    if (!otp || otp.toString().trim().length !== 6) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide a valid 6-digit numerical OTP.',
-      });
-    }
-
-    // Verify Pre-Auth Token
-    const decoded = verifyPreAuthToken(preAuthToken);
-    if (!decoded) {
-      return res.status(401).json({
-        success: false,
-        message: 'Verification session has expired or is invalid. Please sign in again.',
-      });
-    }
-
-    // Fetch user with OTP subdocument
-    const user = await User.findById(decoded.sub);
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: 'User account not located.',
-      });
-    }
-
-    // Run verification checks on hashed OTP
-    const verification = user.verifyOTP(otp.toString().trim());
-
-    if (!verification.valid) {
-      await user.save(); // Persist attempt counter
-
-      await createAuditLog({
-        module: 'AUTH',
-        action: 'OTP_VERIFY_FAILED',
-        reference: user._id.toString(),
-        user: user.email,
-        role: user.role,
-        status: 'Failed',
-        remarks: `Verification failure [${verification.reason}] | ${verification.remainingAttempts || 0} attempt(s) remaining`,
-        req,
-      });
-
-      switch (verification.reason) {
-        case 'EXPIRED':
-          return res.status(400).json({
-            success: false,
-            code: 'OTP_EXPIRED',
-            message: 'Verification code has expired. Please request a new code.',
-          });
-        case 'MAX_ATTEMPTS_EXCEEDED':
-          return res.status(429).json({
-            success: false,
-            code: 'MAX_ATTEMPTS_EXCEEDED',
-            message: 'Maximum verification attempts exceeded. Please initiate a new login.',
-          });
-        case 'INVALID_CODE':
-          return res.status(400).json({
-            success: false,
-            code: 'INVALID_OTP',
-            message: `Invalid verification code. ${verification.remainingAttempts} attempt(s) remaining.`,
-            remainingAttempts: verification.remainingAttempts,
-          });
-        default:
-          return res.status(400).json({
-            success: false,
-            message: 'No active OTP verification session found. Please sign in again.',
-          });
+    if (!targetEmail && preAuthToken) {
+      const decoded = verifyPreAuthToken(preAuthToken);
+      if (decoded?.email) {
+        targetEmail = decoded.email.toLowerCase().trim();
       }
     }
 
-    // OTP VERIFIED: Clear OTP state and save
-    user.clearOTP();
-    await user.save();
+    if (!targetEmail || !otp) {
+      return res.status(400).json({
+        success: false,
+        message: 'Code expired or not requested',
+      });
+    }
 
-    // Issue production Access Token
+    const cleanOtp = otp.toString().trim();
+
+    if (cleanOtp.length !== 6) {
+      await createAuditLog({
+        module: 'AUTH',
+        action: 'OTP_VERIFY_FAILED',
+        reference: targetEmail,
+        user: targetEmail,
+        role: 'user',
+        status: 'Failed',
+        remarks: 'Invalid OTP length entered',
+        req,
+      });
+      return res.status(400).json({
+        success: false,
+        message: '[ERR] CRYPTOGRAPHIC SEQUENCE MISMATCH',
+      });
+    }
+
+    // Database Query: Locate active OTP document in MongoDB collection for target email
+    const otpDoc = await OTP.findOne({ email: targetEmail });
+
+    // Validation Logic 1: Check if an OTP document exists for that email
+    if (!otpDoc) {
+      await createAuditLog({
+        module: 'AUTH',
+        action: 'OTP_VERIFY_FAILED',
+        reference: targetEmail,
+        user: targetEmail,
+        role: 'user',
+        status: 'Failed',
+        remarks: 'Code expired or not requested',
+        req,
+      });
+      return res.status(400).json({
+        success: false,
+        message: 'Code expired or not requested',
+      });
+    }
+
+    // Validation Logic 2: Compare user-submitted 6-digit code with stored code
+    const candidateHash = hashOTP(cleanOtp);
+    const isMatch = otpDoc.otp === candidateHash || otpDoc.otp === cleanOtp;
+
+    if (!isMatch) {
+      await createAuditLog({
+        module: 'AUTH',
+        action: 'OTP_VERIFY_FAILED',
+        reference: targetEmail,
+        user: targetEmail,
+        role: 'user',
+        status: 'Failed',
+        remarks: '[ERR] CRYPTOGRAPHIC SEQUENCE MISMATCH',
+        req,
+      });
+      return res.status(400).json({
+        success: false,
+        message: '[ERR] CRYPTOGRAPHIC SEQUENCE MISMATCH',
+      });
+    }
+
+    // Cleanup: Delete the OTP document from the database so it cannot be reused
+    await OTP.deleteOne({ _id: otpDoc._id });
+
+    // Fetch user or initialize session user
+    let user = await User.findOne({ email: targetEmail });
+    if (user) {
+      user.clearOTP();
+      await user.save();
+    } else {
+      user = {
+        _id: new mongoose.Types.ObjectId(),
+        email: targetEmail,
+        role: 'member',
+        name: targetEmail.split('@')[0],
+      };
+    }
+
+    // Generate the authentication JWT
     const token = signAccessToken(user);
 
-    // Audit log successful authentication
     await createAuditLog({
       module: 'AUTH',
       action: 'LOGIN',
       reference: user._id.toString(),
-      user: user.email,
-      role: user.role,
+      user: targetEmail,
+      role: user.role || 'member',
       status: 'Success',
-      remarks: 'Full session authenticated via 2FA OTP verification',
+      remarks: 'Strict database OTP verified; full session authenticated',
       req,
     });
 
     return res.status(200).json({
       success: true,
       status: 'AUTHENTICATED',
-      message: 'OTP verified successfully. Welcome to Antigravity.',
+      message: 'Cryptographic sequence verified successfully.',
       token,
       user: {
         id: user._id,
-        name: user.name,
+        name: user.name || (user.firstName ? `${user.firstName} ${user.lastName}`.trim() : user.email.split('@')[0]),
         email: user.email,
         role: user.role,
+        memberId: user.memberId,
+        clubName: user.clubName,
       },
     });
   } catch (error) {
@@ -417,13 +411,20 @@ export const resendOTP = async (req, res) => {
     user.setOTP(rawOtp, 5);
     await user.save();
 
+    // Store in MongoDB OTP collection
+    await OTP.deleteMany({ email: user.email.toLowerCase().trim() });
+    await OTP.create({
+      email: user.email.toLowerCase().trim(),
+      otp: hashOTP(rawOtp),
+      createdAt: new Date(),
+    });
+
     await sendOTPEmail(user.email, rawOtp);
 
     res.status(200).json({
       success: true,
       message: 'A fresh verification code has been dispatched.',
       expiresInSeconds: 300,
-      devOtp: rawOtp,
     });
   } catch (error) {
     console.error('[ANTIGRAVITY // RESEND OTP ERROR]', error);

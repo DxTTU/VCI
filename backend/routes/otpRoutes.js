@@ -1,8 +1,11 @@
 import 'dotenv/config';
 import express from 'express';
+import mongoose from 'mongoose';
 import { Resend } from 'resend';
 import crypto from 'crypto';
 import OTP from '../models/OTP.js';
+import User from '../models/User.js';
+import { signAccessToken } from '../utils/otpService.js';
 import createAuditLog from '../utils/auditLogger.js';
 
 const router = express.Router();
@@ -141,7 +144,8 @@ router.post(['/send-otp', '/api/send-otp'], async (req, res) => {
 
 /**
  * POST /verify-otp & POST /api/verify-otp
- * Validates user's 6-digit submitted input against active MongoDB record
+ * Strictly validates user-submitted 6-digit code against the MongoDB OTP collection.
+ * Deletes document upon match, issues production session JWT, and returns user payload.
  */
 router.post(['/verify-otp', '/api/verify-otp'], async (req, res) => {
   try {
@@ -150,79 +154,102 @@ router.post(['/verify-otp', '/api/verify-otp'], async (req, res) => {
     if (!email || !otp) {
       return res.status(400).json({
         success: false,
-        message: 'INVALID CRYPTOGRAPHIC CODE. PLEASE TRY AGAIN.',
+        message: 'Code expired or not requested',
       });
     }
 
     const cleanEmail = email.toLowerCase().trim();
     const cleanOtp = otp.toString().trim();
 
-    if (cleanOtp.length !== 6) {
+    // Database Query: Locate active OTP document in MongoDB collection for this email
+    const otpDoc = await OTP.findOne({ email: cleanEmail });
+
+    // Validation Logic 1: Check if an OTP document exists for that email
+    if (!otpDoc) {
       await createAuditLog({
         module: 'AUTH',
         action: 'OTP_VERIFY_FAILED',
         reference: cleanEmail,
         user: cleanEmail,
-        role: 'candidate',
+        role: 'user',
         status: 'Failed',
-        remarks: 'Invalid OTP length entered during induction',
+        remarks: 'Code expired or not requested',
         req,
       });
       return res.status(400).json({
         success: false,
-        message: 'INVALID CRYPTOGRAPHIC CODE. PLEASE TRY AGAIN.',
+        message: 'Code expired or not requested',
       });
     }
 
+    // Validation Logic 2: Compare user-submitted 6-digit code with stored code
     const hashedCandidate = hashCode(cleanOtp);
+    const isMatch = otpDoc.otp === hashedCandidate || otpDoc.otp === cleanOtp;
 
-    // Query active record by hash (with fallback to plain code if legacy)
-    const activeDoc = await OTP.findOne({
-      email: cleanEmail,
-      $or: [{ otp: hashedCandidate }, { otp: cleanOtp }],
-    });
-
-    if (!activeDoc) {
+    if (!isMatch) {
       await createAuditLog({
         module: 'AUTH',
         action: 'OTP_VERIFY_FAILED',
         reference: cleanEmail,
         user: cleanEmail,
-        role: 'candidate',
+        role: 'user',
         status: 'Failed',
-        remarks: 'Mismatch or expired code entered during induction',
+        remarks: '[ERR] CRYPTOGRAPHIC SEQUENCE MISMATCH',
         req,
       });
       return res.status(400).json({
         success: false,
-        message: 'INVALID CRYPTOGRAPHIC CODE. PLEASE TRY AGAIN.',
+        message: '[ERR] CRYPTOGRAPHIC SEQUENCE MISMATCH',
       });
     }
 
-    // Immediately delete the verified OTP record to enforce single-use protection
-    await OTP.deleteOne({ _id: activeDoc._id });
+    // Cleanup: Delete the OTP document from the database so it cannot be reused
+    await OTP.deleteOne({ _id: otpDoc._id });
+
+    // Find user record in MongoDB or initialize candidate session
+    let user = await User.findOne({ email: cleanEmail });
+    if (user) {
+      user.clearOTP();
+      await user.save();
+    } else {
+      user = {
+        _id: new mongoose.Types.ObjectId(),
+        email: cleanEmail,
+        role: 'member',
+        name: cleanEmail.split('@')[0],
+      };
+    }
+
+    // Generate the authentication JWT
+    const token = signAccessToken(user);
 
     await createAuditLog({
       module: 'AUTH',
       action: 'OTP_VERIFIED',
-      reference: cleanEmail,
+      reference: user._id.toString(),
       user: cleanEmail,
-      role: 'candidate',
+      role: user.role || 'member',
       status: 'Success',
-      remarks: 'Candidate successfully verified email via single-use OTP',
+      remarks: 'Strict database OTP verified; access token issued',
       req,
     });
 
     return res.status(200).json({
       success: true,
-      message: 'Email successfully verified.',
-      email: cleanEmail,
+      message: 'Cryptographic sequence verified successfully.',
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        name: user.name || (user.firstName ? `${user.firstName} ${user.lastName}`.trim() : user.email.split('@')[0]),
+      },
     });
   } catch (error) {
     console.error('[VERIFY-OTP // ERROR]', error);
     return res.status(500).json({
       success: false,
-      message: 'INVALID CRYPTOGRAPHIC CODE. PLEASE TRY AGAIN.',
+      message: error.message || 'Internal server anomaly.',
     });
   }
 });

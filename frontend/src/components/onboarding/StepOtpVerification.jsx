@@ -130,15 +130,15 @@ export default function StepOtpVerification({ email, onVerified }) {
           if (onVerified) onVerified();
         }, 400);
       } else {
-        // Minimalist error message in muted red
-        setError(data.message || 'INVALID CRYPTOGRAPHIC CODE. PLEASE TRY AGAIN.');
+        // Clinical error message from API response
+        setError(data.message || '[ERR] CRYPTOGRAPHIC SEQUENCE MISMATCH');
         // Clear digits on failure so user can re-type immediately
         setDigits(['', '', '', '', '', '']);
         inputRefs.current[0]?.focus();
         setActiveIndex(0);
       }
     } catch (err) {
-      setError(err.message || 'INVALID CRYPTOGRAPHIC CODE. PLEASE TRY AGAIN.');
+      setError(err.message || '[ERR] CRYPTOGRAPHIC SEQUENCE MISMATCH');
     } finally {
       setIsVerifying(false);
     }
@@ -308,11 +308,11 @@ export default function StepOtpVerification({ email, onVerified }) {
           })}
         </div>
 
-        {/* Minimalist Error Message in Muted Red */}
+        {/* Clinical Monospace Error Box */}
         {error && (
-          <p className="text-center font-mono text-[11px] text-red-600 mt-3.5 tracking-wider uppercase">
+          <div className="p-3 my-3.5 border border-red-200 bg-red-50 text-red-700 font-mono text-[11px] text-center uppercase tracking-wider leading-relaxed">
             {error}
-          </p>
+          </div>
         )}
 
         {/* Success Confirmation */}
