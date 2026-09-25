@@ -381,7 +381,7 @@ export default function DRZMasterPage() {
         <div>
           <div className="flex items-center space-x-2">
             <span className="w-2 h-2 rounded-full bg-VASAVI-blue"></span>
-            <span className="font-mono text-[10px] tracking-widest text-neutral-400 uppercase">
+            <span className="text-xs font-sans font-medium tracking-wider text-neutral-400 uppercase">
               SPEC: VCI-GEO-STRUCT // LEVEL 01-03 CLUSTERS
             </span>
           </div>
@@ -393,7 +393,7 @@ export default function DRZMasterPage() {
           </p>
         </div>
 
-        <div className="flex items-center space-x-4 font-mono text-[11px]">
+        <div className="flex items-center space-x-3 text-xs font-sans font-medium">
           <div className="border border-neutral-200 px-3 py-1.5 bg-neutral-50 flex items-center space-x-2">
             <span className="text-neutral-400">DISTRICTS:</span>
             <span className="font-bold text-neutral-900">{districts.length}</span>
@@ -409,10 +409,10 @@ export default function DRZMasterPage() {
           <button
             onClick={fetchData}
             disabled={refreshing}
-            className="border border-neutral-200 hover:border-VASAVI-blue px-3 py-1.5 text-neutral-600 hover:text-VASAVI-blue transition-colors flex items-center space-x-1 uppercase text-[10px]"
+            className="border border-neutral-200 hover:border-VASAVI-blue px-3 py-1.5 text-neutral-600 hover:text-VASAVI-blue transition-colors flex items-center space-x-1.5 uppercase text-xs font-sans font-semibold"
             title="Refresh DRZ Telemetry"
           >
-            <RefreshCw className={`w-3 h-3 ${refreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
             <span>[ SYNC ]</span>
           </button>
         </div>
@@ -421,7 +421,7 @@ export default function DRZMasterPage() {
       {/* Global Feedback Banner */}
       {feedback && (
         <div
-          className={`border p-4 text-xs font-mono uppercase flex items-center justify-between transition-all ${
+          className={`border p-4 text-xs font-sans font-medium uppercase flex items-center justify-between transition-all ${
             feedback.type === 'error'
               ? 'border-red-200 bg-red-50 text-red-700'
               : 'border-emerald-200 bg-emerald-50 text-emerald-800'
@@ -437,7 +437,7 @@ export default function DRZMasterPage() {
           </div>
           <button
             onClick={() => setFeedback(null)}
-            className="text-[10px] underline hover:opacity-75"
+            className="text-xs underline hover:opacity-75 font-semibold"
           >
             [ DISMISS ]
           </button>
@@ -455,10 +455,10 @@ export default function DRZMasterPage() {
             <button
               type="button"
               onClick={() => setActiveFormTab('district')}
-              className={`flex-1 py-2 text-center font-mono text-[10px] tracking-wider uppercase transition-colors ${
+              className={`flex-1 py-2 text-center font-sans text-xs tracking-wider uppercase transition-colors ${
                 activeFormTab === 'district'
                   ? 'bg-white text-VASAVI-blue font-bold shadow-sm border border-neutral-200'
-                  : 'text-neutral-500 hover:text-neutral-900'
+                  : 'text-neutral-500 hover:text-neutral-900 font-medium'
               }`}
             >
               1. District
@@ -466,10 +466,10 @@ export default function DRZMasterPage() {
             <button
               type="button"
               onClick={() => setActiveFormTab('region')}
-              className={`flex-1 py-2 text-center font-mono text-[10px] tracking-wider uppercase transition-colors ${
+              className={`flex-1 py-2 text-center font-sans text-xs tracking-wider uppercase transition-colors ${
                 activeFormTab === 'region'
                   ? 'bg-white text-VASAVI-blue font-bold shadow-sm border border-neutral-200'
-                  : 'text-neutral-500 hover:text-neutral-900'
+                  : 'text-neutral-500 hover:text-neutral-900 font-medium'
               }`}
             >
               2. Region
@@ -477,10 +477,10 @@ export default function DRZMasterPage() {
             <button
               type="button"
               onClick={() => setActiveFormTab('zone')}
-              className={`flex-1 py-2 text-center font-mono text-[10px] tracking-wider uppercase transition-colors ${
+              className={`flex-1 py-2 text-center font-sans text-xs tracking-wider uppercase transition-colors ${
                 activeFormTab === 'zone'
                   ? 'bg-white text-VASAVI-blue font-bold shadow-sm border border-neutral-200'
-                  : 'text-neutral-500 hover:text-neutral-900'
+                  : 'text-neutral-500 hover:text-neutral-900 font-medium'
               }`}
             >
               3. Zone
@@ -492,7 +492,7 @@ export default function DRZMasterPage() {
             <div className="border border-neutral-200 bg-white p-6 space-y-5">
               <div className="border-b border-neutral-100 pb-3 flex items-center justify-between">
                 <div>
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400">
+                  <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400">
                     MODULE // DRZ.01
                   </span>
                   <h3 className="text-sm font-sans font-bold uppercase tracking-wider text-neutral-900">
@@ -500,7 +500,7 @@ export default function DRZMasterPage() {
                   </h3>
                 </div>
                 {districtForm.id && (
-                  <span className="font-mono text-[9px] text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 uppercase">
+                  <span className="text-[10px] font-sans font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 uppercase">
                     EDIT MODE
                   </span>
                 )}
@@ -508,13 +508,13 @@ export default function DRZMasterPage() {
 
               {/* Selector to pick existing District to update */}
               <div className="space-y-1.5">
-                <label className="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                <label className="block font-sans text-xs font-medium uppercase tracking-wider text-neutral-500">
                   Select Existing District:
                 </label>
                 <select
                   value={districtForm.id}
                   onChange={(e) => handleSelectDistrict(e.target.value)}
-                  className="w-full border border-neutral-200 bg-neutral-50/50 p-2.5 text-xs font-mono text-neutral-900 focus:bg-white focus:outline-none focus:border-VASAVI-blue"
+                  className="w-full border border-neutral-200 bg-neutral-50/50 p-2.5 text-xs font-sans text-neutral-900 focus:bg-white focus:outline-none focus:border-VASAVI-blue"
                 >
                   <option value="">[ + CREATE NEW DISTRICT ]</option>
                   {districts.map((d) => (
@@ -527,7 +527,7 @@ export default function DRZMasterPage() {
 
               <div className="space-y-4">
                 <div className="space-y-1.5">
-                  <label className="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                  <label className="block font-sans text-xs font-medium uppercase tracking-wider text-neutral-500">
                     District Name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -540,7 +540,7 @@ export default function DRZMasterPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                  <label className="block font-sans text-xs font-medium uppercase tracking-wider text-neutral-500">
                     District Code <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -548,12 +548,12 @@ export default function DRZMasterPage() {
                     placeholder="e.g. V-324"
                     value={districtForm.code}
                     onChange={(e) => setDistrictForm((prev) => ({ ...prev, code: e.target.value.toUpperCase() }))}
-                    className="w-full border border-neutral-200 p-2.5 text-xs font-mono uppercase text-neutral-900 focus:outline-none focus:border-VASAVI-blue"
+                    className="w-full border border-neutral-200 p-2.5 text-xs font-sans font-semibold uppercase text-neutral-900 focus:outline-none focus:border-VASAVI-blue"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                  <label className="block font-sans text-xs font-medium uppercase tracking-wider text-neutral-500">
                     Jurisdiction Remarks
                   </label>
                   <textarea
@@ -567,7 +567,7 @@ export default function DRZMasterPage() {
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-2 border-t border-neutral-100 flex items-center space-x-2 font-mono text-xs">
+              <div className="pt-2 border-t border-neutral-100 flex items-center space-x-2 font-sans text-xs font-semibold">
                 {districtForm.id ? (
                   <button
                     type="button"
@@ -603,7 +603,7 @@ export default function DRZMasterPage() {
             <div className="border border-neutral-200 bg-white p-6 space-y-5">
               <div className="border-b border-neutral-100 pb-3 flex items-center justify-between">
                 <div>
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400">
+                  <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400">
                     MODULE // DRZ.02
                   </span>
                   <h3 className="text-sm font-sans font-bold uppercase tracking-wider text-neutral-900">
@@ -611,7 +611,7 @@ export default function DRZMasterPage() {
                   </h3>
                 </div>
                 {regionForm.id && (
-                  <span className="font-mono text-[9px] text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 uppercase">
+                  <span className="text-[10px] font-sans font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 uppercase">
                     EDIT MODE
                   </span>
                 )}
@@ -619,13 +619,13 @@ export default function DRZMasterPage() {
 
               {/* Selector to pick existing Region to update */}
               <div className="space-y-1.5">
-                <label className="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                <label className="block font-sans text-xs font-medium uppercase tracking-wider text-neutral-500">
                   Select Existing Region:
                 </label>
                 <select
                   value={regionForm.id}
                   onChange={(e) => handleSelectRegion(e.target.value)}
-                  className="w-full border border-neutral-200 bg-neutral-50/50 p-2.5 text-xs font-mono text-neutral-900 focus:bg-white focus:outline-none focus:border-VASAVI-blue"
+                  className="w-full border border-neutral-200 bg-neutral-50/50 p-2.5 text-xs font-sans text-neutral-900 focus:bg-white focus:outline-none focus:border-VASAVI-blue"
                 >
                   <option value="">[ + CREATE NEW REGION ]</option>
                   {regions.map((r) => (
@@ -638,13 +638,13 @@ export default function DRZMasterPage() {
 
               <div className="space-y-4">
                 <div className="space-y-1.5">
-                  <label className="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                  <label className="block font-sans text-xs font-medium uppercase tracking-wider text-neutral-500">
                     Parent District <span className="text-red-500">*</span>
                   </label>
                   <select
                     value={regionForm.districtId}
                     onChange={(e) => setRegionForm((prev) => ({ ...prev, districtId: e.target.value }))}
-                    className="w-full border border-neutral-200 p-2.5 text-xs font-mono text-neutral-900 focus:outline-none focus:border-VASAVI-blue"
+                    className="w-full border border-neutral-200 p-2.5 text-xs font-sans text-neutral-900 focus:outline-none focus:border-VASAVI-blue"
                   >
                     <option value="">-- SELECT PARENT DISTRICT --</option>
                     {districts.map((d) => (
@@ -656,7 +656,7 @@ export default function DRZMasterPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                  <label className="block font-sans text-xs font-medium uppercase tracking-wider text-neutral-500">
                     Region Name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -669,7 +669,7 @@ export default function DRZMasterPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                  <label className="block font-sans text-xs font-medium uppercase tracking-wider text-neutral-500">
                     Region Code <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -677,12 +677,12 @@ export default function DRZMasterPage() {
                     placeholder="e.g. REG-02"
                     value={regionForm.code}
                     onChange={(e) => setRegionForm((prev) => ({ ...prev, code: e.target.value.toUpperCase() }))}
-                    className="w-full border border-neutral-200 p-2.5 text-xs font-mono uppercase text-neutral-900 focus:outline-none focus:border-VASAVI-blue"
+                    className="w-full border border-neutral-200 p-2.5 text-xs font-sans font-semibold uppercase text-neutral-900 focus:outline-none focus:border-VASAVI-blue"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                  <label className="block font-sans text-xs font-medium uppercase tracking-wider text-neutral-500">
                     Jurisdiction Remarks
                   </label>
                   <textarea
@@ -696,7 +696,7 @@ export default function DRZMasterPage() {
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-2 border-t border-neutral-100 flex items-center space-x-2 font-mono text-xs">
+              <div className="pt-2 border-t border-neutral-100 flex items-center space-x-2 font-sans text-xs font-semibold">
                 {regionForm.id ? (
                   <button
                     type="button"
@@ -732,7 +732,7 @@ export default function DRZMasterPage() {
             <div className="border border-neutral-200 bg-white p-6 space-y-5">
               <div className="border-b border-neutral-100 pb-3 flex items-center justify-between">
                 <div>
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400">
+                  <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400">
                     MODULE // DRZ.03
                   </span>
                   <h3 className="text-sm font-sans font-bold uppercase tracking-wider text-neutral-900">
@@ -740,7 +740,7 @@ export default function DRZMasterPage() {
                   </h3>
                 </div>
                 {zoneForm.id && (
-                  <span className="font-mono text-[9px] text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 uppercase">
+                  <span className="text-[10px] font-sans font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 uppercase">
                     EDIT MODE
                   </span>
                 )}
@@ -748,13 +748,13 @@ export default function DRZMasterPage() {
 
               {/* Selector to pick existing Zone to update */}
               <div className="space-y-1.5">
-                <label className="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                <label className="block font-sans text-xs font-medium uppercase tracking-wider text-neutral-500">
                   Select Existing Zone:
                 </label>
                 <select
                   value={zoneForm.id}
                   onChange={(e) => handleSelectZone(e.target.value)}
-                  className="w-full border border-neutral-200 bg-neutral-50/50 p-2.5 text-xs font-mono text-neutral-900 focus:bg-white focus:outline-none focus:border-VASAVI-blue"
+                  className="w-full border border-neutral-200 bg-neutral-50/50 p-2.5 text-xs font-sans text-neutral-900 focus:bg-white focus:outline-none focus:border-VASAVI-blue"
                 >
                   <option value="">[ + CREATE NEW ZONE ]</option>
                   {zones.map((z) => (
@@ -767,13 +767,13 @@ export default function DRZMasterPage() {
 
               <div className="space-y-4">
                 <div className="space-y-1.5">
-                  <label className="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                  <label className="block font-sans text-xs font-medium uppercase tracking-wider text-neutral-500">
                     Parent Region <span className="text-red-500">*</span>
                   </label>
                   <select
                     value={zoneForm.regionId}
                     onChange={(e) => setZoneForm((prev) => ({ ...prev, regionId: e.target.value }))}
-                    className="w-full border border-neutral-200 p-2.5 text-xs font-mono text-neutral-900 focus:outline-none focus:border-VASAVI-blue"
+                    className="w-full border border-neutral-200 p-2.5 text-xs font-sans text-neutral-900 focus:outline-none focus:border-VASAVI-blue"
                   >
                     <option value="">-- SELECT PARENT REGION --</option>
                     {regions.map((r) => (
@@ -785,7 +785,7 @@ export default function DRZMasterPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                  <label className="block font-sans text-xs font-medium uppercase tracking-wider text-neutral-500">
                     Zone Name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -798,7 +798,7 @@ export default function DRZMasterPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                  <label className="block font-sans text-xs font-medium uppercase tracking-wider text-neutral-500">
                     Zone Code <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -806,12 +806,12 @@ export default function DRZMasterPage() {
                     placeholder="e.g. ZN-01"
                     value={zoneForm.code}
                     onChange={(e) => setZoneForm((prev) => ({ ...prev, code: e.target.value.toUpperCase() }))}
-                    className="w-full border border-neutral-200 p-2.5 text-xs font-mono uppercase text-neutral-900 focus:outline-none focus:border-VASAVI-blue"
+                    className="w-full border border-neutral-200 p-2.5 text-xs font-sans font-semibold uppercase text-neutral-900 focus:outline-none focus:border-VASAVI-blue"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="block font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                  <label className="block font-sans text-xs font-medium uppercase tracking-wider text-neutral-500">
                     Jurisdiction Remarks
                   </label>
                   <textarea
@@ -825,7 +825,7 @@ export default function DRZMasterPage() {
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-2 border-t border-neutral-100 flex items-center space-x-2 font-mono text-xs">
+              <div className="pt-2 border-t border-neutral-100 flex items-center space-x-2 font-sans text-xs font-semibold">
                 {zoneForm.id ? (
                   <button
                     type="button"
@@ -864,7 +864,7 @@ export default function DRZMasterPage() {
           {/* Table Header & Toggle Tabs */}
           <div className="p-4 border-b border-neutral-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-neutral-50/40">
             {/* View Switcher Tabs */}
-            <div className="flex items-center space-x-2 font-mono text-xs">
+            <div className="flex items-center space-x-2 text-xs font-sans font-semibold">
               <button
                 onClick={() => setActiveTab('districts')}
                 className={`px-3.5 py-1.5 uppercase transition-colors flex items-center space-x-1.5 ${
@@ -900,7 +900,7 @@ export default function DRZMasterPage() {
               </button>
             </div>
 
-            <div className="font-mono text-[10px] text-neutral-400 uppercase tracking-clinical">
+            <div className="text-xs font-sans font-medium text-neutral-400 uppercase tracking-wider">
               ROSTER VIEW // {activeTab.toUpperCase()}
             </div>
           </div>
@@ -910,7 +910,7 @@ export default function DRZMasterPage() {
             {loading ? (
               <div className="p-16 text-center">
                 <RefreshCw className="w-5 h-5 animate-spin mx-auto text-neutral-400 mb-2" />
-                <span className="font-mono text-xs text-neutral-400 uppercase">
+                <span className="text-xs font-sans text-neutral-400 uppercase font-medium">
                   Fetching DRZ Hierarchy Records...
                 </span>
               </div>
@@ -920,19 +920,19 @@ export default function DRZMasterPage() {
                 {activeTab === 'districts' && (
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-neutral-200 bg-neutral-50/80 font-mono text-[10px] text-neutral-500 uppercase tracking-wider">
-                        <th className="py-3 px-4 font-normal">#</th>
-                        <th className="py-3 px-4 font-normal">District Name</th>
-                        <th className="py-3 px-4 font-normal">Code</th>
-                        <th className="py-3 px-4 font-normal">Regions Linked</th>
-                        <th className="py-3 px-4 font-normal">Remarks</th>
-                        <th className="py-3 px-4 font-normal text-right">Action</th>
+                      <tr className="border-b border-neutral-200 bg-neutral-50/80 text-[11px] font-sans font-semibold text-neutral-500 uppercase tracking-wider">
+                        <th className="py-3 px-4 font-semibold">#</th>
+                        <th className="py-3 px-4 font-semibold">District Name</th>
+                        <th className="py-3 px-4 font-semibold">Code</th>
+                        <th className="py-3 px-4 font-semibold">Regions Linked</th>
+                        <th className="py-3 px-4 font-semibold">Remarks</th>
+                        <th className="py-3 px-4 font-semibold text-right">Action</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-neutral-100 text-xs">
+                    <tbody className="divide-y divide-neutral-100 text-xs font-sans">
                       {districts.length === 0 ? (
                         <tr>
-                          <td colSpan={6} className="py-12 text-center text-neutral-400 font-mono text-xs uppercase">
+                          <td colSpan={6} className="py-12 text-center text-neutral-400 text-xs font-sans uppercase font-medium">
                             No district entities recorded in database.
                           </td>
                         </tr>
@@ -943,23 +943,23 @@ export default function DRZMasterPage() {
                           ).length;
                           return (
                             <tr key={d._id} className="hover:bg-neutral-50/50 transition-colors">
-                              <td className="py-3 px-4 font-mono text-[11px] text-neutral-400">
+                              <td className="py-3 px-4 text-xs text-neutral-400 font-medium">
                                 {String(index + 1).padStart(2, '0')}
                               </td>
-                              <td className="py-3 px-4 font-sans font-bold text-neutral-900">
+                              <td className="py-3 px-4 font-bold text-neutral-900">
                                 {d.name}
                               </td>
-                              <td className="py-3 px-4 font-mono font-bold text-VASAVI-blue">
+                              <td className="py-3 px-4 font-bold text-VASAVI-blue">
                                 {d.code}
                               </td>
-                              <td className="py-3 px-4 font-mono text-[11px] text-neutral-600">
+                              <td className="py-3 px-4 text-neutral-600 font-medium">
                                 {childRegionsCount} REGION(S)
                               </td>
-                              <td className="py-3 px-4 text-neutral-500 text-[11px] max-w-xs truncate">
+                              <td className="py-3 px-4 text-neutral-500 text-xs max-w-xs truncate">
                                 {d.description || '—'}
                               </td>
                               <td className="py-3 px-4 text-right">
-                                <div className="inline-flex items-center space-x-2 font-mono text-[10px]">
+                                <div className="inline-flex items-center space-x-2 text-xs font-semibold">
                                   <button
                                     onClick={() => handleEditItem('district', d)}
                                     className="border border-neutral-200 hover:border-VASAVI-blue hover:text-VASAVI-blue px-2.5 py-1 uppercase transition-colors"
@@ -994,19 +994,19 @@ export default function DRZMasterPage() {
                 {activeTab === 'regions' && (
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-neutral-200 bg-neutral-50/80 font-mono text-[10px] text-neutral-500 uppercase tracking-wider">
-                        <th className="py-3 px-4 font-normal">#</th>
-                        <th className="py-3 px-4 font-normal">Region Name</th>
-                        <th className="py-3 px-4 font-normal">Code</th>
-                        <th className="py-3 px-4 font-normal">Parent District</th>
-                        <th className="py-3 px-4 font-normal">Zones Linked</th>
-                        <th className="py-3 px-4 font-normal text-right">Action</th>
+                      <tr className="border-b border-neutral-200 bg-neutral-50/80 text-[11px] font-sans font-semibold text-neutral-500 uppercase tracking-wider">
+                        <th className="py-3 px-4 font-semibold">#</th>
+                        <th className="py-3 px-4 font-semibold">Region Name</th>
+                        <th className="py-3 px-4 font-semibold">Code</th>
+                        <th className="py-3 px-4 font-semibold">Parent District</th>
+                        <th className="py-3 px-4 font-semibold">Zones Linked</th>
+                        <th className="py-3 px-4 font-semibold text-right">Action</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-neutral-100 text-xs">
+                    <tbody className="divide-y divide-neutral-100 text-xs font-sans">
                       {regions.length === 0 ? (
                         <tr>
-                          <td colSpan={6} className="py-12 text-center text-neutral-400 font-mono text-xs uppercase">
+                          <td colSpan={6} className="py-12 text-center text-neutral-400 text-xs font-sans uppercase font-medium">
                             No region entities recorded in database.
                           </td>
                         </tr>
@@ -1017,29 +1017,29 @@ export default function DRZMasterPage() {
                           ).length;
                           return (
                             <tr key={r._id} className="hover:bg-neutral-50/50 transition-colors">
-                              <td className="py-3 px-4 font-mono text-[11px] text-neutral-400">
+                              <td className="py-3 px-4 text-xs text-neutral-400 font-medium">
                                 {String(index + 1).padStart(2, '0')}
                               </td>
-                              <td className="py-3 px-4 font-sans font-bold text-neutral-900">
+                              <td className="py-3 px-4 font-bold text-neutral-900">
                                 {r.name}
                               </td>
-                              <td className="py-3 px-4 font-mono font-bold text-VASAVI-blue">
+                              <td className="py-3 px-4 font-bold text-VASAVI-blue">
                                 {r.code}
                               </td>
-                              <td className="py-3 px-4 font-mono text-neutral-600 text-[11px]">
+                              <td className="py-3 px-4 text-neutral-600">
                                 {r.districtId ? (
-                                  <span className="bg-neutral-100 px-1.5 py-0.5 border border-neutral-200">
+                                  <span className="bg-neutral-100 px-1.5 py-0.5 border border-neutral-200 font-medium">
                                     {r.districtId.name} ({r.districtId.code})
                                   </span>
                                 ) : (
-                                  <span className="text-neutral-400">UNASSIGNED</span>
+                                  <span className="text-neutral-400 font-medium">UNASSIGNED</span>
                                 )}
                               </td>
-                              <td className="py-3 px-4 font-mono text-[11px] text-neutral-600">
+                              <td className="py-3 px-4 text-neutral-600 font-medium">
                                 {childZonesCount} ZONE(S)
                               </td>
                               <td className="py-3 px-4 text-right">
-                                <div className="inline-flex items-center space-x-2 font-mono text-[10px]">
+                                <div className="inline-flex items-center space-x-2 text-xs font-semibold">
                                   <button
                                     onClick={() => handleEditItem('region', r)}
                                     className="border border-neutral-200 hover:border-VASAVI-blue hover:text-VASAVI-blue px-2.5 py-1 uppercase transition-colors"
@@ -1074,44 +1074,44 @@ export default function DRZMasterPage() {
                 {activeTab === 'zones' && (
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-neutral-200 bg-neutral-50/80 font-mono text-[10px] text-neutral-500 uppercase tracking-wider">
-                        <th className="py-3 px-4 font-normal">#</th>
-                        <th className="py-3 px-4 font-normal">Zone Name</th>
-                        <th className="py-3 px-4 font-normal">Code</th>
-                        <th className="py-3 px-4 font-normal">Parent Region</th>
-                        <th className="py-3 px-4 font-normal">District Hierarchy</th>
-                        <th className="py-3 px-4 font-normal text-right">Action</th>
+                      <tr className="border-b border-neutral-200 bg-neutral-50/80 text-[11px] font-sans font-semibold text-neutral-500 uppercase tracking-wider">
+                        <th className="py-3 px-4 font-semibold">#</th>
+                        <th className="py-3 px-4 font-semibold">Zone Name</th>
+                        <th className="py-3 px-4 font-semibold">Code</th>
+                        <th className="py-3 px-4 font-semibold">Parent Region</th>
+                        <th className="py-3 px-4 font-semibold">District Hierarchy</th>
+                        <th className="py-3 px-4 font-semibold text-right">Action</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-neutral-100 text-xs">
+                    <tbody className="divide-y divide-neutral-100 text-xs font-sans">
                       {zones.length === 0 ? (
                         <tr>
-                          <td colSpan={6} className="py-12 text-center text-neutral-400 font-mono text-xs uppercase">
+                          <td colSpan={6} className="py-12 text-center text-neutral-400 text-xs font-sans uppercase font-medium">
                             No zone entities recorded in database.
                           </td>
                         </tr>
                       ) : (
                         zones.map((z, index) => (
                           <tr key={z._id} className="hover:bg-neutral-50/50 transition-colors">
-                            <td className="py-3 px-4 font-mono text-[11px] text-neutral-400">
+                            <td className="py-3 px-4 text-xs text-neutral-400 font-medium">
                               {String(index + 1).padStart(2, '0')}
                             </td>
-                            <td className="py-3 px-4 font-sans font-bold text-neutral-900">
+                            <td className="py-3 px-4 font-bold text-neutral-900">
                               {z.name}
                             </td>
-                            <td className="py-3 px-4 font-mono font-bold text-VASAVI-blue">
+                            <td className="py-3 px-4 font-bold text-VASAVI-blue">
                               {z.code}
                             </td>
-                            <td className="py-3 px-4 font-mono text-neutral-600 text-[11px]">
+                            <td className="py-3 px-4 text-neutral-600">
                               {z.regionId ? (
-                                <span className="bg-neutral-100 px-1.5 py-0.5 border border-neutral-200">
+                                <span className="bg-neutral-100 px-1.5 py-0.5 border border-neutral-200 font-medium">
                                   {z.regionId.name} ({z.regionId.code})
                                 </span>
                               ) : (
-                                <span className="text-neutral-400">UNASSIGNED</span>
+                                <span className="text-neutral-400 font-medium">UNASSIGNED</span>
                               )}
                             </td>
-                            <td className="py-3 px-4 font-mono text-neutral-500 text-[11px]">
+                            <td className="py-3 px-4 text-neutral-500 font-medium">
                               {z.regionId?.districtId ? (
                                 <span>{z.regionId.districtId.code}</span>
                               ) : (
@@ -1119,7 +1119,7 @@ export default function DRZMasterPage() {
                               )}
                             </td>
                             <td className="py-3 px-4 text-right">
-                              <div className="inline-flex items-center space-x-2 font-mono text-[10px]">
+                              <div className="inline-flex items-center space-x-2 text-xs font-semibold">
                                 <button
                                   onClick={() => handleEditItem('zone', z)}
                                   className="border border-neutral-200 hover:border-VASAVI-blue hover:text-VASAVI-blue px-2.5 py-1 uppercase transition-colors"
@@ -1158,7 +1158,7 @@ export default function DRZMasterPage() {
       {deleteModal.isOpen && deleteModal.item && (
         <div className="fixed inset-0 bg-neutral-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white border border-neutral-200 max-w-md w-full p-6 space-y-4 text-left shadow-xl">
-            <div className="flex items-center space-x-2 text-red-600 font-mono text-[10px] tracking-widest uppercase">
+            <div className="flex items-center space-x-2 text-red-600 font-sans text-xs font-semibold tracking-wider uppercase">
               <AlertTriangle className="w-4 h-4" />
               <span>SEC.PURGE // DRZ RECORD DELETION</span>
             </div>
@@ -1171,28 +1171,28 @@ export default function DRZMasterPage() {
               You are about to permanently purge the following {deleteModal.type.toUpperCase()} entity from District V-324 hierarchy:
             </p>
 
-            <div className="border border-neutral-200 bg-neutral-50 p-3 font-mono text-xs space-y-1">
+            <div className="border border-neutral-200 bg-neutral-50 p-3 font-sans text-xs space-y-1">
               <div>
-                <span className="text-neutral-400">ENTITY:</span>{' '}
+                <span className="text-neutral-400 font-medium">ENTITY:</span>{' '}
                 <span className="font-bold text-neutral-900">{deleteModal.item.name}</span>
               </div>
               <div>
-                <span className="text-neutral-400">CODE:</span>{' '}
+                <span className="text-neutral-400 font-medium">CODE:</span>{' '}
                 <span className="font-bold text-VASAVI-blue">{deleteModal.item.code}</span>
               </div>
               <div>
-                <span className="text-neutral-400">CLASSIFICATION:</span>{' '}
-                <span className="text-neutral-700 uppercase">{deleteModal.type} Master</span>
+                <span className="text-neutral-400 font-medium">CLASSIFICATION:</span>{' '}
+                <span className="text-neutral-700 uppercase font-semibold">{deleteModal.type} Master</span>
               </div>
             </div>
 
             {deleteModal.error && (
-              <div className="border border-red-200 bg-red-50 p-2.5 text-red-700 font-mono text-[11px]">
+              <div className="border border-red-200 bg-red-50 p-2.5 text-red-700 font-sans text-xs font-medium">
                 {deleteModal.error}
               </div>
             )}
 
-            <div className="pt-3 border-t border-neutral-100 flex items-center justify-end space-x-2 font-mono text-xs">
+            <div className="pt-3 border-t border-neutral-100 flex items-center justify-end space-x-2 font-sans text-xs font-semibold">
               <button
                 type="button"
                 disabled={deleteModal.isDeleting}

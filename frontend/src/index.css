@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,10 +10,12 @@
   }
   
   body {
-    font-family: "Helvetica Neue", Helvetica, Arial, "Open Sans", sans-serif;
+    font-family: "Plus Jakarta Sans", sans-serif;
     font-weight: 400;
     background-color: #FFFFFF;
     color: #171717;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
@@ -33,11 +35,11 @@
 }
 
 .clinical-label {
-  @apply block font-mono text-[10px] tracking-clinical uppercase text-neutral-500 mb-1.5 font-medium;
+  @apply block font-sans text-xs tracking-wider uppercase text-neutral-500 mb-1.5 font-medium;
 }
 
 .clinical-badge {
-  @apply inline-flex items-center px-2 py-0.5 font-mono text-[9px] tracking-widest uppercase border;
+  @apply inline-flex items-center px-2 py-0.5 font-sans text-[10px] tracking-wider uppercase border;
 }
 
 /* Custom hairline scrollbar */

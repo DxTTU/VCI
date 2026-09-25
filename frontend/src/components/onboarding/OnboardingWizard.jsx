@@ -328,7 +328,7 @@ export default function OnboardingWizard({ isOpen, onClose, onMemberCreated }) {
               <h2 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900">
                 Vasavi Club International // Member Induction Protocol
               </h2>
-              <p className="font-mono text-[9px] text-neutral-400 tracking-clinical uppercase">
+              <p className="font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
                 FORM REF. // VCI-DIR-2025-A
               </p>
             </div>
@@ -428,7 +428,7 @@ export default function OnboardingWizard({ isOpen, onClose, onMemberCreated }) {
               </div>
 
               <div>
-                <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block mb-1">
+                <span className="font-sans text-[10px] uppercase tracking-wider text-neutral-400 block mb-1 font-medium">
                   INDUCTION STATUS: CONFIRMED & COMMITTED
                 </span>
                 <h3 className="text-lg font-semibold uppercase tracking-tight text-neutral-900">
@@ -440,9 +440,9 @@ export default function OnboardingWizard({ isOpen, onClose, onMemberCreated }) {
               </div>
 
               {/* Clinical ID Card Box */}
-              <div className="border border-neutral-300 p-5 max-w-md mx-auto text-left bg-neutral-50/50 space-y-3 font-mono">
+              <div className="border border-neutral-300 p-5 max-w-md mx-auto text-left bg-neutral-50/50 space-y-3 font-sans">
                 <div className="flex items-center justify-between border-b border-neutral-200 pb-2.5">
-                  <span className="text-[10px] text-neutral-400 uppercase">OFFICIAL VASAVI ID</span>
+                  <span className="text-[10px] text-neutral-400 uppercase font-medium">OFFICIAL VASAVI ID</span>
                   <div className="flex items-center space-x-2">
                     <span className="text-sm font-bold text-VASAVI-blue tracking-wider">
                       {createdMember?.memberId || 'V-894102'}
@@ -458,39 +458,39 @@ export default function OnboardingWizard({ isOpen, onClose, onMemberCreated }) {
                 </div>
 
                 {copiedId && (
-                  <div className="text-[9px] text-emerald-600 text-right">
+                  <div className="text-[10px] text-emerald-600 text-right font-medium">
                     COPIED TO CLIPBOARD
                   </div>
                 )}
 
                 <div className="text-xs space-y-1">
                   <div className="flex justify-between">
-                    <span className="text-neutral-400 text-[10px]">NAME:</span>
+                    <span className="text-neutral-400 text-[10px] font-medium">NAME:</span>
                     <span className="text-neutral-900 font-medium">
                       {createdMember?.firstName} {createdMember?.lastName}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-neutral-400 text-[10px]">ROLE:</span>
+                    <span className="text-neutral-400 text-[10px] font-medium">ROLE:</span>
                     <span className="text-neutral-900 font-medium">
                       {createdMember?.role || formData.role}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-neutral-400 text-[10px]">BLOOD GROUP:</span>
+                    <span className="text-neutral-400 text-[10px] font-medium">BLOOD GROUP:</span>
                     <span className="text-neutral-900 font-medium">
                       {createdMember?.bloodGroup || formData.bloodGroup}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-neutral-400 text-[10px]">AFFILIATION:</span>
+                    <span className="text-neutral-400 text-[10px] font-medium">AFFILIATION:</span>
                     <span className="text-VASAVI-blue font-semibold truncate max-w-[200px]">
                       {createdMember?.club?.clubName || 'Vasavi Club Metropolitan'}
                     </span>
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-neutral-200 text-[9px] text-neutral-400 flex items-center justify-between">
+                <div className="pt-2 border-t border-neutral-200 text-[10px] text-neutral-400 flex items-center justify-between font-medium">
                   <span>REGISTRY: COMPASS 27017</span>
                   <span>STATUS: ACTIVE</span>
                 </div>
@@ -499,13 +499,13 @@ export default function OnboardingWizard({ isOpen, onClose, onMemberCreated }) {
               <div className="flex items-center justify-center space-x-3 pt-2">
                 <button
                   onClick={resetWizard}
-                  className="px-4 py-2 border border-neutral-300 text-xs font-mono uppercase hover:bg-neutral-50 transition-colors"
+                  className="px-4 py-2 border border-neutral-300 text-xs font-sans font-medium uppercase tracking-wider hover:bg-neutral-50 transition-colors"
                 >
                   Induct Another Member
                 </button>
                 <button
                   onClick={onClose}
-                  className="px-5 py-2 bg-neutral-900 text-white text-xs font-mono uppercase tracking-wider hover:bg-VASAVI-blue transition-colors"
+                  className="px-5 py-2 bg-neutral-900 text-white text-xs font-sans font-medium uppercase tracking-wider hover:bg-VASAVI-blue transition-colors"
                 >
                   Done & Close
                 </button>
@@ -521,7 +521,7 @@ export default function OnboardingWizard({ isOpen, onClose, onMemberCreated }) {
               type="button"
               onClick={handlePrev}
               disabled={currentStep === 1}
-              className={`flex items-center space-x-2 px-4 py-2 border text-xs font-mono uppercase tracking-wider transition-colors ${
+              className={`flex items-center space-x-2 px-4 py-2 border text-xs font-sans font-medium uppercase tracking-wider transition-colors ${
                 currentStep === 1
                   ? 'border-neutral-200 text-neutral-300 cursor-not-allowed'
                   : 'border-neutral-300 text-neutral-700 hover:border-neutral-900 hover:text-neutral-900'
@@ -532,7 +532,7 @@ export default function OnboardingWizard({ isOpen, onClose, onMemberCreated }) {
             </button>
 
             <div className="flex items-center space-x-3">
-              <span className="font-mono text-[10px] text-neutral-400 hidden sm:inline">
+              <span className="font-sans text-xs text-neutral-400 font-medium hidden sm:inline">
                 STEP {currentStep} OF 5
               </span>
 
@@ -546,7 +546,7 @@ export default function OnboardingWizard({ isOpen, onClose, onMemberCreated }) {
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               ) : currentStep === 3 ? (
-                <span className="font-mono text-[10px] text-neutral-400 tracking-wider uppercase">
+                <span className="font-sans text-xs text-neutral-400 tracking-wider uppercase font-medium">
                   [AUTO-VERIFYING ON 6TH DIGIT]
                 </span>
               ) : currentStep < 5 ? (

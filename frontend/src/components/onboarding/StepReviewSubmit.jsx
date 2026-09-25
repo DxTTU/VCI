@@ -18,7 +18,7 @@ export default function StepReviewSubmit({
     <div className="space-y-6">
       <div>
         <div className="flex items-center space-x-2">
-          <span className="font-mono text-xs text-VASAVI-blue font-bold">04.0</span>
+          <span className="font-sans text-xs text-VASAVI-blue font-bold">04.0</span>
           <h2 className="text-sm font-sans font-bold tracking-wider uppercase text-neutral-900">
             Dossier Verification & Formal Induction
           </h2>
@@ -33,19 +33,19 @@ export default function StepReviewSubmit({
         {/* Top Header */}
         <div className="border-b border-neutral-200 pb-4 mb-4 flex items-start justify-between">
           <div>
-            <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
+            <span className="font-sans text-[10px] uppercase tracking-wider text-neutral-400 block font-medium">
               REGISTRATION CERTIFICATE SPECIFICATION
             </span>
             <h3 className="text-base font-semibold text-neutral-900 tracking-tight mt-0.5">
               {formData.title} {formData.firstName} {formData.lastName}
             </h3>
-            <span className="font-mono text-[10px] text-VASAVI-blue uppercase">
+            <span className="font-sans text-xs text-VASAVI-blue uppercase font-semibold">
               ASSIGNED ROLE: {formData.role}
             </span>
           </div>
 
-          <div className="border border-neutral-200 px-3 py-1.5 text-right font-mono text-[9px]">
-            <div className="text-neutral-400">MEMBERSHIP CLASS</div>
+          <div className="border border-neutral-200 px-3 py-1.5 text-right font-sans text-[10px]">
+            <div className="text-neutral-400 font-medium">MEMBERSHIP CLASS</div>
             <div className="font-semibold text-neutral-900">{formData.membershipType}</div>
           </div>
         </div>
@@ -53,21 +53,21 @@ export default function StepReviewSubmit({
         {/* Analytical Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-xs">
           <div className="flex items-baseline justify-between border-b border-neutral-100 py-1.5">
-            <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider">
+            <span className="font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
               BLOOD GROUP
             </span>
-            <span className="font-mono font-bold text-neutral-900">{formData.bloodGroup || 'N/A'}</span>
+            <span className="font-sans font-bold text-neutral-900">{formData.bloodGroup || 'N/A'}</span>
           </div>
 
           <div className="flex items-baseline justify-between border-b border-neutral-100 py-1.5">
-            <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider">
+            <span className="font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
               DATE OF BIRTH
             </span>
-            <span className="font-mono text-neutral-800">{formData.dateOfBirth || 'N/A'}</span>
+            <span className="font-sans text-neutral-800 font-medium">{formData.dateOfBirth || 'N/A'}</span>
           </div>
 
           <div className="flex items-baseline justify-between border-b border-neutral-100 py-1.5">
-            <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider">
+            <span className="font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
               VOCATION / FIELD
             </span>
             <span className="text-neutral-800 font-medium truncate max-w-[200px]">
@@ -76,39 +76,39 @@ export default function StepReviewSubmit({
           </div>
 
           <div className="flex items-baseline justify-between border-b border-neutral-100 py-1.5">
-            <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider">
+            <span className="font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
               ELECTRONIC MAIL
             </span>
-            <span className="font-mono text-neutral-900">{formData.email || 'N/A'}</span>
+            <span className="font-sans text-neutral-900 font-medium">{formData.email || 'N/A'}</span>
           </div>
 
           <div className="flex items-baseline justify-between border-b border-neutral-100 py-1.5">
-            <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider">
+            <span className="font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
               TELEPHONE
             </span>
-            <span className="font-mono text-neutral-800">{formData.phone || 'N/A'}</span>
+            <span className="font-sans text-neutral-800 font-medium">{formData.phone || 'N/A'}</span>
           </div>
 
           <div className="flex items-baseline justify-between border-b border-neutral-100 py-1.5">
-            <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider">
+            <span className="font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
               SPONSOR ID
             </span>
-            <span className="font-mono text-neutral-800">
+            <span className="font-sans text-neutral-800 font-medium">
               {formData.sponsorMemberId || 'DIRECT CHARTER'}
             </span>
           </div>
 
           <div className="md:col-span-2 flex items-baseline justify-between border-b border-neutral-100 py-1.5">
-            <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider">
+            <span className="font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
               MUNICIPAL RESIDENCE
             </span>
-            <span className="text-neutral-800">
+            <span className="text-neutral-800 font-medium">
               {formData.address}, {formData.city}, {formData.state} - {formData.postalCode}
             </span>
           </div>
 
           <div className="md:col-span-2 flex items-baseline justify-between py-1.5 bg-neutral-50 px-2 mt-1">
-            <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-wider">
+            <span className="font-sans text-[10px] text-neutral-500 uppercase tracking-wider font-medium">
               AFFILIATED CHAPTER
             </span>
             <span className="font-semibold text-VASAVI-blue">
@@ -135,7 +135,7 @@ export default function StepReviewSubmit({
             </span>
           </label>
           {errors.agreement && (
-            <span className="font-mono text-[10px] text-red-600 block mt-1.5 pl-7">
+            <span className="font-sans text-xs text-red-600 block mt-1.5 pl-7 font-medium">
               {errors.agreement}
             </span>
           )}

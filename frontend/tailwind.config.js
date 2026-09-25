@@ -32,10 +32,7 @@ export default {
       },
       fontFamily: {
         sans: [
-          '"Helvetica Neue"',
-          'Helvetica',
-          'Arial',
-          '"Open Sans"',
+          '"Plus Jakarta Sans"',
           'sans-serif',
         ],
         mono: [

@@ -13,7 +13,7 @@ export default function StepBasicDetails({ formData, updateFormData, errors }) {
     <div className="space-y-6">
       <div>
         <div className="flex items-center space-x-2">
-          <span className="font-mono text-xs text-VASAVI-blue font-bold">01.0</span>
+          <span className="font-sans text-xs text-VASAVI-blue font-bold">01.0</span>
           <h2 className="text-sm font-sans font-bold tracking-wider uppercase text-neutral-900">
             Personal Dossier Attributes
           </h2>
@@ -53,7 +53,7 @@ export default function StepBasicDetails({ formData, updateFormData, errors }) {
             className={`clinical-input ${errors.firstName ? 'border-red-500' : ''}`}
           />
           {errors.firstName && (
-            <span className="font-mono text-[10px] text-red-600 block mt-1">
+            <span className="font-sans text-xs text-red-600 block mt-1 font-medium">
               {errors.firstName}
             </span>
           )}
@@ -72,7 +72,7 @@ export default function StepBasicDetails({ formData, updateFormData, errors }) {
             className={`clinical-input ${errors.lastName ? 'border-red-500' : ''}`}
           />
           {errors.lastName && (
-            <span className="font-mono text-[10px] text-red-600 block mt-1">
+            <span className="font-sans text-xs text-red-600 block mt-1 font-medium">
               {errors.lastName}
             </span>
           )}
@@ -90,7 +90,7 @@ export default function StepBasicDetails({ formData, updateFormData, errors }) {
             className={`clinical-input ${errors.dateOfBirth ? 'border-red-500' : ''}`}
           />
           {errors.dateOfBirth && (
-            <span className="font-mono text-[10px] text-red-600 block mt-1">
+            <span className="font-sans text-xs text-red-600 block mt-1 font-medium">
               {errors.dateOfBirth}
             </span>
           )}
@@ -120,7 +120,7 @@ export default function StepBasicDetails({ formData, updateFormData, errors }) {
           <select
             value={formData.bloodGroup}
             onChange={(e) => updateFormData('bloodGroup', e.target.value)}
-            className={`clinical-input font-mono ${errors.bloodGroup ? 'border-red-500' : ''}`}
+            className={`clinical-input font-sans ${errors.bloodGroup ? 'border-red-500' : ''}`}
           >
             <option value="">-- SELECT --</option>
             {bloodGroups.map((bg) => (
@@ -130,11 +130,11 @@ export default function StepBasicDetails({ formData, updateFormData, errors }) {
             ))}
           </select>
           {errors.bloodGroup && (
-            <span className="font-mono text-[10px] text-red-600 block mt-1">
+            <span className="font-sans text-xs text-red-600 block mt-1 font-medium">
               {errors.bloodGroup}
             </span>
           )}
-          <span className="font-mono text-[9px] text-neutral-400 block mt-1">
+          <span className="font-sans text-[10px] text-neutral-400 block mt-1 font-medium">
             Required for Vasavi community blood donor registry
           </span>
         </div>
@@ -152,7 +152,7 @@ export default function StepBasicDetails({ formData, updateFormData, errors }) {
             className={`clinical-input ${errors.occupation ? 'border-red-500' : ''}`}
           />
           {errors.occupation && (
-            <span className="font-mono text-[10px] text-red-600 block mt-1">
+            <span className="font-sans text-xs text-red-600 block mt-1 font-medium">
               {errors.occupation}
             </span>
           )}

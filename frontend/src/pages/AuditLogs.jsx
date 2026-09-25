@@ -123,15 +123,15 @@ export default function AuditLogs() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center space-x-2">
-              <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
+              <span className="font-sans text-[10px] uppercase tracking-wider text-neutral-400 block font-medium">
                 AUDIT TRAIL // DISTRICT V-324 TELEMETRY ARCHIVE
               </span>
               {isSuperAdmin ? (
-                <span className="font-mono text-[8px] bg-neutral-900 text-VASAVI-gold border border-neutral-700 px-1.5 py-0.5 uppercase tracking-wider font-semibold">
+                <span className="font-sans text-[9px] bg-neutral-900 text-VASAVI-gold border border-neutral-700 px-1.5 py-0.5 uppercase tracking-wider font-semibold">
                   SUPER ADMIN ACCESS
                 </span>
               ) : (
-                <span className="font-mono text-[8px] bg-neutral-900 text-white px-1.5 py-0.5 uppercase tracking-wider">
+                <span className="font-sans text-[9px] bg-neutral-900 text-white px-1.5 py-0.5 uppercase tracking-wider font-semibold">
                   ADMIN CONSOLE ACTIVE
                 </span>
               )}
@@ -149,7 +149,7 @@ export default function AuditLogs() {
             <button
               onClick={() => fetchAuditLogs(true)}
               disabled={isRefreshing || loading}
-              className="flex items-center space-x-2 px-4 py-2 border border-neutral-900 hover:bg-neutral-900 hover:text-white text-neutral-900 text-xs font-mono uppercase tracking-wider transition-colors disabled:opacity-50 cursor-pointer"
+              className="flex items-center space-x-2 px-4 py-2 border border-neutral-900 hover:bg-neutral-900 hover:text-white text-neutral-900 text-xs font-sans font-medium uppercase tracking-wider transition-colors disabled:opacity-50 cursor-pointer"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
               <span>{isRefreshing ? '[ REFRESHING... ]' : '[ REFRESH TELEMETRY ]'}</span>
@@ -158,21 +158,21 @@ export default function AuditLogs() {
         </div>
 
         {/* Telemetry KPIs Bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-5 border-t border-neutral-100 font-mono text-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-5 border-t border-neutral-100 font-sans text-xs">
           <div className="p-3 border border-neutral-100 bg-neutral-50/50 space-y-1">
-            <span className="text-[9px] text-neutral-400 uppercase tracking-clinical block">TOTAL TELEMETRY EVENTS</span>
+            <span className="text-[10px] text-neutral-400 uppercase tracking-wider block font-medium">TOTAL TELEMETRY EVENTS</span>
             <span className="text-xl font-sans font-bold text-neutral-900">{totalEvents}</span>
           </div>
           <div className="p-3 border border-neutral-100 bg-neutral-50/50 space-y-1">
-            <span className="text-[9px] text-neutral-400 uppercase tracking-clinical block">AUTHENTICATED SUCCESS</span>
+            <span className="text-[10px] text-neutral-400 uppercase tracking-wider block font-medium">AUTHENTICATED SUCCESS</span>
             <span className="text-xl font-sans font-bold text-emerald-700">{successEvents}</span>
           </div>
           <div className="p-3 border border-neutral-100 bg-neutral-50/50 space-y-1">
-            <span className="text-[9px] text-neutral-400 uppercase tracking-clinical block">FAILED / REJECTED ACTIONS</span>
+            <span className="text-[10px] text-neutral-400 uppercase tracking-wider block font-medium">FAILED / REJECTED ACTIONS</span>
             <span className="text-xl font-sans font-bold text-red-700">{failedEvents}</span>
           </div>
           <div className="p-3 border border-neutral-100 bg-neutral-50/50 space-y-1">
-            <span className="text-[9px] text-neutral-400 uppercase tracking-clinical block">TELEMETRY RELIABILITY</span>
+            <span className="text-[10px] text-neutral-400 uppercase tracking-wider block font-medium">TELEMETRY RELIABILITY</span>
             <span className="text-xl font-sans font-bold text-neutral-900">{successRate}%</span>
           </div>
         </div>
@@ -186,7 +186,7 @@ export default function AuditLogs() {
               placeholder="Filter by user, action, reference..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-xs border border-neutral-200 bg-neutral-50/50 focus:bg-white focus:border-VASAVI-blue font-mono outline-none"
+              className="w-full pl-9 pr-3 py-2 text-xs border border-neutral-200 bg-neutral-50/50 focus:bg-white focus:border-VASAVI-blue font-sans outline-none"
             />
           </div>
 
@@ -194,15 +194,15 @@ export default function AuditLogs() {
           <div className="flex flex-wrap items-center gap-4 w-full md:w-auto">
             {/* Module Filter */}
             <div className="flex items-center space-x-1 overflow-x-auto">
-              <span className="font-mono text-[9px] text-neutral-400 uppercase mr-1">MODULE:</span>
+              <span className="font-sans text-[10px] text-neutral-400 uppercase mr-1 font-medium">MODULE:</span>
               {modules.map((mod) => (
                 <button
                   key={mod}
                   onClick={() => setSelectedModule(mod)}
-                  className={`px-2 py-1 font-mono text-[10px] border transition-colors ${
+                  className={`px-2 py-1 font-sans text-xs border transition-colors ${
                     selectedModule === mod
                       ? 'border-neutral-900 bg-neutral-900 text-white font-bold'
-                      : 'border-neutral-200 text-neutral-600 hover:border-neutral-400'
+                      : 'border-neutral-200 text-neutral-600 hover:border-neutral-400 font-medium'
                   }`}
                 >
                   {mod}
@@ -212,15 +212,15 @@ export default function AuditLogs() {
 
             {/* Status Filter */}
             <div className="flex items-center space-x-1">
-              <span className="font-mono text-[9px] text-neutral-400 uppercase mr-1">STATUS:</span>
+              <span className="font-sans text-[10px] text-neutral-400 uppercase mr-1 font-medium">STATUS:</span>
               {statuses.map((st) => (
                 <button
                   key={st}
                   onClick={() => setSelectedStatus(st)}
-                  className={`px-2 py-1 font-mono text-[10px] border transition-colors ${
+                  className={`px-2 py-1 font-sans text-xs border transition-colors ${
                     selectedStatus === st
                       ? 'border-neutral-900 bg-neutral-900 text-white font-bold'
-                      : 'border-neutral-200 text-neutral-600 hover:border-neutral-400'
+                      : 'border-neutral-200 text-neutral-600 hover:border-neutral-400 font-medium'
                   }`}
                 >
                   {st}
@@ -233,7 +233,7 @@ export default function AuditLogs() {
 
       {/* Error Banner */}
       {error && (
-        <div className="p-4 border border-red-200 bg-red-50 text-red-700 font-mono text-xs flex items-center space-x-2">
+        <div className="p-4 border border-red-200 bg-red-50 text-red-700 font-sans text-xs flex items-center space-x-2">
           <ShieldAlert className="w-4 h-4 text-red-600 flex-shrink-0" />
           <span>[TELEMETRY QUERY ERROR] {error}</span>
         </div>
@@ -241,9 +241,9 @@ export default function AuditLogs() {
 
       {/* Data Table */}
       <div className="border border-neutral-200 bg-white overflow-x-auto">
-        <table className="w-full text-left text-xs">
+        <table className="w-full text-left text-xs font-sans">
           <thead>
-            <tr className="border-b border-gray-200 font-mono text-[9px] text-neutral-400 uppercase tracking-clinical bg-neutral-50/50">
+            <tr className="border-b border-gray-200 font-sans text-[10px] text-neutral-400 uppercase tracking-wider bg-neutral-50/50 font-medium">
               <th className="py-3 px-4 whitespace-nowrap">DATE/TIME</th>
               <th className="py-3 px-4 whitespace-nowrap">MODULE</th>
               <th className="py-3 px-4 whitespace-nowrap">ACTION</th>
@@ -254,10 +254,10 @@ export default function AuditLogs() {
               <th className="py-3 px-4">REMARKS</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-neutral-100 font-mono text-[11px]">
+          <tbody className="divide-y divide-neutral-100 font-sans text-xs">
             {loading ? (
               <tr>
-                <td colSpan={8} className="py-12 text-center text-neutral-400 font-mono text-xs">
+                <td colSpan={8} className="py-12 text-center text-neutral-400 font-sans text-xs">
                   <div className="flex items-center justify-center space-x-2 animate-pulse">
                     <Activity className="w-4 h-4 text-VASAVI-blue animate-spin" />
                     <span>[ RETRIEVING SYSTEM TELEMETRY LEDGER... ]</span>
@@ -274,22 +274,22 @@ export default function AuditLogs() {
                     className="border-b border-gray-200 hover:bg-neutral-50/80 transition-colors"
                   >
                     {/* 1. DATE/TIME */}
-                    <td className="py-3.5 px-4 whitespace-nowrap text-[10px] text-neutral-600">
+                    <td className="py-3.5 px-4 whitespace-nowrap text-xs text-neutral-600 font-medium">
                       {formatDateTime(log.timestamp)}
                     </td>
 
                     {/* 2. MODULE */}
-                    <td className="py-3.5 px-4 whitespace-nowrap text-[10px] font-bold text-neutral-900 tracking-wider">
+                    <td className="py-3.5 px-4 whitespace-nowrap text-xs font-bold text-neutral-900 tracking-wide">
                       {log.module || 'SYSTEM'}
                     </td>
 
                     {/* 3. ACTION */}
-                    <td className="py-3.5 px-4 whitespace-nowrap text-[10px] text-neutral-900 font-medium tracking-tight">
+                    <td className="py-3.5 px-4 whitespace-nowrap text-xs text-neutral-900 font-semibold tracking-normal">
                       {log.action}
                     </td>
 
                     {/* 4. REFERENCE */}
-                    <td className="py-3.5 px-4 whitespace-nowrap text-[10px] text-neutral-600">
+                    <td className="py-3.5 px-4 whitespace-nowrap text-xs text-neutral-600 font-medium">
                       {log.reference || 'N/A'}
                     </td>
 
@@ -299,12 +299,12 @@ export default function AuditLogs() {
                     </td>
 
                     {/* 6. ROLE */}
-                    <td className="py-3.5 px-4 whitespace-nowrap text-[10px] uppercase text-neutral-500">
+                    <td className="py-3.5 px-4 whitespace-nowrap text-xs uppercase text-neutral-500 font-medium">
                       {log.role || 'anonymous'}
                     </td>
 
                     {/* 7. STATUS (Strict clinical text styling: text-emerald-700 / text-red-700, no rounded pills) */}
-                    <td className="py-3.5 px-4 whitespace-nowrap text-[10px] uppercase font-bold tracking-wider">
+                    <td className="py-3.5 px-4 whitespace-nowrap text-xs uppercase font-bold tracking-wider">
                       {isSuccess ? (
                         <span className="text-emerald-700">Success</span>
                       ) : (
@@ -313,7 +313,7 @@ export default function AuditLogs() {
                     </td>
 
                     {/* 8. REMARKS */}
-                    <td className="py-3.5 px-4 text-[10px] text-neutral-500 max-w-xs truncate" title={log.remarks}>
+                    <td className="py-3.5 px-4 text-xs text-neutral-500 max-w-xs truncate" title={log.remarks}>
                       {log.remarks || 'None'}
                     </td>
                   </tr>
@@ -323,7 +323,7 @@ export default function AuditLogs() {
               <tr>
                 <td
                   colSpan={8}
-                  className="py-12 text-center text-neutral-400 font-mono text-xs"
+                  className="py-12 text-center text-neutral-400 font-sans text-xs font-medium"
                 >
                   NO AUDIT RECORDS LOCATED IN SYSTEM TELEMETRY ARCHIVE
                 </td>
@@ -334,7 +334,7 @@ export default function AuditLogs() {
       </div>
 
       {/* Clinical Telemetry Footer */}
-      <div className="flex flex-col sm:flex-row items-center justify-between text-[10px] font-mono text-neutral-400 px-1">
+      <div className="flex flex-col sm:flex-row items-center justify-between text-xs font-sans text-neutral-400 px-1 font-medium">
         <div className="flex items-center space-x-2">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
           <span>SYSTEM AUDIT SPECIFICATION: ISO/IEC 27001 COMPLIANT TELEMETRY</span>

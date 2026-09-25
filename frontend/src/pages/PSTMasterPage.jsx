@@ -8,7 +8,7 @@ export default function PSTMasterPage({ psts }) {
       <div className="border border-neutral-200 bg-white p-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
+            <span className="font-sans text-[10px] uppercase tracking-wider text-neutral-400 block font-medium">
               EXECUTIVE GOVERNANCE
             </span>
             <h2 className="text-base font-sans font-bold uppercase tracking-wider text-neutral-900">
@@ -18,7 +18,7 @@ export default function PSTMasterPage({ psts }) {
               The core executive cabinet responsible for administrative, operational, and fiduciary leadership.
             </p>
           </div>
-          <div className="font-mono text-xs text-VASAVI-blue border border-neutral-200 px-3 py-1.5 self-start">
+          <div className="font-sans text-xs font-semibold text-VASAVI-blue border border-neutral-200 px-3 py-1.5 self-start">
             VASAVI YEAR: 2024-2025
           </div>
         </div>
@@ -34,7 +34,7 @@ export default function PSTMasterPage({ psts }) {
             {/* Top Bar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-neutral-200 pb-4 gap-2">
               <div>
-                <span className="font-mono text-[9px] text-neutral-400 uppercase tracking-clinical">
+                <span className="font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
                   EXECUTIVE ROSTER
                 </span>
                 <h3 className="text-sm font-sans font-bold text-neutral-900">
@@ -42,7 +42,7 @@ export default function PSTMasterPage({ psts }) {
                 </h3>
               </div>
 
-              <div className="flex items-center space-x-3 font-mono text-[10px]">
+              <div className="flex items-center space-x-3 font-sans text-xs font-medium">
                 <span className="text-neutral-500">YEAR: {pst.lionYear || '2024-2025'}</span>
                 <span className="text-neutral-300">|</span>
                 <span className="px-2 py-0.5 border border-VASAVI-blue text-VASAVI-blue font-semibold uppercase">
@@ -56,7 +56,7 @@ export default function PSTMasterPage({ psts }) {
               {/* President */}
               <div className="border border-neutral-200 p-5 space-y-3 relative">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-[9px] px-2 py-0.5 bg-neutral-900 text-white uppercase font-bold">
+                  <span className="font-sans text-[10px] px-2 py-0.5 bg-neutral-900 text-white uppercase font-bold tracking-wider">
                     P // PRESIDENT
                   </span>
                   <Award className="w-4 h-4 text-VASAVI-gold" />
@@ -68,7 +68,7 @@ export default function PSTMasterPage({ psts }) {
                       ? `${pst.president.member.firstName} ${pst.president.member.lastName}`
                       : 'Rajesh Sundaram'}
                   </h4>
-                  <span className="font-mono text-[10px] text-neutral-400">
+                  <span className="font-sans text-xs text-neutral-400 font-medium">
                     Chief Executive Officer
                   </span>
                 </div>
@@ -76,13 +76,13 @@ export default function PSTMasterPage({ psts }) {
                 <div className="space-y-1.5 text-xs font-sans font-normal text-neutral-600 border-t border-neutral-100 pt-3">
                   <div className="flex items-center space-x-2">
                     <Mail className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="font-mono text-[11px] truncate">
+                    <span className="font-sans text-xs truncate">
                       {pst.president?.officialEmail || 'president@vasaviclub.org'}
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Phone className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="font-mono text-[11px]">
+                    <span className="font-sans text-xs">
                       {pst.president?.directPhone || '+91 98401 23456'}
                     </span>
                   </div>
@@ -96,7 +96,7 @@ export default function PSTMasterPage({ psts }) {
               {/* Secretary */}
               <div className="border border-neutral-200 p-5 space-y-3 relative">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-[9px] px-2 py-0.5 bg-neutral-900 text-white uppercase font-bold">
+                  <span className="font-sans text-[10px] px-2 py-0.5 bg-neutral-900 text-white uppercase font-bold tracking-wider">
                     S // SECRETARY
                   </span>
                   <Award className="w-4 h-4 text-VASAVI-gold" />
@@ -108,7 +108,7 @@ export default function PSTMasterPage({ psts }) {
                       ? `${pst.secretary.member.firstName} ${pst.secretary.member.lastName}`
                       : 'Dr. Ananya Venkatesh'}
                   </h4>
-                  <span className="font-mono text-[10px] text-neutral-400">
+                  <span className="font-sans text-xs text-neutral-400 font-medium">
                     Chief Administrative Officer
                   </span>
                 </div>
@@ -116,13 +116,13 @@ export default function PSTMasterPage({ psts }) {
                 <div className="space-y-1.5 text-xs font-sans font-normal text-neutral-600 border-t border-neutral-100 pt-3">
                   <div className="flex items-center space-x-2">
                     <Mail className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="font-mono text-[11px] truncate">
+                    <span className="font-sans text-xs truncate">
                       {pst.secretary?.officialEmail || 'secretary@vasaviclub.org'}
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Phone className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="font-mono text-[11px]">
+                    <span className="font-sans text-xs">
                       {pst.secretary?.directPhone || '+91 98402 34567'}
                     </span>
                   </div>
@@ -136,7 +136,7 @@ export default function PSTMasterPage({ psts }) {
               {/* Treasurer */}
               <div className="border border-neutral-200 p-5 space-y-3 relative">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-[9px] px-2 py-0.5 bg-neutral-900 text-white uppercase font-bold">
+                  <span className="font-sans text-[10px] px-2 py-0.5 bg-neutral-900 text-white uppercase font-bold tracking-wider">
                     T // TREASURER
                   </span>
                   <Award className="w-4 h-4 text-VASAVI-gold" />
@@ -148,7 +148,7 @@ export default function PSTMasterPage({ psts }) {
                       ? `${pst.treasurer.member.firstName} ${pst.treasurer.member.lastName}`
                       : 'Karthik Narayanan'}
                   </h4>
-                  <span className="font-mono text-[10px] text-neutral-400">
+                  <span className="font-sans text-xs text-neutral-400 font-medium">
                     Chief Financial Officer
                   </span>
                 </div>
@@ -156,13 +156,13 @@ export default function PSTMasterPage({ psts }) {
                 <div className="space-y-1.5 text-xs font-sans font-normal text-neutral-600 border-t border-neutral-100 pt-3">
                   <div className="flex items-center space-x-2">
                     <Mail className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="font-mono text-[11px] truncate">
+                    <span className="font-sans text-xs truncate">
                       {pst.treasurer?.officialEmail || 'treasurer@vasaviclub.org'}
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Phone className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="font-mono text-[11px]">
+                    <span className="font-sans text-xs">
                       {pst.treasurer?.directPhone || '+91 98403 45678'}
                     </span>
                   </div>
@@ -176,10 +176,10 @@ export default function PSTMasterPage({ psts }) {
 
             {/* Cabinet Motto Banner */}
             <div className="border-t border-neutral-100 pt-4 flex flex-col sm:flex-row sm:items-center justify-between text-xs text-neutral-500 gap-2">
-              <span className="font-mono text-[10px] text-neutral-400">
+              <span className="font-sans text-xs text-neutral-400 font-medium">
                 MOTTO: <span className="text-neutral-900 font-semibold">{pst.cabinetMotto || 'Fellowship and Service'}</span>
               </span>
-              <span className="font-mono text-[10px] text-VASAVI-blue">
+              <span className="font-sans text-xs font-semibold text-VASAVI-blue">
                 INSTALLED: {pst.installedDate ? new Date(pst.installedDate).toLocaleDateString() : 'JULY 1, 2024'}
               </span>
             </div>

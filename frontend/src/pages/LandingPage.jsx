@@ -251,29 +251,29 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white text-neutral-900 font-sans font-normal selection:bg-VASAVI-blue selection:text-white">
       {/* 1. TOP UTILITY BAR (Very thin full-width bar) */}
-      <div className="w-full bg-neutral-50 border-b border-gray-200 py-1.5 px-4 sm:px-8 text-[11px] font-mono text-neutral-500">
+      <div className="w-full bg-neutral-50 border-b border-gray-200 py-1.5 px-4 sm:px-8 text-xs font-sans text-neutral-500">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1.5">
           {/* Contact Coordinates */}
           <div className="flex items-center space-x-4 flex-wrap justify-center sm:justify-start">
             <div className="flex items-center space-x-1.5">
-              <Mail className="w-3 h-3 text-neutral-400 flex-shrink-0" />
+              <Mail className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
               <span>secretariat@vasaviclub.org</span>
             </div>
             <span className="text-neutral-300 hidden sm:inline">|</span>
             <div className="flex items-center space-x-1.5">
-              <Phone className="w-3 h-3 text-neutral-400 flex-shrink-0" />
+              <Phone className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
               <span>+91 44 2851 4090</span>
             </div>
             <span className="text-neutral-300 hidden md:inline">|</span>
             <div className="hidden md:flex items-center space-x-1.5 text-neutral-400">
-              <MapPin className="w-3 h-3 text-neutral-400 flex-shrink-0" />
+              <MapPin className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
               <span>DISTRICT V-324 JURISDICTION</span>
             </div>
           </div>
 
           {/* Monochrome Social & Institutional Media */}
           <div className="flex items-center space-x-3 text-neutral-400">
-            <span className="text-[10px] tracking-wider uppercase hidden lg:inline">CONNECT //</span>
+            <span className="text-[10px] tracking-wider uppercase hidden lg:inline font-medium">CONNECT //</span>
             <a
               href="https://vasaviclubs.org"
               target="_blank"
@@ -281,16 +281,16 @@ export default function LandingPage() {
               className="hover:text-neutral-900 transition-colors"
               title="Official Portal"
             >
-              <Globe className="w-3 h-3" />
+              <Globe className="w-3.5 h-3.5" />
             </a>
             <a
               href="#contact"
               className="hover:text-neutral-900 transition-colors"
               title="Public Inquiries"
             >
-              <Mail className="w-3 h-3" />
+              <Mail className="w-3.5 h-3.5" />
             </a>
-            <span className="text-[10px] text-neutral-400 border border-neutral-200 px-1.5 py-0.2">
+            <span className="text-[10px] text-neutral-500 border border-neutral-200 px-1.5 py-0.5 font-medium">
               PORTAL V2.4
             </span>
           </div>
@@ -311,14 +311,14 @@ export default function LandingPage() {
               <h1 className="text-sm sm:text-base font-sans font-bold tracking-tight text-neutral-900 leading-tight">
                 Unified Digital Community Portal
               </h1>
-              <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400 block mt-0.5">
+              <span className="text-[10px] uppercase tracking-wider text-neutral-400 block mt-0.5 font-medium">
                 VASAVI CLUBS INTERNATIONAL // DISTRICT V-324
               </span>
             </div>
           </Link>
 
           {/* Center: Minimalist Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-8 text-xs font-mono uppercase tracking-wider text-neutral-600">
+          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8 text-xs font-sans font-medium uppercase tracking-wider text-neutral-600">
             <a href="#hero" className="hover:text-VASAVI-blue transition-colors">
               Home
             </a>
@@ -340,7 +340,7 @@ export default function LandingPage() {
           </nav>
 
           {/* Right: Two Clear Call-to-Action Text Buttons */}
-          <div className="hidden sm:flex items-center space-x-3 font-mono text-xs">
+          <div className="hidden sm:flex items-center space-x-3 font-sans text-xs font-semibold">
             <button
               onClick={() => navigate('/login')}
               className="px-3.5 py-2 border border-neutral-300 hover:border-neutral-900 text-neutral-800 uppercase tracking-wider transition-colors cursor-pointer bg-white"
@@ -367,7 +367,7 @@ export default function LandingPage() {
 
         {/* Mobile Dropdown Nav Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-gray-200 px-6 py-4 space-y-3 font-mono text-xs uppercase tracking-wider">
+          <div className="lg:hidden bg-white border-b border-gray-200 px-6 py-4 space-y-3 font-sans text-xs uppercase tracking-wider font-medium">
             <a
               href="#hero"
               onClick={() => setMobileMenuOpen(false)}
@@ -416,7 +416,7 @@ export default function LandingPage() {
                   setMobileMenuOpen(false);
                   navigate('/login');
                 }}
-                className="w-full py-2 border border-neutral-300 text-center uppercase tracking-wider"
+                className="w-full py-2 border border-neutral-300 text-center uppercase tracking-wider font-semibold"
               >
                 [ MEMBER LOGIN ]
               </button>
@@ -425,7 +425,7 @@ export default function LandingPage() {
                   setMobileMenuOpen(false);
                   navigate('/login?tab=register');
                 }}
-                className="w-full py-2 bg-neutral-900 text-white text-center uppercase tracking-wider"
+                className="w-full py-2 bg-neutral-900 text-white text-center uppercase tracking-wider font-semibold"
               >
                 [ JOIN US ]
               </button>
@@ -454,7 +454,7 @@ export default function LandingPage() {
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24 text-white">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 border border-neutral-700 bg-neutral-900/80 font-mono text-[9px] uppercase tracking-widest text-neutral-300 mb-6">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 border border-neutral-700 bg-neutral-900/80 text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-300 mb-6">
             <span className="w-1.5 h-1.5 bg-VASAVI-gold rounded-full"></span>
             <span>INSTITUTIONAL REGISTRY // DISTRICT V-324 JURISDICTION</span>
           </div>
@@ -476,7 +476,7 @@ export default function LandingPage() {
             District V-324. Empowering civic leadership and sustainable community welfare.
           </p>
 
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 font-mono text-xs">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 text-xs font-sans font-semibold">
             <button
               onClick={() => navigate('/login?tab=register')}
               className="w-full sm:w-auto px-6 py-3 border border-VASAVI-gold bg-VASAVI-gold hover:bg-VASAVI-goldDark text-neutral-950 font-semibold uppercase tracking-wider transition-colors cursor-pointer"
@@ -520,7 +520,7 @@ export default function LandingPage() {
                 <div>
                   {/* Top Bar with Micro Specification Code & Thin-Line Icon */}
                   <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-                    <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400">
+                    <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400">
                       {card.code}
                     </span>
                     <Icon className="w-4 h-4 text-neutral-700 stroke-[1.5]" />
@@ -541,7 +541,7 @@ export default function LandingPage() {
                 <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
                   <button
                     onClick={handleCardAction}
-                    className="font-mono text-[11px] uppercase tracking-wider text-neutral-900 hover:text-VASAVI-blue font-medium transition-colors inline-flex items-center space-x-1 cursor-pointer"
+                    className="text-xs font-sans font-semibold uppercase tracking-wider text-neutral-900 hover:text-VASAVI-blue transition-colors inline-flex items-center space-x-1 cursor-pointer"
                   >
                     <span>{card.actionText}</span>
                     <ArrowRight className="w-3 h-3 ml-1" />
@@ -563,14 +563,14 @@ export default function LandingPage() {
               {/* Module Header */}
               <div className="border-b border-gray-200 pb-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400 block">
+                  <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400 block">
                     VCI-CABINET // CENTRAL GOVERNANCE COUNCIL
                   </span>
-                  <h3 className="font-mono text-xs sm:text-sm font-bold uppercase tracking-widest text-neutral-900 mt-0.5">
+                  <h3 className="text-xs sm:text-sm font-sans font-bold uppercase tracking-wider text-neutral-900 mt-0.5">
                     [ OUR LEADERSHIP ]
                   </h3>
                 </div>
-                <span className="font-mono text-[10px] text-neutral-500 uppercase border border-neutral-200 px-2 py-0.5 self-start sm:self-auto bg-neutral-50 rounded-none">
+                <span className="text-[10px] font-sans font-medium text-neutral-500 uppercase border border-neutral-200 px-2.5 py-0.5 self-start sm:self-auto bg-neutral-50 rounded-none">
                   INCUMBENT CABINET 2024-2025
                 </span>
               </div>
@@ -590,7 +590,7 @@ export default function LandingPage() {
                           alt={leader.name}
                           className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-300"
                         />
-                        <div className="absolute top-1 left-1 bg-neutral-900/80 text-white font-mono text-[8px] px-1 py-0.5 tracking-wider">
+                        <div className="absolute top-1 left-1 bg-neutral-900/80 text-white text-[9px] font-sans font-medium px-1.5 py-0.5 tracking-wider">
                           {leader.code}
                         </div>
                       </div>
@@ -603,7 +603,7 @@ export default function LandingPage() {
 
                     {/* Role */}
                     <div className="mt-2.5 pt-2 border-t border-neutral-100">
-                      <span className="font-mono text-[9px] font-semibold uppercase tracking-wider text-VASAVI-blue block leading-tight">
+                      <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-VASAVI-blue block leading-tight">
                         {leader.role}
                       </span>
                     </div>
@@ -612,7 +612,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="mt-6 pt-3 border-t border-gray-100 flex items-center justify-between font-mono text-[9px] text-neutral-400 uppercase tracking-clinical">
+            <div className="mt-6 pt-3 border-t border-gray-100 flex items-center justify-between text-[10px] font-sans font-medium text-neutral-400 uppercase tracking-wider">
               <span>VASAVI CLUBS INTERNATIONAL CABINET</span>
               <span>CONSTITUTIONAL MANDATE</span>
             </div>
@@ -624,14 +624,14 @@ export default function LandingPage() {
               {/* Module Header */}
               <div className="border-b border-gray-200 pb-4 mb-6 flex items-center justify-between">
                 <div>
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400 block">
+                  <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400 block">
                     VCI-CHRONOLOGY // HISTORICAL MILESTONES
                   </span>
-                  <h3 className="font-mono text-xs sm:text-sm font-bold uppercase tracking-widest text-neutral-900 mt-0.5">
+                  <h3 className="text-xs sm:text-sm font-sans font-bold uppercase tracking-wider text-neutral-900 mt-0.5">
                     [ MOVEMENT NOTES ]
                   </h3>
                 </div>
-                <span className="font-mono text-[10px] text-neutral-400">
+                <span className="text-[10px] font-sans font-medium text-neutral-400 uppercase">
                   MILESTONES
                 </span>
               </div>
@@ -644,10 +644,10 @@ export default function LandingPage() {
                     className="border border-neutral-200 p-3.5 bg-neutral-50/40 hover:bg-white transition-colors text-left space-y-1.5 rounded-none"
                   >
                     <div className="flex items-center space-x-2">
-                      <span className="border border-neutral-900 bg-neutral-900 text-white font-mono text-[10px] font-bold px-2 py-0.5 tracking-wider rounded-none">
+                      <span className="border border-neutral-900 bg-neutral-900 text-white text-[10px] font-sans font-bold px-2 py-0.5 tracking-wider rounded-none">
                         {milestone.tag}
                       </span>
-                      <span className="font-mono text-[10px] font-bold uppercase text-neutral-900 tracking-wider">
+                      <span className="text-[11px] font-sans font-bold uppercase text-neutral-900 tracking-wider">
                         {milestone.title}
                       </span>
                     </div>
@@ -659,7 +659,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="mt-6 pt-3 border-t border-gray-100 flex items-center justify-between font-mono text-[9px] text-neutral-400 uppercase tracking-clinical">
+            <div className="mt-6 pt-3 border-t border-gray-100 flex items-center justify-between text-[10px] font-sans font-medium text-neutral-400 uppercase tracking-wider">
               <span>CHRONICLE STATUS: VERIFIED</span>
               <span>EST. 1961</span>
             </div>
@@ -674,14 +674,14 @@ export default function LandingPage() {
               {/* Module Header */}
               <div className="border-b border-gray-200 pb-4 mb-5 flex items-center justify-between">
                 <div>
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400 block">
+                  <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400 block">
                     VCI-GAZETTE // CHAPTER DISPATCHES
                   </span>
-                  <h3 className="font-mono text-xs sm:text-sm font-bold uppercase tracking-widest text-neutral-900 mt-0.5">
+                  <h3 className="text-xs sm:text-sm font-sans font-bold uppercase tracking-wider text-neutral-900 mt-0.5">
                     [ LATEST NEWS ]
                   </h3>
                 </div>
-                <span className="font-mono text-[10px] text-neutral-400">
+                <span className="text-[10px] font-sans font-medium text-neutral-400 uppercase">
                   OCTET.2024
                 </span>
               </div>
@@ -691,7 +691,7 @@ export default function LandingPage() {
                 {dashboardNews.map((item, idx) => (
                   <div key={idx} className="pt-3 first:pt-0 flex items-start space-x-3 text-left">
                     {/* Tabular Block Date Badge */}
-                    <div className="flex-shrink-0 border border-neutral-300 bg-neutral-50 px-2.5 py-1.5 text-center w-14 font-mono rounded-none">
+                    <div className="flex-shrink-0 border border-neutral-300 bg-neutral-50 px-2.5 py-1.5 text-center w-14 font-sans rounded-none">
                       <div className="text-xs font-bold text-neutral-900 leading-none">
                         {item.day}
                       </div>
@@ -702,7 +702,7 @@ export default function LandingPage() {
 
                     {/* Content */}
                     <div className="flex-1 space-y-1">
-                      <div className="font-mono text-[8px] uppercase tracking-wider text-VASAVI-blue font-semibold">
+                      <div className="text-[10px] font-sans uppercase tracking-wider text-VASAVI-blue font-bold">
                         {item.category}
                       </div>
                       <h4 className="font-sans font-bold text-xs text-neutral-900 leading-snug">
@@ -717,7 +717,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between font-mono text-[10px]">
+            <div className="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between text-xs font-sans font-semibold">
               <a
                 href="#news"
                 className="text-neutral-900 hover:text-VASAVI-blue uppercase tracking-wider transition-colors inline-flex items-center space-x-1"
@@ -734,14 +734,14 @@ export default function LandingPage() {
               {/* Module Header */}
               <div className="border-b border-gray-200 pb-4 mb-5 flex items-center justify-between">
                 <div>
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400 block">
+                  <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400 block">
                     VCI-CALENDAR // DISTRICT SUMMITS
                   </span>
-                  <h3 className="font-mono text-xs sm:text-sm font-bold uppercase tracking-widest text-neutral-900 mt-0.5">
+                  <h3 className="text-xs sm:text-sm font-sans font-bold uppercase tracking-wider text-neutral-900 mt-0.5">
                     [ LATEST EVENTS ]
                   </h3>
                 </div>
-                <span className="font-mono text-[10px] text-neutral-400">
+                <span className="text-[10px] font-sans font-medium text-neutral-400 uppercase">
                   UPCOMING
                 </span>
               </div>
@@ -751,7 +751,7 @@ export default function LandingPage() {
                 {dashboardEvents.map((evt, idx) => (
                   <div key={idx} className="pt-3.5 first:pt-0 flex items-start space-x-3 text-left">
                     {/* Tabular Block Date Badge */}
-                    <div className="flex-shrink-0 border border-neutral-300 bg-neutral-50 px-2.5 py-1.5 text-center w-14 font-mono rounded-none">
+                    <div className="flex-shrink-0 border border-neutral-300 bg-neutral-50 px-2.5 py-1.5 text-center w-14 font-sans rounded-none">
                       <div className="text-xs font-bold text-neutral-900 leading-none">
                         {evt.day}
                       </div>
@@ -763,17 +763,17 @@ export default function LandingPage() {
                     {/* Content */}
                     <div className="flex-1 space-y-1.5">
                       <div className="flex items-center space-x-2">
-                        <span className="font-mono text-[8px] border border-neutral-200 bg-neutral-100 px-1.5 py-0.2 uppercase text-neutral-700 rounded-none">
+                        <span className="text-[10px] font-sans font-medium border border-neutral-200 bg-neutral-100 px-1.5 py-0.5 uppercase text-neutral-700 rounded-none">
                           {evt.badge}
                         </span>
-                        <span className="font-mono text-[9px] text-neutral-400">
+                        <span className="text-[10px] font-sans font-medium text-neutral-400">
                           {evt.time}
                         </span>
                       </div>
                       <h4 className="font-sans font-bold text-xs text-neutral-900 leading-snug">
                         {evt.title}
                       </h4>
-                      <div className="font-mono text-[10px] text-neutral-500 flex items-center space-x-1">
+                      <div className="text-xs font-sans text-neutral-500 flex items-center space-x-1">
                         <MapPin className="w-3 h-3 text-neutral-400 flex-shrink-0" />
                         <span className="truncate">{evt.venue}</span>
                       </div>
@@ -783,7 +783,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between font-mono text-[10px]">
+            <div className="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between text-xs font-sans font-semibold">
               <a
                 href="#events"
                 className="text-neutral-900 hover:text-VASAVI-blue uppercase tracking-wider transition-colors inline-flex items-center space-x-1"
@@ -800,10 +800,10 @@ export default function LandingPage() {
               {/* Module Header */}
               <div className="border-b border-gray-200 pb-4 mb-5 flex items-center justify-between">
                 <div>
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400 block">
+                  <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400 block">
                     VCI-ENDOWMENT // PHILANTHROPIC TRUST
                   </span>
-                  <h3 className="font-mono text-xs sm:text-sm font-bold uppercase tracking-widest text-neutral-900 mt-0.5">
+                  <h3 className="text-xs sm:text-sm font-sans font-bold uppercase tracking-wider text-neutral-900 mt-0.5">
                     [ SUPPORT VCI SERVICE ]
                   </h3>
                 </div>
@@ -817,7 +817,7 @@ export default function LandingPage() {
                 </p>
 
                 {/* Direct Contact Coordinates */}
-                <div className="border border-neutral-200 bg-neutral-50/70 p-3.5 space-y-2 font-mono text-[11px] rounded-none">
+                <div className="border border-neutral-200 bg-neutral-50/70 p-3.5 space-y-2 text-xs font-sans rounded-none">
                   <div className="flex items-center space-x-2 text-neutral-700">
                     <Mail className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
                     <span className="truncate">secretariat@vasaviclubs.org</span>
@@ -839,7 +839,7 @@ export default function LandingPage() {
               <button
                 type="button"
                 onClick={() => setDonateModalOpen(true)}
-                className="w-full py-3 px-4 bg-neutral-900 hover:bg-VASAVI-blue text-white font-mono text-xs uppercase tracking-widest transition-colors cursor-pointer border-none rounded-none text-center block shadow-none"
+                className="w-full py-3 px-4 bg-neutral-900 hover:bg-VASAVI-blue text-white text-xs font-sans font-semibold uppercase tracking-wider transition-colors cursor-pointer border-none rounded-none text-center block shadow-none"
               >
                 [ DONATE TO SERVICE FUND ]
               </button>
@@ -854,7 +854,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             {/* Left Narrative */}
             <div className="lg:col-span-7 space-y-5 text-left">
-              <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
+              <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400 block">
                 INSTITUTIONAL FOUNDATION // ARCHIVE 1984
               </span>
               <h2 className="text-2xl sm:text-3xl font-sans font-bold tracking-tight text-neutral-900">
@@ -872,17 +872,17 @@ export default function LandingPage() {
                 nutritional security, educational bursaries, and civic disaster relief.
               </p>
 
-              <div className="pt-4 border-t border-gray-200 grid grid-cols-2 sm:grid-cols-3 gap-4 font-mono text-xs">
+              <div className="pt-4 border-t border-gray-200 grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs font-sans">
                 <div className="p-3 border border-gray-200 bg-neutral-50/50">
-                  <span className="text-[9px] text-neutral-400 block uppercase">CHARTER YEAR</span>
+                  <span className="text-[10px] font-medium text-neutral-400 block uppercase">CHARTER YEAR</span>
                   <span className="text-base font-sans font-bold text-neutral-900">1984</span>
                 </div>
                 <div className="p-3 border border-gray-200 bg-neutral-50/50">
-                  <span className="text-[9px] text-neutral-400 block uppercase">DISTRICT</span>
+                  <span className="text-[10px] font-medium text-neutral-400 block uppercase">DISTRICT</span>
                   <span className="text-base font-sans font-bold text-neutral-900">V-324</span>
                 </div>
                 <div className="p-3 border border-gray-200 bg-neutral-50/50 col-span-2 sm:col-span-1">
-                  <span className="text-[9px] text-neutral-400 block uppercase">MOTTO</span>
+                  <span className="text-[10px] font-medium text-neutral-400 block uppercase">MOTTO</span>
                   <span className="text-sm font-sans font-bold text-VASAVI-blue">Live to Serve</span>
                 </div>
               </div>
@@ -891,17 +891,17 @@ export default function LandingPage() {
             {/* Right Clinical Dossier Card */}
             <div className="lg:col-span-5 border border-gray-200 bg-neutral-50/50 p-6 sm:p-8 space-y-6 text-left">
               <div className="border-b border-gray-200 pb-3 flex items-center justify-between">
-                <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400">
+                <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400">
                   DISTRICT V-324 SECRETARIAT
                 </span>
-                <span className="font-mono text-[9px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 uppercase">
+                <span className="text-[10px] font-sans font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 uppercase">
                   ACTIVE REGISTRY
                 </span>
               </div>
 
-              <div className="space-y-4 text-xs font-mono">
+              <div className="space-y-4 text-xs font-sans">
                 <div>
-                  <span className="text-[9px] text-neutral-400 uppercase block">ADMINISTRATIVE HEADQUARTERS</span>
+                  <span className="text-[10px] font-medium text-neutral-400 uppercase block">ADMINISTRATIVE HEADQUARTERS</span>
                   <span className="text-sm font-sans font-bold text-neutral-900">
                     Vasavi Seva Bhavan // District V-324
                   </span>
@@ -911,12 +911,12 @@ export default function LandingPage() {
                 </div>
 
                 <div className="pt-3 border-t border-gray-200">
-                  <span className="text-[9px] text-neutral-400 uppercase block">INCUMBENT CABINET YEAR</span>
+                  <span className="text-[10px] font-medium text-neutral-400 uppercase block">INCUMBENT CABINET YEAR</span>
                   <span className="text-sm font-sans font-bold text-neutral-900">2024 - 2025</span>
                 </div>
 
                 <div className="pt-3 border-t border-gray-200 flex items-center justify-between">
-                  <span className="text-[9px] text-neutral-400 uppercase">OFFICIAL EMAIL</span>
+                  <span className="text-[10px] font-medium text-neutral-400 uppercase">OFFICIAL EMAIL</span>
                   <span className="text-VASAVI-blue font-bold">secretariat@vasaviclub.org</span>
                 </div>
               </div>
@@ -924,7 +924,7 @@ export default function LandingPage() {
               <div className="pt-2">
                 <button
                   onClick={() => navigate('/login')}
-                  className="w-full py-2.5 border border-neutral-900 hover:bg-neutral-900 hover:text-white text-neutral-900 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                  className="w-full py-2.5 border border-neutral-900 hover:bg-neutral-900 hover:text-white text-neutral-900 text-xs font-sans font-semibold uppercase tracking-wider transition-colors cursor-pointer"
                 >
                   [ ACCESS CHAPTER DIRECTORY ]
                 </button>
@@ -938,7 +938,7 @@ export default function LandingPage() {
       <section id="pillars" className="py-16 border-t border-gray-200 bg-neutral-50/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
-            <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
+            <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400 block">
               SYSTEMIC IMPACT // CORE DOMAINS
             </span>
             <h2 className="text-2xl sm:text-3xl font-sans font-bold tracking-tight text-neutral-900">
@@ -959,7 +959,7 @@ export default function LandingPage() {
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-                      <span className="font-mono text-[9px] text-neutral-400">{pillar.code}</span>
+                      <span className="text-[10px] font-sans font-medium text-neutral-400">{pillar.code}</span>
                       <Icon className="w-4 h-4 text-neutral-700 stroke-[1.5]" />
                     </div>
                     <h3 className="text-sm font-sans font-bold text-neutral-900 leading-snug">
@@ -971,7 +971,7 @@ export default function LandingPage() {
                   </div>
 
                   <div className="pt-3 border-t border-gray-100">
-                    <span className="font-mono text-[9px] uppercase tracking-wider text-neutral-400">
+                    <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400">
                       STATUS: PERPETUAL
                     </span>
                   </div>
@@ -987,14 +987,14 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4 text-left">
             <div>
-              <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
+              <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400 block">
                 COMMUNITY CALENDAR // 2026
               </span>
               <h2 className="text-2xl sm:text-3xl font-sans font-bold tracking-tight text-neutral-900 mt-1">
                 Upcoming District Events & Assemblies
               </h2>
             </div>
-            <span className="font-mono text-xs text-neutral-400 uppercase">
+            <span className="text-xs font-sans font-medium text-neutral-400 uppercase">
               DISTRICT CALENDAR // V-324
             </span>
           </div>
@@ -1006,22 +1006,22 @@ export default function LandingPage() {
                 className="py-6 flex flex-col md:flex-row md:items-center justify-between gap-4 text-left hover:bg-neutral-50/60 transition-colors px-2"
               >
                 <div className="flex items-start sm:items-center space-x-6">
-                  <div className="font-mono text-center border border-gray-200 bg-neutral-50 px-3 py-2 min-w-[90px]">
+                  <div className="font-sans text-center border border-gray-200 bg-neutral-50 px-3 py-2 min-w-[90px]">
                     <span className="text-xs font-bold text-neutral-900 block">{evt.date.split(',')[0]}</span>
-                    <span className="text-[10px] text-neutral-500">{evt.date.split(',')[1]}</span>
+                    <span className="text-[10px] text-neutral-500 font-medium">{evt.date.split(',')[1]}</span>
                   </div>
                   <div className="space-y-1">
                     <div className="flex items-center space-x-2">
-                      <span className="font-mono text-[8px] border border-neutral-300 px-1.5 py-0.2 uppercase text-neutral-600">
+                      <span className="text-[10px] font-sans font-medium border border-neutral-300 px-1.5 py-0.5 uppercase text-neutral-600">
                         {evt.category}
                       </span>
-                      <span className="font-mono text-[9px] text-neutral-400">{evt.code}</span>
+                      <span className="text-[10px] font-sans font-medium text-neutral-400">{evt.code}</span>
                     </div>
                     <h3 className="text-sm font-sans font-bold text-neutral-900">
                       {evt.title}
                     </h3>
                     <div className="flex items-center space-x-1.5 text-xs font-sans font-normal text-neutral-500">
-                      <MapPin className="w-3 h-3 text-neutral-400" />
+                      <MapPin className="w-3.5 h-3.5 text-neutral-400" />
                       <span>{evt.venue}</span>
                     </div>
                   </div>
@@ -1029,7 +1029,7 @@ export default function LandingPage() {
 
                 <button
                   onClick={() => navigate('/login')}
-                  className="self-start md:self-auto px-4 py-2 border border-gray-200 hover:border-neutral-900 text-neutral-800 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                  className="self-start md:self-auto px-4 py-2 border border-gray-200 hover:border-neutral-900 text-neutral-800 text-xs font-sans font-semibold uppercase tracking-wider transition-colors cursor-pointer"
                 >
                   [ EVENT DETAILS ]
                 </button>
@@ -1044,14 +1044,14 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4 text-left">
             <div>
-              <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
+              <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400 block">
                 FIELD TELEMETRY // PHOTOGRAPHIC ARCHIVE
               </span>
               <h2 className="text-2xl sm:text-3xl font-sans font-bold tracking-tight text-neutral-900 mt-1">
                 Visual Chronicles of Humanitarian Service
               </h2>
             </div>
-            <span className="font-mono text-xs text-neutral-400 uppercase">
+            <span className="text-xs font-sans font-medium text-neutral-400 uppercase">
               FIELD ARCHIVE // 2025-2026
             </span>
           </div>
@@ -1064,7 +1064,7 @@ export default function LandingPage() {
                   alt="Food Distribution Drive"
                   className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300"
                 />
-                <span className="absolute top-2 left-2 font-mono text-[8px] bg-neutral-900 text-white px-1.5 py-0.5 uppercase">
+                <span className="absolute top-2 left-2 text-[10px] font-sans font-medium bg-neutral-900 text-white px-2 py-0.5 uppercase">
                   NUTRITION RELIEF
                 </span>
               </div>
@@ -1085,7 +1085,7 @@ export default function LandingPage() {
                   alt="Medical Health Camp"
                   className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300"
                 />
-                <span className="absolute top-2 left-2 font-mono text-[8px] bg-neutral-900 text-white px-1.5 py-0.5 uppercase">
+                <span className="absolute top-2 left-2 text-[10px] font-sans font-medium bg-neutral-900 text-white px-2 py-0.5 uppercase">
                   EYE & HEALTH
                 </span>
               </div>
@@ -1106,7 +1106,7 @@ export default function LandingPage() {
                   alt="Educational Scholarship Ceremony"
                   className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300"
                 />
-                <span className="absolute top-2 left-2 font-mono text-[8px] bg-neutral-900 text-white px-1.5 py-0.5 uppercase">
+                <span className="absolute top-2 left-2 text-[10px] font-sans font-medium bg-neutral-900 text-white px-2 py-0.5 uppercase">
                   EDUCATION AID
                 </span>
               </div>
@@ -1130,7 +1130,7 @@ export default function LandingPage() {
             {/* Contact Details */}
             <div className="space-y-6">
               <div>
-                <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
+                <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400 block">
                   PUBLIC INQUIRIES & CHAPTER REGISTRATION
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-sans font-bold tracking-tight text-neutral-900 mt-1">
@@ -1142,7 +1142,7 @@ export default function LandingPage() {
                 </p>
               </div>
 
-              <div className="space-y-4 font-mono text-xs">
+              <div className="space-y-4 text-xs font-sans">
                 <div className="flex items-start space-x-3 p-3.5 border border-gray-200 bg-neutral-50/50">
                   <MapPin className="w-4 h-4 text-neutral-500 flex-shrink-0 mt-0.5" />
                   <div>
@@ -1173,7 +1173,7 @@ export default function LandingPage() {
 
             {/* Public Contact / Inquiry Form */}
             <div className="border border-gray-200 bg-neutral-50/40 p-6 sm:p-8 space-y-4">
-              <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400 block border-b border-gray-200 pb-2">
+              <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400 block border-b border-gray-200 pb-2">
                 COMMUNICATION DISPATCH // PROTOCOL 1.0
               </span>
 
@@ -1183,10 +1183,10 @@ export default function LandingPage() {
                   alert('Thank you. Your dispatch has been transmitted to District V-324 Secretariat.');
                   e.target.reset();
                 }}
-                className="space-y-4 text-xs font-mono"
+                className="space-y-4 text-xs font-sans"
               >
                 <div>
-                  <label className="block text-[9px] uppercase tracking-clinical text-neutral-500 mb-1">
+                  <label className="block text-[10px] uppercase tracking-wider text-neutral-500 mb-1 font-medium">
                     FULL NAME // APPLICANT
                   </label>
                   <input
@@ -1199,7 +1199,7 @@ export default function LandingPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[9px] uppercase tracking-clinical text-neutral-500 mb-1">
+                    <label className="block text-[10px] uppercase tracking-wider text-neutral-500 mb-1 font-medium">
                       EMAIL COORDINATE
                     </label>
                     <input
@@ -1210,7 +1210,7 @@ export default function LandingPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-[9px] uppercase tracking-clinical text-neutral-500 mb-1">
+                    <label className="block text-[10px] uppercase tracking-wider text-neutral-500 mb-1 font-medium">
                       PHONE CONTACT
                     </label>
                     <input
@@ -1223,7 +1223,7 @@ export default function LandingPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[9px] uppercase tracking-clinical text-neutral-500 mb-1">
+                  <label className="block text-[10px] uppercase tracking-wider text-neutral-500 mb-1 font-medium">
                     INQUIRY / CHAPTER SPECIFICATION
                   </label>
                   <textarea
@@ -1236,7 +1236,7 @@ export default function LandingPage() {
 
                 <button
                   type="submit"
-                  className="w-full py-3 bg-neutral-900 hover:bg-neutral-800 text-white font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                  className="w-full py-3 bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-sans font-semibold uppercase tracking-wider transition-colors cursor-pointer"
                 >
                   [ TRANSMIT DISPATCH ]
                 </button>
@@ -1247,7 +1247,7 @@ export default function LandingPage() {
       </section>
 
       {/* 10. MINIMALIST CLINICAL FOOTER */}
-      <footer className="border-t border-gray-200 bg-white py-12 px-4 sm:px-8 text-xs font-mono">
+      <footer className="border-t border-gray-200 bg-white py-12 px-4 sm:px-8 text-xs font-sans">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center space-x-3 text-left">
             <img
@@ -1259,13 +1259,13 @@ export default function LandingPage() {
               <span className="font-sans font-bold text-neutral-900 block text-xs tracking-wider uppercase">
                 Vasavi Clubs International // District V-324
               </span>
-              <span className="text-[10px] text-neutral-400 block">
+              <span className="text-[10px] text-neutral-400 block font-medium">
                 Official Unified Digital Community Portal & Governance Platform
               </span>
             </div>
           </div>
 
-          <div className="flex items-center space-x-6 text-neutral-500 text-[11px] uppercase">
+          <div className="flex items-center space-x-6 text-neutral-500 text-xs font-medium uppercase">
             <Link to="/login" className="hover:text-neutral-900 transition-colors">
               Member Login
             </Link>
@@ -1277,9 +1277,9 @@ export default function LandingPage() {
             </a>
           </div>
 
-          <div className="text-neutral-400 text-[10px] text-center md:text-right">
+          <div className="text-neutral-400 text-[10px] font-medium text-center md:text-right">
             <span>© {new Date().getFullYear()} VASAVI CLUBS INTERNATIONAL. ALL RIGHTS RESERVED.</span>
-            <span className="block mt-0.5">SPEC: CLINICAL V2.4 // THE ORDINARY ARCHITECTURE</span>
+            <span className="block mt-0.5">SPEC: CLINICAL V2.4 // PLUS JAKARTA SANS ARCHITECTURE</span>
           </div>
         </div>
       </footer>
@@ -1290,7 +1290,7 @@ export default function LandingPage() {
           <div className="bg-white border border-neutral-200 max-w-lg w-full p-6 sm:p-8 space-y-5 text-left shadow-none rounded-none">
             <div className="border-b border-gray-200 pb-3 flex items-center justify-between">
               <div>
-                <span className="font-mono text-[9px] uppercase tracking-widest text-neutral-400 block">
+                <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400 block">
                   VCI-ENDOWMENT // DIRECT DISBURSEMENT
                 </span>
                 <h3 className="text-base font-sans font-bold uppercase tracking-wide text-neutral-900">
@@ -1309,7 +1309,7 @@ export default function LandingPage() {
               Donations directly fund cataract surgeries, daily Annadanam feeding drives, and student scholarship trusts across District V-324. All donations are certified under Section 80G of the Income Tax Act.
             </p>
 
-            <div className="border border-neutral-200 bg-neutral-50 p-4 font-mono text-xs space-y-2">
+            <div className="border border-neutral-200 bg-neutral-50 p-4 font-sans text-xs space-y-2">
               <div className="flex justify-between border-b border-neutral-200 pb-2">
                 <span className="text-neutral-400">BENEFICIARY:</span>
                 <span className="font-bold text-neutral-900 text-right">VASAVI CLUBS INTL. DISTRICT V-324 TRUST</span>
@@ -1328,7 +1328,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="text-[10px] font-mono text-neutral-500 leading-relaxed border-l-2 border-VASAVI-gold pl-3">
+            <div className="text-xs font-sans text-neutral-500 leading-relaxed border-l-2 border-VASAVI-gold pl-3">
               After transfer, please dispatch transaction receipt to <span className="font-bold text-neutral-800">secretariat@vasaviclubs.org</span> along with PAN number to receive formal Section 80G tax exemption certification.
             </div>
 
@@ -1336,7 +1336,7 @@ export default function LandingPage() {
               <button
                 type="button"
                 onClick={() => setDonateModalOpen(false)}
-                className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white font-mono text-xs uppercase tracking-wider rounded-none"
+                className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-sans font-semibold uppercase tracking-wider rounded-none"
               >
                 [ CLOSE DISPATCH ]
               </button>

@@ -9,7 +9,7 @@ export default function StepContactInfo({ formData, updateFormData, errors }) {
     <div className="space-y-6">
       <div>
         <div className="flex items-center space-x-2">
-          <span className="font-mono text-xs text-VASAVI-blue font-bold">02.0</span>
+          <span className="font-sans text-xs text-VASAVI-blue font-bold">02.0</span>
           <h2 className="text-sm font-sans font-bold tracking-wider uppercase text-neutral-900">
             Contact & Geospatial Registry
           </h2>
@@ -33,11 +33,11 @@ export default function StepContactInfo({ formData, updateFormData, errors }) {
             className={`clinical-input ${errors.email ? 'border-red-500' : ''}`}
           />
           {errors.email ? (
-            <span className="font-mono text-[10px] text-red-600 block mt-1">
+            <span className="font-sans text-xs text-red-600 block mt-1 font-medium">
               {errors.email}
             </span>
           ) : (
-            <span className="font-mono text-[9px] text-neutral-400 block mt-1">
+            <span className="font-sans text-[10px] text-neutral-400 block mt-1 font-medium">
               Serves as primary login & credential dispatch address
             </span>
           )}
@@ -56,7 +56,7 @@ export default function StepContactInfo({ formData, updateFormData, errors }) {
             className={`clinical-input ${errors.phone ? 'border-red-500' : ''}`}
           />
           {errors.phone && (
-            <span className="font-mono text-[10px] text-red-600 block mt-1">
+            <span className="font-sans text-xs text-red-600 block mt-1 font-medium">
               {errors.phone}
             </span>
           )}
@@ -75,7 +75,7 @@ export default function StepContactInfo({ formData, updateFormData, errors }) {
             className={`clinical-input ${errors.address ? 'border-red-500' : ''}`}
           />
           {errors.address && (
-            <span className="font-mono text-[10px] text-red-600 block mt-1">
+            <span className="font-sans text-xs text-red-600 block mt-1 font-medium">
               {errors.address}
             </span>
           )}
@@ -94,7 +94,7 @@ export default function StepContactInfo({ formData, updateFormData, errors }) {
             className={`clinical-input ${errors.city ? 'border-red-500' : ''}`}
           />
           {errors.city && (
-            <span className="font-mono text-[10px] text-red-600 block mt-1">
+            <span className="font-sans text-xs text-red-600 block mt-1 font-medium">
               {errors.city}
             </span>
           )}
@@ -133,10 +133,10 @@ export default function StepContactInfo({ formData, updateFormData, errors }) {
             placeholder="e.g. 600034"
             value={formData.postalCode}
             onChange={(e) => updateFormData('postalCode', e.target.value)}
-            className={`clinical-input font-mono ${errors.postalCode ? 'border-red-500' : ''}`}
+            className={`clinical-input font-sans ${errors.postalCode ? 'border-red-500' : ''}`}
           />
           {errors.postalCode && (
-            <span className="font-mono text-[10px] text-red-600 block mt-1">
+            <span className="font-sans text-xs text-red-600 block mt-1 font-medium">
               {errors.postalCode}
             </span>
           )}

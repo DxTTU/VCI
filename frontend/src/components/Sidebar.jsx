@@ -102,13 +102,13 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
               <h1 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900">
                 Vasavi Club Intl.
               </h1>
-              <p className="font-mono text-[9px] text-neutral-400 tracking-clinical uppercase">
+              <p className="font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
                 District V-324 // Chapter Portal
               </p>
             </div>
           </div>
           
-          <div className="mt-3 pt-3 border-t border-dashed border-neutral-200 flex items-center justify-between text-[10px] font-mono text-neutral-400">
+          <div className="mt-3 pt-3 border-t border-dashed border-neutral-200 flex items-center justify-between text-[10px] font-sans text-neutral-400 font-medium">
             <span>
               ROLE:{' '}
               <span
@@ -147,7 +147,7 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
               <UserPlus className="w-3.5 h-3.5 text-VASAVI-gold group-hover:rotate-12 transition-transform duration-200" />
               <span className="uppercase text-[11px] tracking-wider">Member Onboarding</span>
             </div>
-            <span className="font-mono text-[10px] text-neutral-400 group-hover:text-white transition-colors">
+            <span className="font-sans text-[10px] font-semibold text-neutral-400 group-hover:text-white transition-colors">
               +NEW
             </span>
           </button>
@@ -156,7 +156,7 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
         {/* Core Menu Navigation */}
         <nav className="p-3 space-y-1">
           <div className="px-3 pt-2 pb-1.5">
-            <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400">
+            <span className="font-sans text-[10px] uppercase tracking-wider text-neutral-400 font-medium">
               Core Modules
             </span>
           </div>
@@ -203,7 +203,7 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
                       <span className={`block font-sans font-medium leading-snug ${isLocked ? 'text-neutral-400' : ''}`}>{item.label}</span>
                       {isLocked && <Lock className="w-2.5 h-2.5 text-neutral-400" />}
                     </div>
-                    <span className="font-mono text-[9px] text-neutral-400 tracking-wider">
+                    <span className="font-sans text-[10px] text-neutral-400 tracking-wider font-medium">
                       {item.code}
                     </span>
                   </div>
@@ -211,7 +211,7 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
 
                 <div className="flex items-center space-x-1.5">
                   {isLocked && (
-                    <span className="font-mono text-[8px] text-neutral-400 tracking-tighter uppercase px-1 py-0.5 border border-neutral-200">
+                    <span className="font-sans text-[9px] font-semibold text-neutral-400 tracking-wider uppercase px-1 py-0.5 border border-neutral-200">
                       ADMIN
                     </span>
                   )}
@@ -233,19 +233,19 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
         <div className="p-3 border-t border-neutral-100 bg-white">
           <button
             onClick={handleSignOut}
-            className="w-full flex items-center justify-between px-3 py-2 border border-neutral-200 hover:border-neutral-900 text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 text-xs font-mono uppercase tracking-wider transition-all duration-150 group"
+            className="w-full flex items-center justify-between px-3 py-2 border border-neutral-200 hover:border-neutral-900 text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 text-xs font-sans font-medium uppercase tracking-wider transition-all duration-150 group"
           >
             <div className="flex items-center space-x-2">
               <LogOut className="w-3.5 h-3.5 text-neutral-400 group-hover:text-red-600 transition-colors" />
               <span>Sign Out</span>
             </div>
-            <span className="text-[9px] text-neutral-400 group-hover:text-neutral-700">[EXIT]</span>
+            <span className="text-[10px] font-medium text-neutral-400 group-hover:text-neutral-700">[EXIT]</span>
           </button>
         </div>
 
         {/* System Telemetry & Clinical Footer */}
         <div className="p-5 border-t border-neutral-200 bg-white">
-        <div className="space-y-2 text-[10px] font-mono text-neutral-500">
+        <div className="space-y-2 text-xs font-sans text-neutral-500 font-medium">
           <div className="flex items-center justify-between">
             <span className="text-neutral-400">REPOSITORY:</span>
             <span className="text-neutral-800 font-medium">COMPASS LOCAL</span>
@@ -263,7 +263,7 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
           </div>
         </div>
 
-        <div className="mt-4 pt-3 border-t border-neutral-100 text-[9px] font-mono text-neutral-400 flex items-center justify-between">
+        <div className="mt-4 pt-3 border-t border-neutral-100 text-[10px] font-sans font-medium text-neutral-400 flex items-center justify-between">
           <span>VASAVI INT. SYSTEM v2.4</span>
           <span className="text-VASAVI-blue">#00338D</span>
         </div>

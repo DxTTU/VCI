@@ -135,15 +135,15 @@ export default function MemberMasterPage({
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center space-x-2">
-              <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
+              <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400 block">
                 MEMBERSHIP DIRECTORY // DISTRICT V-324
               </span>
               {isSuperAdmin ? (
-                <span className="font-mono text-[8px] bg-neutral-900 text-VASAVI-gold border border-neutral-700 px-1.5 py-0.5 uppercase tracking-wider font-semibold">
+                <span className="text-[10px] font-sans font-semibold bg-neutral-900 text-VASAVI-gold border border-neutral-700 px-2 py-0.5 uppercase tracking-wider">
                   SUPER ADMIN CONSOLE ACTIVE
                 </span>
               ) : isAdmin ? (
-                <span className="font-mono text-[8px] bg-neutral-900 text-white px-1.5 py-0.5 uppercase tracking-wider">
+                <span className="text-[10px] font-sans font-semibold bg-neutral-900 text-white px-2 py-0.5 uppercase tracking-wider">
                   ADMIN CONSOLE ACTIVE
                 </span>
               ) : null}
@@ -158,7 +158,7 @@ export default function MemberMasterPage({
 
           <button
             onClick={openOnboardingModal}
-            className="self-start md:self-auto flex items-center space-x-2 px-4 py-2 bg-neutral-900 hover:bg-VASAVI-blue text-white text-xs font-medium uppercase tracking-wider transition-colors"
+            className="self-start md:self-auto flex items-center space-x-2 px-4 py-2 bg-neutral-900 hover:bg-VASAVI-blue text-white text-xs font-sans font-semibold uppercase tracking-wider transition-colors"
           >
             <UserPlus className="w-3.5 h-3.5 text-VASAVI-gold" />
             <span>Induct New Member</span>
@@ -168,7 +168,7 @@ export default function MemberMasterPage({
         {/* Feedback Alert Bar */}
         {feedback && (
           <div
-            className={`mt-4 p-3 border font-mono text-[11px] flex items-center justify-between transition-all ${
+            className={`mt-4 p-3 border font-sans text-xs font-medium flex items-center justify-between transition-all ${
               feedback.type === 'error'
                 ? 'bg-red-50/50 border-red-200 text-red-700'
                 : 'bg-emerald-50/50 border-emerald-200 text-emerald-800'
@@ -200,19 +200,19 @@ export default function MemberMasterPage({
               placeholder="Search by ID, name, or email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-xs border border-neutral-200 bg-neutral-50/50 focus:bg-white focus:border-VASAVI-blue font-mono"
+              className="w-full pl-9 pr-3 py-2 text-xs border border-neutral-200 bg-neutral-50/50 focus:bg-white focus:border-VASAVI-blue font-sans"
             />
           </div>
 
           <div className="flex items-center space-x-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
-            <span className="font-mono text-[10px] text-neutral-400 uppercase mr-1">
+            <span className="text-xs font-sans font-medium text-neutral-400 uppercase mr-1">
               BLOOD:
             </span>
             {bloodGroups.map((bg) => (
               <button
                 key={bg}
                 onClick={() => setSelectedBlood(bg)}
-                className={`px-2 py-1 font-mono text-[10px] border transition-colors ${
+                className={`px-2.5 py-1 font-sans text-xs font-semibold border transition-colors ${
                   selectedBlood === bg
                     ? 'border-VASAVI-blue bg-VASAVI-blue text-white font-bold'
                     : 'border-neutral-200 text-neutral-600 hover:border-neutral-400'
@@ -229,7 +229,7 @@ export default function MemberMasterPage({
       <div className="border border-neutral-200 bg-white overflow-x-auto">
         <table className="w-full text-left text-xs font-sans font-normal">
           <thead>
-            <tr className="border-b border-neutral-200 font-mono text-[9px] text-neutral-400 uppercase tracking-clinical bg-neutral-50/50">
+            <tr className="border-b border-neutral-200 text-[11px] font-sans font-semibold text-neutral-500 uppercase tracking-wider bg-neutral-50/50">
               <th className="py-3 px-4">MEMBER ID</th>
               <th className="py-3 px-4">NAME & VOCATION</th>
               <th className="py-3 px-4">BLOOD</th>
@@ -252,7 +252,7 @@ export default function MemberMasterPage({
                     key={memberKey}
                     className="hover:bg-neutral-50/80 transition-colors"
                   >
-                    <td className="py-3.5 px-4 font-mono font-medium text-neutral-700">
+                    <td className="py-3.5 px-4 font-sans font-semibold text-neutral-700">
                       {m.memberId}
                     </td>
                     <td className="py-3.5 px-4">
@@ -261,12 +261,12 @@ export default function MemberMasterPage({
                           {m.firstName} {m.lastName}
                         </span>
                         {isItemSuperAdmin && (
-                          <span className="font-mono text-[8px] bg-neutral-900 text-VASAVI-gold border border-neutral-700 px-1 py-0.2 tracking-tighter uppercase font-semibold">
+                          <span className="text-[9px] font-sans font-semibold bg-neutral-900 text-VASAVI-gold border border-neutral-700 px-1.5 py-0.5 uppercase">
                             SUPER ADMIN
                           </span>
                         )}
                         {isItemAdmin && !isItemSuperAdmin && (
-                          <span className="font-mono text-[8px] bg-neutral-100 border border-neutral-300 text-neutral-700 px-1 py-0.2 tracking-tighter uppercase">
+                          <span className="text-[9px] font-sans font-semibold bg-neutral-100 border border-neutral-300 text-neutral-700 px-1.5 py-0.5 uppercase">
                             ADMIN
                           </span>
                         )}
@@ -276,7 +276,7 @@ export default function MemberMasterPage({
                       </div>
                     </td>
                     <td className="py-3.5 px-4">
-                      <span className="inline-block px-2 py-0.5 border border-neutral-200 font-mono text-[10px] font-bold text-neutral-800">
+                      <span className="inline-block px-2 py-0.5 border border-neutral-200 font-sans text-xs font-bold text-neutral-800">
                         {m.bloodGroup}
                       </span>
                     </td>
@@ -289,16 +289,16 @@ export default function MemberMasterPage({
                             ? 'Club Administrator'
                             : 'Vasavi Member')}
                       </div>
-                      <div className="font-mono text-[10px] text-neutral-400 truncate max-w-[180px]">
+                      <div className="font-sans text-[11px] text-neutral-400 truncate max-w-[180px]">
                         {m.club?.clubName || 'Vasavi Club Metropolitan'}
                       </div>
                     </td>
-                    <td className="py-3.5 px-4 font-mono text-[11px] text-neutral-600">
+                    <td className="py-3.5 px-4 font-sans text-xs text-neutral-600">
                       <div>{m.email}</div>
                       <div className="text-neutral-400">{m.phone}</div>
                     </td>
                     <td className="py-3.5 px-4">
-                      <span className="inline-flex items-center space-x-1.5 px-2 py-0.5 border border-neutral-200 font-mono text-[9px] text-neutral-700">
+                      <span className="inline-flex items-center space-x-1.5 px-2 py-0.5 border border-neutral-200 font-sans text-xs text-neutral-700">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                         <span>{m.status || 'Active'}</span>
                       </span>
@@ -306,20 +306,20 @@ export default function MemberMasterPage({
 
                     {/* Actions Column (Role Management strictly conditional on isSuperAdmin) */}
                     {isAdmin && (
-                      <td className="py-3.5 px-4 font-mono text-[10px]">
+                      <td className="py-3.5 px-4 font-sans text-xs font-semibold">
                         <div className="flex items-center space-x-3 whitespace-nowrap">
                           {/* Super Admin Role Assignment Controls */}
                           {isSuperAdmin && (
                             <>
                               {isItemSuperAdmin ? (
-                                <span className="text-neutral-400 font-mono text-[9px] tracking-widest">
+                                <span className="text-neutral-400 font-sans text-xs tracking-wider">
                                   [ ROOT ]
                                 </span>
                               ) : isItemAdmin ? (
                                 <button
                                   onClick={() => handleRoleChange(m, 'member')}
                                   disabled={isOperating}
-                                  className="text-amber-700 hover:text-amber-800 font-mono text-[10px] font-medium tracking-wider transition-colors disabled:opacity-40"
+                                  className="text-amber-700 hover:text-amber-800 font-sans text-xs font-semibold tracking-wider transition-colors disabled:opacity-40"
                                   title="Revoke Administrator privilege"
                                 >
                                   {isOperating ? '[ PROCESSING... ]' : '[ REVOKE ADMIN ]'}
@@ -328,7 +328,7 @@ export default function MemberMasterPage({
                                 <button
                                   onClick={() => handleRoleChange(m, 'admin')}
                                   disabled={isOperating}
-                                  className="text-VASAVI-blue hover:text-VASAVI-blueDark font-mono text-[10px] font-medium tracking-wider transition-colors disabled:opacity-40"
+                                  className="text-VASAVI-blue hover:text-VASAVI-blueDark font-sans text-xs font-semibold tracking-wider transition-colors disabled:opacity-40"
                                   title="Elevate member to Administrator"
                                 >
                                   {isOperating ? '[ PROCESSING... ]' : '[ MAKE ADMIN ]'}
@@ -338,7 +338,7 @@ export default function MemberMasterPage({
                           )}
 
                           {!isSuperAdmin && (
-                            <span className="text-neutral-400 font-mono text-[9px] tracking-widest">
+                            <span className="text-neutral-400 font-sans text-xs tracking-wider">
                               {isItemAdmin ? '[ ADMIN ]' : '[ MEMBER ]'}
                             </span>
                           )}
@@ -346,7 +346,7 @@ export default function MemberMasterPage({
                           <button
                             onClick={() => setMemberToDelete(m)}
                             disabled={isOperating || isItemSuperAdmin}
-                            className="text-red-600 hover:text-red-700 font-mono text-[10px] font-medium tracking-wider transition-colors disabled:opacity-40"
+                            className="text-red-600 hover:text-red-700 font-sans text-xs font-semibold tracking-wider transition-colors disabled:opacity-40"
                             title="Purge member dossier from database"
                           >
                             [ REMOVE ]
@@ -361,7 +361,7 @@ export default function MemberMasterPage({
               <tr>
                 <td
                   colSpan={isAdmin ? 7 : 6}
-                  className="py-8 text-center text-neutral-400 font-mono text-xs"
+                  className="py-8 text-center text-neutral-400 font-sans text-xs font-medium"
                 >
                   NO RECORDS FOUND MATCHING QUERY SPECIFICATION
                 </td>
@@ -377,27 +377,27 @@ export default function MemberMasterPage({
           <div className="bg-white border border-neutral-900 max-w-md w-full p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-150 text-left">
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-neutral-200 pb-3">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-red-600 font-semibold flex items-center space-x-1.5">
+              <span className="font-sans text-xs uppercase tracking-wider text-red-600 font-semibold flex items-center space-x-1.5">
                 <AlertTriangle className="w-3.5 h-3.5" />
                 <span>CONFIRM PROTOCOL // DOSSIER PURGE</span>
               </span>
-              <span className="font-mono text-[9px] text-neutral-400">SPEC: SEC-DEL-01</span>
+              <span className="text-[10px] font-sans font-medium text-neutral-400">SPEC: SEC-DEL-01</span>
             </div>
 
             {/* Modal Body */}
-            <div className="space-y-2 text-xs">
+            <div className="space-y-2 text-xs font-sans">
               <p className="font-semibold text-neutral-900">
                 Are you certain you wish to purge the following member record?
               </p>
 
-              <div className="bg-neutral-50 border border-neutral-200 p-3 font-mono text-[11px] space-y-1.5">
+              <div className="bg-neutral-50 border border-neutral-200 p-3 font-sans text-xs space-y-1.5">
                 <div className="flex justify-between">
                   <span className="text-neutral-400">MEMBER ID:</span>
                   <span className="font-bold text-neutral-900">{memberToDelete.memberId}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-neutral-400">NAME:</span>
-                  <span className="text-neutral-900">
+                  <span className="text-neutral-900 font-medium">
                     {memberToDelete.firstName} {memberToDelete.lastName}
                   </span>
                 </div>
@@ -413,18 +413,18 @@ export default function MemberMasterPage({
                 </div>
               </div>
 
-              <p className="text-[10px] text-neutral-500 font-mono tracking-tight pt-1 leading-relaxed">
+              <p className="text-xs text-neutral-500 font-sans tracking-tight pt-1 leading-relaxed">
                 THIS WILL PERMANENTLY REMOVE THE DOSSIER FROM THE DISTRICT V-324 REGISTRY AND TERMINATE ACCESS TO THE PORTAL.
               </p>
             </div>
 
             {/* Modal Actions */}
-            <div className="flex items-center justify-end space-x-3 pt-3 border-t border-neutral-100 font-mono text-xs">
+            <div className="flex items-center justify-end space-x-3 pt-3 border-t border-neutral-100 font-sans text-xs font-semibold">
               <button
                 type="button"
                 onClick={() => setMemberToDelete(null)}
                 disabled={actionLoading}
-                className="px-3 py-1.5 border border-neutral-200 hover:border-neutral-900 text-neutral-700 text-xs font-mono uppercase tracking-wider transition-colors disabled:opacity-50"
+                className="px-3 py-1.5 border border-neutral-200 hover:border-neutral-900 text-neutral-700 text-xs font-sans uppercase tracking-wider transition-colors disabled:opacity-50"
               >
                 [ CANCEL ]
               </button>
@@ -432,7 +432,7 @@ export default function MemberMasterPage({
                 type="button"
                 onClick={handleConfirmDelete}
                 disabled={actionLoading}
-                className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-mono uppercase tracking-wider transition-colors flex items-center space-x-1 disabled:opacity-50"
+                className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-sans uppercase tracking-wider transition-colors flex items-center space-x-1 disabled:opacity-50"
               >
                 <span>{actionLoading ? '[ PURGING... ]' : '[ CONFIRM PURGE ]'}</span>
               </button>

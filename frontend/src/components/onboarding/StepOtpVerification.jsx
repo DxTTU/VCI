@@ -261,7 +261,7 @@ export default function StepOtpVerification({ email, onVerified }) {
     <div className="space-y-6 py-2 select-none">
       {/* Header telemetry */}
       <div className="border-b border-neutral-200 pb-3">
-        <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
+        <span className="font-sans text-[10px] uppercase tracking-wider text-neutral-400 block font-medium">
           PHASE 03 // EMAIL ONE-TIME PASSWORD VERIFICATION
         </span>
         <h3 className="text-sm font-semibold uppercase tracking-wider text-neutral-900 mt-0.5">
@@ -269,7 +269,7 @@ export default function StepOtpVerification({ email, onVerified }) {
         </h3>
         <p className="text-xs text-neutral-500 mt-1">
           A single-use 6-digit cryptographic verification code was dispatched to{' '}
-          <strong className="font-mono text-neutral-900 font-semibold">{email}</strong>.
+          <strong className="font-sans text-neutral-900 font-semibold">{email}</strong>.
           Please check your inbox.
         </p>
       </div>
@@ -293,7 +293,7 @@ export default function StepOtpVerification({ email, onVerified }) {
                 onKeyDown={(e) => handleKeyDown(idx, e)}
                 onPaste={handlePaste}
                 disabled={isVerifying || success || isSending}
-                className={`w-11 h-12 sm:w-13 sm:h-14 text-center font-mono text-xl sm:text-2xl font-medium bg-white border transition-all duration-150 outline-none ${
+                className={`w-11 h-12 sm:w-13 sm:h-14 text-center font-sans text-xl sm:text-2xl font-semibold bg-white border transition-all duration-150 outline-none ${
                   isActive
                     ? 'border-VASAVI-blue ring-1 ring-VASAVI-blue text-neutral-900'
                     : 'border-gray-300 text-neutral-900 hover:border-neutral-400'
@@ -308,29 +308,29 @@ export default function StepOtpVerification({ email, onVerified }) {
           })}
         </div>
 
-        {/* Clinical Monospace Error Box */}
+        {/* Clinical Error Box */}
         {error && (
-          <div className="p-3 my-3.5 border border-red-200 bg-red-50 text-red-700 font-mono text-[11px] text-center uppercase tracking-wider leading-relaxed">
+          <div className="p-3 my-3.5 border border-red-200 bg-red-50 text-red-700 font-sans text-xs text-center uppercase tracking-wider leading-relaxed font-medium">
             {error}
           </div>
         )}
 
         {/* Success Confirmation */}
         {success && (
-          <div className="flex items-center justify-center space-x-1.5 font-mono text-[11px] text-emerald-600 mt-3.5 uppercase tracking-wider">
+          <div className="flex items-center justify-center space-x-1.5 font-sans text-xs text-emerald-600 mt-3.5 uppercase tracking-wider font-semibold">
             <Check className="w-3.5 h-3.5 text-emerald-600" />
             <span>CRYPTOGRAPHIC CODE VERIFIED • ADVANCING DOSSIER</span>
           </div>
         )}
 
         {isVerifying && !success && (
-          <p className="text-center font-mono text-[11px] text-VASAVI-blue mt-3.5 uppercase tracking-wider">
+          <p className="text-center font-sans text-xs text-VASAVI-blue mt-3.5 uppercase tracking-wider font-medium">
             VALIDATING CRYPTOGRAPHIC INPUT...
           </p>
         )}
 
         {isSending && !error && (
-          <p className="text-center font-mono text-[11px] text-neutral-500 mt-3.5 uppercase tracking-wider flex items-center justify-center space-x-1.5">
+          <p className="text-center font-sans text-xs text-neutral-500 mt-3.5 uppercase tracking-wider flex items-center justify-center space-x-1.5 font-medium">
             <Loader2 className="w-3 h-3 animate-spin text-neutral-400" />
             <span>DISPATCHING VERIFICATION CODE TO EMAIL...</span>
           </p>
@@ -338,7 +338,7 @@ export default function StepOtpVerification({ email, onVerified }) {
       </div>
 
       {/* Resend Action & 5-minute TTL countdown */}
-      <div className="pt-4 border-t border-neutral-100 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-neutral-400 gap-2">
+      <div className="pt-4 border-t border-neutral-100 flex flex-col sm:flex-row items-center justify-between text-xs font-sans text-neutral-400 gap-2 font-medium">
         <span className="text-[10px] tracking-wider uppercase">
           TTL DURATION: 5 MINUTES
         </span>

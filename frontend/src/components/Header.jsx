@@ -57,7 +57,7 @@ export default function Header({ currentView, openOnboardingModal, refreshData }
             {viewInfo.title}
           </h1>
           <span className="text-neutral-300">|</span>
-          <span className="font-mono text-[9px] text-neutral-400 tracking-clinical">
+          <span className="font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
             {viewInfo.spec}
           </span>
         </div>
@@ -65,7 +65,7 @@ export default function Header({ currentView, openOnboardingModal, refreshData }
 
       <div className="flex items-center space-x-4">
         {/* Clinical Sync Status */}
-        <div className="hidden sm:flex items-center space-x-2 font-mono text-[10px] text-neutral-500 border border-neutral-200 px-2.5 py-1">
+        <div className="hidden sm:flex items-center space-x-2 font-sans text-xs text-neutral-500 border border-neutral-200 px-2.5 py-1 font-medium">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
           <span>COMPASS: 27017</span>
         </div>

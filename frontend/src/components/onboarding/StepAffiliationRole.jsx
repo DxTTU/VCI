@@ -48,7 +48,7 @@ export default function StepAffiliationRole({ formData, updateFormData, errors, 
     <div className="space-y-6">
       <div>
         <div className="flex items-center space-x-2">
-          <span className="font-mono text-xs text-VASAVI-blue font-bold">03.0</span>
+          <span className="font-sans text-xs text-VASAVI-blue font-bold">03.0</span>
           <h2 className="text-sm font-sans font-bold tracking-wider uppercase text-neutral-900">
             Institutional Affiliation & Cabinet Role
           </h2>
@@ -91,7 +91,7 @@ export default function StepAffiliationRole({ formData, updateFormData, errors, 
             )}
           </select>
           {errors.clubId && (
-            <span className="font-mono text-[10px] text-red-600 block mt-1">
+            <span className="font-sans text-xs text-red-600 block mt-1 font-medium">
               {errors.clubId}
             </span>
           )}
@@ -118,9 +118,9 @@ export default function StepAffiliationRole({ formData, updateFormData, errors, 
                       {tier.name}
                     </span>
                     <span
-                      className={`font-mono text-[9px] px-1.5 py-0.5 border ${
+                      className={`font-sans text-[10px] px-1.5 py-0.5 border font-semibold ${
                         isSelected
-                          ? 'border-VASAVI-blue text-VASAVI-blue font-bold'
+                          ? 'border-VASAVI-blue text-VASAVI-blue'
                           : 'border-neutral-200 text-neutral-400'
                       }`}
                     >
@@ -131,7 +131,7 @@ export default function StepAffiliationRole({ formData, updateFormData, errors, 
                     {tier.desc}
                   </p>
                   {isSelected && (
-                    <div className="mt-2.5 flex items-center space-x-1.5 text-VASAVI-blue font-mono text-[10px]">
+                    <div className="mt-2.5 flex items-center space-x-1.5 text-VASAVI-blue font-sans text-xs font-semibold">
                       <span className="w-1.5 h-1.5 rounded-full bg-VASAVI-gold"></span>
                       <span>ACTIVE SELECTION</span>
                     </div>
@@ -159,7 +159,7 @@ export default function StepAffiliationRole({ formData, updateFormData, errors, 
                 </option>
               ))}
             </select>
-            <span className="font-mono text-[9px] text-neutral-400 block mt-1">
+            <span className="font-sans text-[10px] text-neutral-400 block mt-1 font-medium">
               Select PST officer role or regular Lion Member
             </span>
           </div>
@@ -171,9 +171,9 @@ export default function StepAffiliationRole({ formData, updateFormData, errors, 
               placeholder="e.g. L-100201"
               value={formData.sponsorMemberId}
               onChange={(e) => updateFormData('sponsorMemberId', e.target.value.toUpperCase())}
-              className="clinical-input font-mono"
+              className="clinical-input font-sans uppercase"
             />
-            <span className="font-mono text-[9px] text-neutral-400 block mt-1">
+            <span className="font-sans text-[10px] text-neutral-400 block mt-1 font-medium">
               Member ID of the sponsoring Vasavite in good standing
             </span>
           </div>

@@ -47,7 +47,7 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
       <div className="border border-neutral-200 bg-white p-6 relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
-            <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400">
+            <span className="font-sans text-[10px] uppercase tracking-wider text-neutral-400 font-medium">
               OPERATIONAL JURISDICTION // DISTRICT V-324
             </span>
             <h2 className="text-xl font-sans font-bold tracking-tight text-neutral-900">
@@ -73,7 +73,7 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
         {stats.map((s, idx) => (
           <div key={idx} className="border border-neutral-200 bg-white p-5 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[9px] text-neutral-400 uppercase tracking-clinical">
+              <span className="font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
                 {s.code}
               </span>
               <span className="w-1.5 h-1.5 bg-VASAVI-blue"></span>
@@ -85,7 +85,7 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
               <span className="font-sans font-medium text-neutral-800 text-[11px] uppercase tracking-wide">
                 {s.label}
               </span>
-              <span className="font-mono text-[9px] text-neutral-400">
+              <span className="font-sans text-[10px] text-neutral-400 font-medium">
                 {s.subtext}
               </span>
             </div>
@@ -99,7 +99,7 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
         <div className="lg:col-span-2 border border-neutral-200 bg-white p-6 space-y-4">
           <div className="flex items-center justify-between border-b border-neutral-200 pb-3">
             <div>
-              <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
+              <span className="font-sans text-[10px] uppercase tracking-wider text-neutral-400 block font-medium">
                 PERSONNEL REGISTRY
               </span>
               <h3 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900">
@@ -108,7 +108,7 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
             </div>
             <button
               onClick={openOnboardingModal}
-              className="text-[10px] font-mono text-VASAVI-blue hover:underline uppercase"
+              className="text-xs font-sans font-semibold text-VASAVI-blue hover:underline uppercase"
             >
               + Onboard Member
             </button>
@@ -117,7 +117,7 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs font-sans font-normal">
               <thead>
-                <tr className="border-b border-neutral-200 font-mono text-[9px] text-neutral-400 uppercase tracking-clinical">
+                <tr className="border-b border-neutral-200 font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
                   <th className="py-2">MEMBER ID</th>
                   <th className="py-2">NAME</th>
                   <th className="py-2">BLOOD</th>
@@ -128,14 +128,14 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
               <tbody className="divide-y divide-neutral-100">
                 {members.slice(0, 5).map((m) => (
                   <tr key={m._id || m.memberId} className="hover:bg-neutral-50/70">
-                    <td className="py-3 font-mono text-neutral-600">{m.memberId}</td>
+                    <td className="py-3 font-sans text-xs text-neutral-600 font-medium">{m.memberId}</td>
                     <td className="py-3 font-sans font-medium text-neutral-900">
                       {m.firstName} {m.lastName}
                     </td>
-                    <td className="py-3 font-mono text-neutral-600">{m.bloodGroup}</td>
+                    <td className="py-3 font-sans text-xs text-neutral-600">{m.bloodGroup}</td>
                     <td className="py-3 font-sans font-normal text-neutral-600">{m.role || 'Vasavi Member'}</td>
                     <td className="py-3">
-                      <span className="inline-flex items-center space-x-1 px-2 py-0.5 border border-neutral-200 font-mono text-[9px] text-neutral-700">
+                      <span className="inline-flex items-center space-x-1 px-2 py-0.5 border border-neutral-200 font-sans text-[10px] text-neutral-700 font-medium">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                         <span>{m.status || 'Active'}</span>
                       </span>
@@ -150,7 +150,7 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
         {/* PST Cabinet Quick Card */}
         <div className="border border-neutral-200 bg-white p-6 space-y-4">
           <div className="border-b border-neutral-200 pb-3">
-            <span className="font-mono text-[9px] uppercase tracking-clinical text-neutral-400 block">
+            <span className="font-sans text-[10px] uppercase tracking-wider text-neutral-400 block font-medium">
               EXECUTIVE LEADERSHIP
             </span>
             <h3 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900">
@@ -158,7 +158,7 @@ export default function DashboardPage({ members, clubs, psts, openOnboardingModa
             </h3>
           </div>
 
-          <div className="space-y-3 font-mono text-xs">
+          <div className="space-y-3 font-sans text-xs">
             {/* President */}
             <div className="p-3 border border-neutral-200 space-y-1">
               <div className="flex items-center justify-between text-[10px] text-neutral-400">

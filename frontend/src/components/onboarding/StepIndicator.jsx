@@ -13,15 +13,15 @@ export default function StepIndicator({ currentStep, totalSteps, steps }) {
       {/* Top Meta Line */}
       <div className="flex items-center justify-between text-xs mb-3">
         <div className="flex items-center space-x-2">
-          <span className="font-mono text-[10px] uppercase tracking-clinical text-neutral-400">
+          <span className="font-sans text-[10px] uppercase tracking-wider text-neutral-400 font-medium">
             PHASE {String(currentStep).padStart(2, '0')} / {String(totalSteps).padStart(2, '0')}
           </span>
           <span className="text-neutral-300">|</span>
-          <span className="font-medium text-neutral-900 tracking-wide uppercase text-[11px]">
+          <span className="font-sans font-semibold text-neutral-900 tracking-wide uppercase text-xs">
             {steps[currentStep - 1]?.title}
           </span>
         </div>
-        <div className="font-mono text-[10px] text-VASAVI-blue font-semibold">
+        <div className="font-sans text-xs text-VASAVI-blue font-semibold">
           {Math.round(progressPercent)}% COMPLETE
         </div>
       </div>
@@ -61,7 +61,7 @@ export default function StepIndicator({ currentStep, totalSteps, steps }) {
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="font-mono text-[9px] text-neutral-400">
+                <span className="font-sans text-[10px] text-neutral-400 font-medium">
                   {String(stepNum).padStart(2, '0')}
                 </span>
                 {isCompleted ? (
@@ -72,7 +72,7 @@ export default function StepIndicator({ currentStep, totalSteps, steps }) {
                   <span className="w-2 h-2 rounded-full bg-VASAVI-gold"></span>
                 ) : null}
               </div>
-              <div className="mt-1 font-mono text-[10px] uppercase tracking-wider truncate text-neutral-800">
+              <div className="mt-1 font-sans text-[10px] uppercase tracking-wider truncate text-neutral-800 font-medium">
                 {step.shortName}
               </div>
             </div>

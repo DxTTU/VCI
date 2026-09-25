@@ -303,7 +303,7 @@ export default function DashboardLayout({ initialView }) {
         <main className="flex-1 p-6 md:p-10 max-w-7xl w-full mx-auto">
           {isAccessDenied ? (
             <div className="border border-neutral-200 bg-white p-8 md:p-12 max-w-2xl mx-auto my-12 text-left">
-              <div className="flex items-center space-x-2 text-red-600 font-mono text-[10px] tracking-widest uppercase mb-4">
+              <div className="flex items-center space-x-2 text-red-600 font-sans text-xs font-semibold tracking-wider uppercase mb-4">
                 <ShieldAlert className="w-4 h-4" />
                 <span>SEC.AUTH.403 // RESTRICTED CHAPTER DOSSIER</span>
               </div>
@@ -311,15 +311,15 @@ export default function DashboardLayout({ initialView }) {
                 Administrator Privilege Required
               </h2>
               <p className="text-xs text-neutral-600 font-sans font-normal leading-relaxed mb-6">
-                Access to this Master module ({currentView.toUpperCase().replace('-', ' ')}) is restricted to authenticated Chapter Administrators. Your current session is authenticated under role: <span className="font-mono font-bold text-neutral-900 bg-neutral-100 px-1.5 py-0.5 uppercase">{role}</span>.
+                Access to this Master module ({currentView.toUpperCase().replace('-', ' ')}) is restricted to authenticated Chapter Administrators. Your current session is authenticated under role: <span className="font-sans font-bold text-neutral-900 bg-neutral-100 px-1.5 py-0.5 uppercase tracking-wider">{role}</span>.
               </p>
               <div className="border-t border-neutral-100 pt-6 flex items-center justify-between">
-                <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-clinical">
+                <span className="font-sans text-xs text-neutral-400 uppercase tracking-wider font-medium">
                   PROTOCOL: PRIVILEGE_INSUFFICIENT
                 </span>
                 <button
                   onClick={() => setCurrentView('dashboard')}
-                  className="flex items-center space-x-2 px-4 py-2 bg-neutral-900 hover:bg-VASAVI-blue text-white text-xs font-mono uppercase tracking-wider transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 bg-neutral-900 hover:bg-VASAVI-blue text-white text-xs font-sans font-medium uppercase tracking-wider transition-colors"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   <span>Return to Dashboard</span>
