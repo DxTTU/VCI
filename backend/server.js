@@ -279,6 +279,7 @@ app.all(['/api/verify-otp', '/verify-otp', '/api/send-otp', '/send-otp'], (req, 
 
 // Primary API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api', authRoutes); // Direct /api/login, /api/register
 app.use(authRoutes); // Direct root /login, /authenticate
 app.use('/api/otp', otpRoutes);
 app.use(otpRoutes); // Allows direct /send-otp and /verify-otp

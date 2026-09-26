@@ -21,7 +21,9 @@ import {
   Users,
   Menu,
   X,
+  CheckCircle2,
 } from 'lucide-react';
+import usePageSEO from '../utils/usePageSEO';
 
 /**
  * Public Landing Page Component
@@ -37,6 +39,13 @@ export default function LandingPage() {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [donateModalOpen, setDonateModalOpen] = useState(false);
+  const [contactSuccess, setContactSuccess] = useState(false);
+
+  usePageSEO({
+    title: 'Vasavi Clubs International // District V-324 | Unified Digital Community Portal',
+    description:
+      'Official Digital Community Portal for Vasavi Clubs International District V-324. Access chapter rosters, leadership gazettes, humanitarian service pillars, and governance.',
+  });
 
   // Executive Leadership Profile Cards (5 official portrait photographs)
   const leadershipTeam = [
@@ -257,12 +266,24 @@ export default function LandingPage() {
           <div className="flex items-center space-x-4 flex-wrap justify-center sm:justify-start">
             <div className="flex items-center space-x-1.5">
               <Mail className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
-              <span>secretariat@vasaviclub.org</span>
+              <a
+                href="mailto:secretariat@vasaviclub.org"
+                className="hover:underline hover:text-neutral-900 transition-colors"
+                title="Send official email"
+              >
+                secretariat@vasaviclub.org
+              </a>
             </div>
             <span className="text-neutral-300 hidden sm:inline">|</span>
             <div className="flex items-center space-x-1.5">
               <Phone className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
-              <span>+91 44 2851 4090</span>
+              <a
+                href="tel:+914428514090"
+                className="hover:underline hover:text-neutral-900 transition-colors"
+                title="Direct call to Secretariat"
+              >
+                +91 44 2851 4090
+              </a>
             </div>
             <span className="text-neutral-300 hidden md:inline">|</span>
             <div className="hidden md:flex items-center space-x-1.5 text-neutral-400">
@@ -277,9 +298,9 @@ export default function LandingPage() {
             <a
               href="https://vasaviclubs.org"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="hover:text-neutral-900 transition-colors"
-              title="Official Portal"
+              title="Vasavi Clubs Official International Portal"
             >
               <Globe className="w-3.5 h-3.5" />
             </a>
@@ -301,7 +322,7 @@ export default function LandingPage() {
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           {/* Left: Official Logo & Portal Title */}
-          <Link to="/" className="flex items-center space-x-3 group">
+          <Link to="/" className="flex items-center space-x-3 group" title="Vasavi Clubs International Portal Home">
             <img
               src="/logo.png"
               alt="Vasavi Clubs International Emblem"
@@ -318,15 +339,24 @@ export default function LandingPage() {
           </Link>
 
           {/* Center: Minimalist Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8 text-xs font-sans font-medium uppercase tracking-wider text-neutral-600">
+          <nav className="hidden lg:flex items-center space-x-5 xl:space-x-6 text-xs font-sans font-medium uppercase tracking-wider text-neutral-600">
             <a href="#hero" className="hover:text-VASAVI-blue transition-colors">
               Home
             </a>
             <a href="#about" className="hover:text-VASAVI-blue transition-colors">
-              About Us
+              About
+            </a>
+            <a href="#leadership" className="hover:text-VASAVI-blue transition-colors">
+              Leadership
+            </a>
+            <a href="#movement" className="hover:text-VASAVI-blue transition-colors">
+              Movement
             </a>
             <a href="#pillars" className="hover:text-VASAVI-blue transition-colors">
               Pillars
+            </a>
+            <a href="#news" className="hover:text-VASAVI-blue transition-colors">
+              News
             </a>
             <a href="#events" className="hover:text-VASAVI-blue transition-colors">
               Events
@@ -342,12 +372,14 @@ export default function LandingPage() {
           {/* Right: Two Clear Call-to-Action Text Buttons */}
           <div className="hidden sm:flex items-center space-x-3 font-sans text-xs font-semibold">
             <button
+              type="button"
               onClick={() => navigate('/login')}
               className="px-3.5 py-2 border border-neutral-300 hover:border-neutral-900 text-neutral-800 uppercase tracking-wider transition-colors cursor-pointer bg-white"
             >
               [ MEMBER LOGIN ]
             </button>
             <button
+              type="button"
               onClick={() => navigate('/login?tab=register')}
               className="px-3.5 py-2 border border-neutral-900 bg-neutral-900 hover:bg-VASAVI-blue hover:border-VASAVI-blue text-white uppercase tracking-wider transition-colors cursor-pointer"
             >
@@ -357,8 +389,9 @@ export default function LandingPage() {
 
           {/* Mobile Menu Toggle Button */}
           <button
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-neutral-700 hover:text-neutral-900 border border-neutral-200"
+            className="lg:hidden p-2 text-neutral-700 hover:text-neutral-900 border border-neutral-200 cursor-pointer"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -367,65 +400,88 @@ export default function LandingPage() {
 
         {/* Mobile Dropdown Nav Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-gray-200 px-6 py-4 space-y-3 font-sans text-xs uppercase tracking-wider font-medium">
+          <div className="lg:hidden bg-white border-b border-gray-200 px-6 py-4 space-y-3 font-sans text-xs uppercase tracking-wider font-medium shadow-xs">
             <a
               href="#hero"
               onClick={() => setMobileMenuOpen(false)}
-              className="block py-1.5 text-neutral-700 hover:text-neutral-900"
+              className="block py-1.5 text-neutral-700 hover:text-VASAVI-blue"
             >
               Home
             </a>
             <a
               href="#about"
               onClick={() => setMobileMenuOpen(false)}
-              className="block py-1.5 text-neutral-700 hover:text-neutral-900"
+              className="block py-1.5 text-neutral-700 hover:text-VASAVI-blue"
             >
               About Us
             </a>
             <a
+              href="#leadership"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-1.5 text-neutral-700 hover:text-VASAVI-blue"
+            >
+              Our Leadership
+            </a>
+            <a
+              href="#movement"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-1.5 text-neutral-700 hover:text-VASAVI-blue"
+            >
+              Movement Milestones
+            </a>
+            <a
               href="#pillars"
               onClick={() => setMobileMenuOpen(false)}
-              className="block py-1.5 text-neutral-700 hover:text-neutral-900"
+              className="block py-1.5 text-neutral-700 hover:text-VASAVI-blue"
             >
-              Pillars
+              Service Pillars
+            </a>
+            <a
+              href="#news"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-1.5 text-neutral-700 hover:text-VASAVI-blue"
+            >
+              Latest News & Dispatches
             </a>
             <a
               href="#events"
               onClick={() => setMobileMenuOpen(false)}
-              className="block py-1.5 text-neutral-700 hover:text-neutral-900"
+              className="block py-1.5 text-neutral-700 hover:text-VASAVI-blue"
             >
-              Events
+              Upcoming Events
             </a>
             <a
               href="#gallery"
               onClick={() => setMobileMenuOpen(false)}
-              className="block py-1.5 text-neutral-700 hover:text-neutral-900"
+              className="block py-1.5 text-neutral-700 hover:text-VASAVI-blue"
             >
-              Gallery
+              Photo Gallery
             </a>
             <a
               href="#contact"
               onClick={() => setMobileMenuOpen(false)}
-              className="block py-1.5 text-neutral-700 hover:text-neutral-900"
+              className="block py-1.5 text-neutral-700 hover:text-VASAVI-blue"
             >
-              Contact
+              Secretariat Contact
             </a>
             <div className="pt-3 border-t border-gray-200 flex flex-col space-y-2">
               <button
+                type="button"
                 onClick={() => {
                   setMobileMenuOpen(false);
                   navigate('/login');
                 }}
-                className="w-full py-2 border border-neutral-300 text-center uppercase tracking-wider font-semibold"
+                className="w-full py-2 border border-neutral-300 text-center uppercase tracking-wider font-semibold cursor-pointer"
               >
                 [ MEMBER LOGIN ]
               </button>
               <button
+                type="button"
                 onClick={() => {
                   setMobileMenuOpen(false);
                   navigate('/login?tab=register');
                 }}
-                className="w-full py-2 bg-neutral-900 text-white text-center uppercase tracking-wider font-semibold"
+                className="w-full py-2 bg-neutral-900 text-white text-center uppercase tracking-wider font-semibold hover:bg-VASAVI-blue transition-colors cursor-pointer"
               >
                 [ JOIN US ]
               </button>
@@ -558,7 +614,10 @@ export default function LandingPage() {
         {/* ROW 1: [ OUR LEADERSHIP ] (2/3 width) + [ MOVEMENT NOTES ] (1/3 width) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* OUR LEADERSHIP (lg:col-span-8) */}
-          <div className="lg:col-span-8 border border-gray-200 bg-white p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-none text-left">
+          <div
+            id="leadership"
+            className="lg:col-span-8 border border-gray-200 bg-white p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-none text-left scroll-mt-24"
+          >
             <div>
               {/* Module Header */}
               <div className="border-b border-gray-200 pb-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -588,6 +647,7 @@ export default function LandingPage() {
                         <img
                           src={leader.image}
                           alt={leader.name}
+                          loading="lazy"
                           className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-300"
                         />
                         <div className="absolute top-1 left-1 bg-neutral-900/80 text-white text-[9px] font-sans font-medium px-1.5 py-0.5 tracking-wider">
@@ -619,7 +679,10 @@ export default function LandingPage() {
           </div>
 
           {/* MOVEMENT NOTES (lg:col-span-4) */}
-          <div className="lg:col-span-4 border border-gray-200 bg-white p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-none text-left">
+          <div
+            id="movement"
+            className="lg:col-span-4 border border-gray-200 bg-white p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-none text-left scroll-mt-24"
+          >
             <div>
               {/* Module Header */}
               <div className="border-b border-gray-200 pb-4 mb-6 flex items-center justify-between">
@@ -669,7 +732,10 @@ export default function LandingPage() {
         {/* ROW 2: [ LATEST NEWS ] (1/3 width) + [ LATEST EVENTS ] (1/3 width) + [ SUPPORT VCI SERVICE ] (1/3 width) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* LATEST NEWS (lg:col-span-4) */}
-          <div className="lg:col-span-4 border border-gray-200 bg-white p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-none text-left">
+          <div
+            id="news"
+            className="lg:col-span-4 border border-gray-200 bg-white p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-none text-left scroll-mt-24"
+          >
             <div>
               {/* Module Header */}
               <div className="border-b border-gray-200 pb-4 mb-5 flex items-center justify-between">
@@ -1062,6 +1128,7 @@ export default function LandingPage() {
                 <img
                   src="https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=800&auto=format&fit=crop"
                   alt="Food Distribution Drive"
+                  loading="lazy"
                   className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300"
                 />
                 <span className="absolute top-2 left-2 text-[10px] font-sans font-medium bg-neutral-900 text-white px-2 py-0.5 uppercase">
@@ -1083,6 +1150,7 @@ export default function LandingPage() {
                 <img
                   src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=800&auto=format&fit=crop"
                   alt="Medical Health Camp"
+                  loading="lazy"
                   className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300"
                 />
                 <span className="absolute top-2 left-2 text-[10px] font-sans font-medium bg-neutral-900 text-white px-2 py-0.5 uppercase">
@@ -1104,6 +1172,7 @@ export default function LandingPage() {
                 <img
                   src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=crop"
                   alt="Educational Scholarship Ceremony"
+                  loading="lazy"
                   className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300"
                 />
                 <span className="absolute top-2 left-2 text-[10px] font-sans font-medium bg-neutral-900 text-white px-2 py-0.5 uppercase">
@@ -1157,7 +1226,13 @@ export default function LandingPage() {
                   <Mail className="w-4 h-4 text-neutral-500 flex-shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-neutral-900 block font-sans">Official Inquiries</span>
-                    <span className="text-neutral-700 text-[11px]">secretariat@vasaviclub.org</span>
+                    <a
+                      href="mailto:secretariat@vasaviclub.org"
+                      className="text-neutral-700 text-[11px] block hover:underline hover:text-VASAVI-blue transition-colors"
+                      title="Send email to Secretariat"
+                    >
+                      secretariat@vasaviclub.org
+                    </a>
                   </div>
                 </div>
 
@@ -1165,7 +1240,23 @@ export default function LandingPage() {
                   <Phone className="w-4 h-4 text-neutral-500 flex-shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-neutral-900 block font-sans">Direct Telephone</span>
-                    <span className="text-neutral-700 text-[11px]">+91 44 2851 4090 / +91 98401 23456</span>
+                    <div className="text-neutral-700 text-[11px] space-x-1.5">
+                      <a
+                        href="tel:+914428514090"
+                        className="hover:underline hover:text-VASAVI-blue transition-colors"
+                        title="Call Landline"
+                      >
+                        +91 44 2851 4090
+                      </a>
+                      <span className="text-neutral-300">/</span>
+                      <a
+                        href="tel:+919840123456"
+                        className="hover:underline hover:text-VASAVI-blue transition-colors"
+                        title="Call Mobile"
+                      >
+                        +91 98401 23456
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1177,11 +1268,19 @@ export default function LandingPage() {
                 COMMUNICATION DISPATCH // PROTOCOL 1.0
               </span>
 
+              {contactSuccess && (
+                <div className="p-3 border border-emerald-300 bg-emerald-50 text-emerald-800 text-xs font-sans flex items-center space-x-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                  <span>DISPATCH TRANSMITTED: Your inquiry has been registered with District V-324 Secretariat.</span>
+                </div>
+              )}
+
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  alert('Thank you. Your dispatch has been transmitted to District V-324 Secretariat.');
+                  setContactSuccess(true);
                   e.target.reset();
+                  setTimeout(() => setContactSuccess(false), 6000);
                 }}
                 className="space-y-4 text-xs font-sans"
               >
@@ -1249,21 +1348,21 @@ export default function LandingPage() {
       {/* 10. MINIMALIST CLINICAL FOOTER */}
       <footer className="border-t border-gray-200 bg-white py-12 px-4 sm:px-8 text-xs font-sans">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center space-x-3 text-left">
+          <Link to="/" className="flex items-center space-x-3 text-left group" title="Vasavi Clubs Portal Home">
             <img
               src="/logo.png"
               alt="Vasavi Clubs International Emblem"
-              className="w-9 h-9 object-contain flex-shrink-0"
+              className="w-9 h-9 object-contain flex-shrink-0 transition-transform group-hover:scale-105"
             />
             <div>
-              <span className="font-sans font-bold text-neutral-900 block text-xs tracking-wider uppercase">
+              <span className="font-sans font-bold text-neutral-900 block text-xs tracking-wider uppercase group-hover:text-VASAVI-blue transition-colors">
                 Vasavi Clubs International // District V-324
               </span>
               <span className="text-[10px] text-neutral-400 block font-medium">
                 Official Unified Digital Community Portal & Governance Platform
               </span>
             </div>
-          </div>
+          </Link>
 
           <div className="flex items-center space-x-6 text-neutral-500 text-xs font-medium uppercase">
             <Link to="/login" className="hover:text-neutral-900 transition-colors">

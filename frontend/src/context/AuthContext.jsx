@@ -35,10 +35,10 @@ export const AuthProvider = ({ children }) => {
   // If Super Admin OTP bypass triggered, backend immediately returns session JWT
   const initiateLogin = async (identifier, password) => {
     try {
-      const response = await fetch(getApiUrl('/api/auth/login'), {
+      const response = await fetch(getApiUrl('/api/login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ identifier, password }),
+        body: JSON.stringify({ identifier, email: identifier, password }),
       });
 
       const contentType = response.headers.get('content-type') || '';
@@ -67,6 +67,16 @@ export const AuthProvider = ({ children }) => {
 
       return data; // { status: 'OTP_REQUIRED', preAuthToken, maskedEmail } OR { status: 'AUTHENTICATED', token, user }
     } catch (err) {
+      if (
+        err?.name === 'TypeError' ||
+        err?.message?.includes('Failed to fetch') ||
+        err?.message?.includes('NetworkError') ||
+        err?.message?.includes('network error')
+      ) {
+        const netErr = new Error('[ERR // NETWORK] Backend server unreachable. Ensure server is running.');
+        netErr.name = 'TypeError';
+        throw netErr;
+      }
       throw err;
     }
   };
@@ -110,36 +120,60 @@ export const AuthProvider = ({ children }) => {
       }
       return { success: true, user: data.user, token: data.token };
     } catch (err) {
+      if (
+        err?.name === 'TypeError' ||
+        err?.message?.includes('Failed to fetch') ||
+        err?.message?.includes('NetworkError') ||
+        err?.message?.includes('network error')
+      ) {
+        const netErr = new Error('[ERR // NETWORK] Backend server unreachable. Ensure server is running.');
+        netErr.name = 'TypeError';
+        throw netErr;
+      }
       throw err;
     }
   };
 
   // Resend OTP with cooldown
   const resendOTP = async (preAuthToken) => {
-    const response = await fetch(getApiUrl('/api/auth/resend-otp'), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${preAuthToken}`,
-      },
-      body: JSON.stringify({ preAuthToken }),
-    });
+    try {
+      const response = await fetch(getApiUrl('/api/auth/resend-otp'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${preAuthToken}`,
+        },
+        body: JSON.stringify({ preAuthToken }),
+      });
 
-    const contentType = response.headers.get('content-type') || '';
-    const text = await response.text();
-    let data = {};
-    if (text) {
-      try {
-        data = JSON.parse(text);
-      } catch {
-        data = { message: text.startsWith('<') ? `Server error (${response.status})` : text };
+      const contentType = response.headers.get('content-type') || '';
+      const text = await response.text();
+      let data = {};
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch {
+          data = { message: text.startsWith('<') ? `Server error (${response.status})` : text };
+        }
       }
-    }
 
-    if (!response.ok) {
-      throw new Error(data.message || data.error || `Server error: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(data.message || data.error || `Server error: ${response.status}`);
+      }
+      return data;
+    } catch (err) {
+      if (
+        err?.name === 'TypeError' ||
+        err?.message?.includes('Failed to fetch') ||
+        err?.message?.includes('NetworkError') ||
+        err?.message?.includes('network error')
+      ) {
+        const netErr = new Error('[ERR // NETWORK] Backend server unreachable. Ensure server is running.');
+        netErr.name = 'TypeError';
+        throw netErr;
+      }
+      throw err;
     }
-    return data;
   };
 
   // Direct login helper (e.g. for post-induction auto-sign in or fallback)

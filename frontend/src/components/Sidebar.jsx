@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
   LayoutDashboard, 
@@ -13,7 +13,8 @@ import {
   LogOut,
   Lock,
   Activity,
-  Network
+  Network,
+  X
 } from 'lucide-react';
 
 /**
@@ -21,15 +22,16 @@ import {
  * Modeled after "The Ordinary" clinical minimalist design philosophy:
  * - High contrast black/white structure
  * - Hairline 1px borders (#E5E5E5)
- * - Monospaced uppercase micro-typography
  * - Restrained VASAVI Blue (#00338D) active borders and VASAVI Gold (#F2A900) micro-accents
+ * - Responsive mobile drawer with backdrop overlay
  */
-export default function Sidebar({ currentView, setCurrentView, openOnboardingModal }) {
+export default function Sidebar({ currentView, setCurrentView, openOnboardingModal, isOpen, onClose }) {
   const { logout, user, isAdmin, isSuperAdmin, role } = useAuth();
   const navigate = useNavigate();
 
   const handleSignOut = () => {
     logout();
+    if (onClose) onClose();
     navigate('/');
   };
 
@@ -87,55 +89,83 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
   ];
 
   return (
-    <aside className="w-64 md:w-72 bg-white h-screen fixed top-0 left-0 border-r border-neutral-200 flex flex-col justify-between z-30 select-none">
-      {/* Brand Identity / Masthead */}
-      <div>
-        <div className="p-6 border-b border-neutral-200">
-          <div className="flex items-center space-x-3 mb-2">
-            {/* Official Vasavi Clubs International Logo */}
-            <img
-              src="/logo.png"
-              alt="Vasavi Clubs International"
-              className="w-9 h-9 object-contain flex-shrink-0"
-            />
-            <div>
-              <h1 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900">
-                Vasavi Club Intl.
-              </h1>
-              <p className="font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
-                District V-324 // Chapter Portal
-              </p>
+    <>
+      {/* Mobile Drawer Backdrop Overlay */}
+      <div
+        onClick={onClose}
+        className={`fixed inset-0 bg-neutral-900/40 backdrop-blur-xs z-40 md:hidden transition-opacity duration-200 ${
+          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        aria-hidden="true"
+      />
+
+      <aside
+        className={`w-64 md:w-72 bg-white h-screen fixed top-0 left-0 border-r border-neutral-200 flex flex-col justify-between z-50 select-none transition-transform duration-200 ease-in-out md:translate-x-0 ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        {/* Brand Identity / Masthead */}
+        <div>
+          <div className="p-6 border-b border-neutral-200">
+            <div className="flex items-center justify-between mb-2">
+              <Link to="/" className="flex items-center space-x-3 group" title="Return to Public Portal">
+                {/* Official Vasavi Clubs International Logo */}
+                <img
+                  src="/logo.png"
+                  alt="Vasavi Clubs International"
+                  className="w-9 h-9 object-contain flex-shrink-0 transition-transform group-hover:scale-105"
+                />
+                <div>
+                  <h1 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900 group-hover:text-VASAVI-blue transition-colors">
+                    Vasavi Club Intl.
+                  </h1>
+                  <p className="font-sans text-[10px] text-neutral-400 uppercase tracking-wider font-medium">
+                    District V-324 // Chapter Portal
+                  </p>
+                </div>
+              </Link>
+
+              {/* Close Button on Mobile View */}
+              {onClose && (
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="md:hidden p-1.5 text-neutral-400 hover:text-neutral-900 border border-neutral-200 hover:bg-neutral-50"
+                  aria-label="Close menu"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
             </div>
-          </div>
-          
-          <div className="mt-3 pt-3 border-t border-dashed border-neutral-200 flex items-center justify-between text-[10px] font-sans text-neutral-400 font-medium">
-            <span>
-              ROLE:{' '}
+            
+            <div className="mt-3 pt-3 border-t border-dashed border-neutral-200 flex items-center justify-between text-[10px] font-sans text-neutral-400 font-medium">
+              <span>
+                ROLE:{' '}
+                <span
+                  className={
+                    isSuperAdmin
+                      ? 'text-VASAVI-gold font-bold'
+                      : isAdmin
+                      ? 'text-VASAVI-blue font-bold'
+                      : 'text-neutral-700 font-bold'
+                  }
+                >
+                  {isSuperAdmin ? 'SUPER ADMIN' : isAdmin ? 'ADMIN' : 'MEMBER'}
+                </span>
+              </span>
               <span
                 className={
                   isSuperAdmin
-                    ? 'text-VASAVI-gold font-bold'
+                    ? 'text-VASAVI-gold font-semibold text-[9px]'
                     : isAdmin
-                    ? 'text-VASAVI-blue font-bold'
-                    : 'text-neutral-700 font-bold'
+                    ? 'text-emerald-600 font-semibold text-[9px]'
+                    : 'text-neutral-400 text-[9px]'
                 }
               >
-                {isSuperAdmin ? 'SUPER ADMIN' : isAdmin ? 'ADMIN' : 'MEMBER'}
+                {isSuperAdmin ? '[ROOT ACCESS]' : isAdmin ? '[FULL ACCESS]' : '[RESTRICTED]'}
               </span>
-            </span>
-            <span
-              className={
-                isSuperAdmin
-                  ? 'text-VASAVI-gold font-semibold text-[9px]'
-                  : isAdmin
-                  ? 'text-emerald-600 font-semibold text-[9px]'
-                  : 'text-neutral-400 text-[9px]'
-              }
-            >
-              {isSuperAdmin ? '[ROOT ACCESS]' : isAdmin ? '[FULL ACCESS]' : '[RESTRICTED]'}
-            </span>
+            </div>
           </div>
-        </div>
 
         {/* Primary Action Button: Member Onboarding */}
         <div className="p-4 border-b border-neutral-100">
@@ -173,13 +203,15 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
               } else {
                 navigate('/dashboard');
               }
+              if (onClose) onClose();
             };
 
             return (
               <button
+                type="button"
                 key={item.id}
                 onClick={handleClick}
-                className={`w-full flex items-center justify-between px-3 py-2.5 text-left text-xs transition-colors duration-150 relative ${
+                className={`w-full flex items-center justify-between px-3 py-2.5 text-left text-xs transition-colors duration-150 relative cursor-pointer ${
                   isActive
                     ? 'bg-neutral-50 text-neutral-900 font-medium'
                     : 'text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50/60'
@@ -232,8 +264,9 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
         {/* Sign Out Action */}
         <div className="p-3 border-t border-neutral-100 bg-white">
           <button
+            type="button"
             onClick={handleSignOut}
-            className="w-full flex items-center justify-between px-3 py-2 border border-neutral-200 hover:border-neutral-900 text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 text-xs font-sans font-medium uppercase tracking-wider transition-all duration-150 group"
+            className="w-full flex items-center justify-between px-3 py-2 border border-neutral-200 hover:border-neutral-900 text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 text-xs font-sans font-medium uppercase tracking-wider transition-all duration-150 group cursor-pointer"
           >
             <div className="flex items-center space-x-2">
               <LogOut className="w-3.5 h-3.5 text-neutral-400 group-hover:text-red-600 transition-colors" />
@@ -245,30 +278,31 @@ export default function Sidebar({ currentView, setCurrentView, openOnboardingMod
 
         {/* System Telemetry & Clinical Footer */}
         <div className="p-5 border-t border-neutral-200 bg-white">
-        <div className="space-y-2 text-xs font-sans text-neutral-500 font-medium">
-          <div className="flex items-center justify-between">
-            <span className="text-neutral-400">REPOSITORY:</span>
-            <span className="text-neutral-800 font-medium">COMPASS LOCAL</span>
+          <div className="space-y-2 text-xs font-sans text-neutral-500 font-medium">
+            <div className="flex items-center justify-between">
+              <span className="text-neutral-400">REPOSITORY:</span>
+              <span className="text-neutral-800 font-medium">COMPASS LOCAL</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-neutral-400">DATABASE:</span>
+              <span className="text-neutral-800 font-medium">vasaviclub</span>
+            </div>
+            <div className="flex items-center justify-between pt-1 border-t border-neutral-100">
+              <span className="flex items-center space-x-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span className="text-neutral-600">ONLINE</span>
+              </span>
+              <span className="text-neutral-400">PORT: 27017</span>
+            </div>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-neutral-400">DATABASE:</span>
-            <span className="text-neutral-800 font-medium">vasaviclub</span>
-          </div>
-          <div className="flex items-center justify-between pt-1 border-t border-neutral-100">
-            <span className="flex items-center space-x-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span className="text-neutral-600">ONLINE</span>
-            </span>
-            <span className="text-neutral-400">PORT: 27017</span>
-          </div>
-        </div>
 
-        <div className="mt-4 pt-3 border-t border-neutral-100 text-[10px] font-sans font-medium text-neutral-400 flex items-center justify-between">
-          <span>VASAVI INT. SYSTEM v2.4</span>
-          <span className="text-VASAVI-blue">#00338D</span>
+          <div className="mt-4 pt-3 border-t border-neutral-100 text-[10px] font-sans font-medium text-neutral-400 flex items-center justify-between">
+            <span>VASAVI INT. SYSTEM v2.4</span>
+            <span className="text-VASAVI-blue">#00338D</span>
+          </div>
         </div>
       </div>
-    </div>
-  </aside>
+    </aside>
+    </>
   );
 }

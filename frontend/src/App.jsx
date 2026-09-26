@@ -1,9 +1,10 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import LandingPage from './pages/LandingPage';
 import AuthScreen from './pages/AuthScreen';
 import DashboardLayout from './pages/DashboardLayout';
+import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 
 /**
@@ -16,79 +17,81 @@ import ProtectedRoute from './components/ProtectedRoute';
  * - /club-master -> Protected Club Master View
  * - /pst-master -> Protected PST Master View
  * - /audit-logs -> Protected Dedicated System Telemetry / Audit Records Route
- * - Fallback -> Redirects back to /
+ * - * -> Dedicated Clinical 404 Page (NotFound)
  */
 export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Routes>
-          {/* Public Landing Page */}
-          <Route path="/" element={<LandingPage />} />
+        <div className="min-h-screen overflow-x-hidden flex flex-col bg-white">
+          <Routes>
+            {/* Public Landing Page */}
+            <Route path="/" element={<LandingPage />} />
 
-          {/* Public Authentication Screen */}
-          <Route path="/login" element={<AuthScreen />} />
+            {/* Public Authentication Screen */}
+            <Route path="/login" element={<AuthScreen />} />
 
-          {/* Protected Chapter Management Console */}
-          <Route
-            path="/dashboard/*"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
-          />
+            {/* Protected Chapter Management Console */}
+            <Route
+              path="/dashboard/*"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Protected Direct Master Modules */}
-          <Route
-            path="/member-master"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout initialView="member-master" />
-              </ProtectedRoute>
-            }
-          />
+            {/* Protected Direct Master Modules */}
+            <Route
+              path="/member-master"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout initialView="member-master" />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/club-master"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout initialView="club-master" />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/club-master"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout initialView="club-master" />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/pst-master"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout initialView="pst-master" />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/pst-master"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout initialView="pst-master" />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/drz-master"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout initialView="drz-master" />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/drz-master"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout initialView="drz-master" />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Protected Dedicated System Telemetry / Audit Records Route */}
-          <Route
-            path="/audit-logs"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout initialView="audit-logs" />
-              </ProtectedRoute>
-            }
-          />
+            {/* Protected Dedicated System Telemetry / Audit Records Route */}
+            <Route
+              path="/audit-logs"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout initialView="audit-logs" />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Catch-all redirect to Landing Page */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+            {/* Dedicated 404 Catch-All Page */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </AuthProvider>
   );

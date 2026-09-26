@@ -75,16 +75,24 @@ export default function PSTMasterPage({ psts }) {
 
                 <div className="space-y-1.5 text-xs font-sans font-normal text-neutral-600 border-t border-neutral-100 pt-3">
                   <div className="flex items-center space-x-2">
-                    <Mail className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="font-sans text-xs truncate">
+                    <Mail className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                    <a
+                      href={`mailto:${pst.president?.officialEmail || 'president@vasaviclub.org'}`}
+                      className="font-sans text-xs truncate hover:underline hover:text-VASAVI-blue transition-colors"
+                      title="Send email to President"
+                    >
                       {pst.president?.officialEmail || 'president@vasaviclub.org'}
-                    </span>
+                    </a>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Phone className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="font-sans text-xs">
+                    <Phone className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                    <a
+                      href={`tel:${(pst.president?.directPhone || '+919840123456').replace(/\s+/g, '')}`}
+                      className="font-sans text-xs hover:underline hover:text-VASAVI-blue transition-colors"
+                      title="Call President"
+                    >
                       {pst.president?.directPhone || '+91 98401 23456'}
-                    </span>
+                    </a>
                   </div>
                 </div>
 
@@ -115,16 +123,24 @@ export default function PSTMasterPage({ psts }) {
 
                 <div className="space-y-1.5 text-xs font-sans font-normal text-neutral-600 border-t border-neutral-100 pt-3">
                   <div className="flex items-center space-x-2">
-                    <Mail className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="font-sans text-xs truncate">
+                    <Mail className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                    <a
+                      href={`mailto:${pst.secretary?.officialEmail || 'secretary@vasaviclub.org'}`}
+                      className="font-sans text-xs truncate hover:underline hover:text-VASAVI-blue transition-colors"
+                      title="Send email to Secretary"
+                    >
                       {pst.secretary?.officialEmail || 'secretary@vasaviclub.org'}
-                    </span>
+                    </a>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Phone className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="font-sans text-xs">
+                    <Phone className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                    <a
+                      href={`tel:${(pst.secretary?.directPhone || '+919840234567').replace(/\s+/g, '')}`}
+                      className="font-sans text-xs hover:underline hover:text-VASAVI-blue transition-colors"
+                      title="Call Secretary"
+                    >
                       {pst.secretary?.directPhone || '+91 98402 34567'}
-                    </span>
+                    </a>
                   </div>
                 </div>
 
@@ -155,16 +171,24 @@ export default function PSTMasterPage({ psts }) {
 
                 <div className="space-y-1.5 text-xs font-sans font-normal text-neutral-600 border-t border-neutral-100 pt-3">
                   <div className="flex items-center space-x-2">
-                    <Mail className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="font-sans text-xs truncate">
+                    <Mail className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                    <a
+                      href={`mailto:${pst.treasurer?.officialEmail || 'treasurer@vasaviclub.org'}`}
+                      className="font-sans text-xs truncate hover:underline hover:text-VASAVI-blue transition-colors"
+                      title="Send email to Treasurer"
+                    >
                       {pst.treasurer?.officialEmail || 'treasurer@vasaviclub.org'}
-                    </span>
+                    </a>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Phone className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="font-sans text-xs">
+                    <Phone className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                    <a
+                      href={`tel:${(pst.treasurer?.directPhone || '+919840345678').replace(/\s+/g, '')}`}
+                      className="font-sans text-xs hover:underline hover:text-VASAVI-blue transition-colors"
+                      title="Call Treasurer"
+                    >
                       {pst.treasurer?.directPhone || '+91 98403 45678'}
-                    </span>
+                    </a>
                   </div>
                 </div>
 

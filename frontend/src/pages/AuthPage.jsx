@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
+import { Navigate, useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ShieldCheck, ArrowRight, UserPlus, Lock, Mail, KeyRound, Sparkles, Check, RefreshCw, Key } from 'lucide-react';
+import usePageSEO from '../utils/usePageSEO';
 import OnboardingWizard from '../components/onboarding/OnboardingWizard';
 
 /**
@@ -10,7 +11,7 @@ import OnboardingWizard from '../components/onboarding/OnboardingWizard';
  * - Stark white background and crisp 1px borders (border-neutral-200)
  * - Sleek toggle between "Sign In" and "Create Account"
  * - Two-Stage OTP Verification protocol for Sign In (Antigravity auth specification)
- * - Monospaced uppercase labels and micro-telemetry
+ * - Plus Jakarta Sans geometric typography and micro-telemetry
  * - Seamless integration with AuthContext and Multi-Step Onboarding Wizard
  */
 export default function AuthPage() {
@@ -22,6 +23,15 @@ export default function AuthPage() {
   const [activeTab, setActiveTab] = useState(
     tabParam === 'register' || tabParam === 'signup' ? 'signup' : 'signin'
   ); // 'signin' | 'signup'
+
+  usePageSEO({
+    title:
+      activeTab === 'signup'
+        ? 'Register Chapter Member // Vasavi Clubs International District V-324'
+        : 'Chapter Governance Sign In // Vasavi Clubs International District V-324',
+    description:
+      'Secure cryptographic OTP authentication gateway for chapter officers and members of Vasavi Clubs International District V-324.',
+  });
 
   useEffect(() => {
     const tab = searchParams.get('tab');
@@ -88,7 +98,16 @@ export default function AuthPage() {
         navigate('/dashboard');
       }
     } catch (err) {
-      setError(err.message || 'Authentication failed. Please verify credentials.');
+      if (
+        err?.name === 'TypeError' ||
+        err?.message?.includes('Failed to fetch') ||
+        err?.message?.includes('NetworkError') ||
+        err?.message?.includes('network error')
+      ) {
+        setError('[ERR // NETWORK] Backend server unreachable. Ensure server is running.');
+      } else {
+        setError(err.message || 'Authentication failed. Please verify credentials.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -103,7 +122,16 @@ export default function AuthPage() {
       await verifyOTP(codeToVerify, preAuthToken, identifier);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.message || '[ERR] CRYPTOGRAPHIC SEQUENCE MISMATCH');
+      if (
+        err?.name === 'TypeError' ||
+        err?.message?.includes('Failed to fetch') ||
+        err?.message?.includes('NetworkError') ||
+        err?.message?.includes('network error')
+      ) {
+        setError('[ERR // NETWORK] Backend server unreachable. Ensure server is running.');
+      } else {
+        setError(err.message || '[ERR] CRYPTOGRAPHIC SEQUENCE MISMATCH');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -137,16 +165,19 @@ export default function AuthPage() {
       setCooldown(60);
       setSuccessMsg('A fresh verification code has been dispatched.');
     } catch (err) {
-      setError(err.message || 'Failed to resend verification code.');
+      if (
+        err?.name === 'TypeError' ||
+        err?.message?.includes('Failed to fetch') ||
+        err?.message?.includes('NetworkError') ||
+        err?.message?.includes('network error')
+      ) {
+        setError('[ERR // NETWORK] Backend server unreachable. Ensure server is running.');
+      } else {
+        setError(err.message || 'Failed to resend verification code.');
+      }
     } finally {
       setIsResending(false);
     }
-  };
-
-  const handleFillDemo = (id, pass) => {
-    setIdentifier(id);
-    setPassword(pass);
-    setError('');
   };
 
   const handleMemberInducted = (newMember) => {
@@ -167,22 +198,22 @@ export default function AuthPage() {
     <div className="min-h-screen bg-[#FAFAFA] flex flex-col justify-between items-center p-4 md:p-8 select-none font-sans">
       {/* Top Clinical Masthead */}
       <header className="w-full max-w-4xl flex items-center justify-between border-b border-neutral-200 pb-4">
-        <div className="flex items-center space-x-3">
+        <Link to="/" className="flex items-center space-x-3 group" title="Return to Public Portal">
           {/* Official Vasavi Clubs International Logo */}
           <img
             src="/logo.png"
             alt="Vasavi Clubs International"
-            className="w-9 h-9 object-contain flex-shrink-0"
+            className="w-9 h-9 object-contain flex-shrink-0 transition-transform group-hover:scale-105"
           />
           <div>
-            <h1 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900">
-              Vasavi Club International
+            <h1 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-900 group-hover:text-VASAVI-blue transition-colors">
+              Vasavi Clubs International
             </h1>
             <p className="text-[10px] font-sans font-medium text-neutral-400 tracking-wider uppercase">
               District V-324 // Central Authentication Gate
             </p>
           </div>
-        </div>
+        </Link>
 
         <div className="hidden sm:flex items-center space-x-2 text-[10px] font-sans font-medium text-neutral-400">
           <span>SPEC: GATEWAY-AUTH</span>
@@ -199,11 +230,13 @@ export default function AuthPage() {
 
           {/* Official Emblem & Header Description */}
           <div className="border-b border-neutral-200 pb-4 text-center sm:text-left flex flex-col sm:flex-row items-center sm:items-start space-y-3 sm:space-y-0 sm:space-x-4">
-            <img
-              src="/logo.png"
-              alt="Vasavi Clubs International Emblem"
-              className="w-16 h-16 object-contain flex-shrink-0"
-            />
+            <Link to="/" title="Return to Public Portal" className="flex-shrink-0">
+              <img
+                src="/logo.png"
+                alt="Vasavi Clubs International Emblem"
+                className="w-16 h-16 object-contain flex-shrink-0 hover:scale-105 transition-transform"
+              />
+            </Link>
             <div className="flex-1">
               <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-neutral-400 block">
                 PORTAL ACCESS // PROTOCOL 2.4
@@ -254,7 +287,7 @@ export default function AuthPage() {
             <form onSubmit={handleInitiateSignIn} className="space-y-4">
               {error && (
                 <div className="p-3 border border-red-200 bg-red-50 text-red-700 font-sans text-xs font-medium leading-relaxed">
-                  [ERR // AUTH_FAULT] {error}
+                  {error.startsWith('[ERR') ? error : `[ERR // AUTH_FAULT] ${error}`}
                 </div>
               )}
 
@@ -302,47 +335,6 @@ export default function AuthPage() {
                 <span>{isLoading ? 'Verifying Credentials...' : 'Authenticate & Request OTP'}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-VASAVI-gold" />
               </button>
-
-              {/* Quick-Fill Demo Shortcuts for Testing */}
-              <div className="pt-4 border-t border-neutral-100 space-y-2">
-                <div className="flex items-center justify-between text-xs font-sans font-medium text-neutral-400">
-                  <span>QUICK-FILL TEST PROFILES:</span>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => handleFillDemo('dhatrinathlade2006@gmail.com', 'D@12345')}
-                    className="p-2 border border-neutral-900 bg-neutral-900 text-white text-left font-sans text-xs hover:bg-VASAVI-blue hover:border-VASAVI-blue transition-colors"
-                  >
-                    <span className="block font-semibold">[SA] Dhatrinath</span>
-                    <span className="text-[10px] text-VASAVI-gold truncate block font-medium">Super Admin • 2FA OTP</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleFillDemo('harshavardanbommisetti@gmail.com', 'H@12345')}
-                    className="p-2 border border-neutral-900 bg-neutral-50 text-left font-sans text-xs text-neutral-800 hover:border-VASAVI-blue hover:bg-white transition-colors"
-                  >
-                    <span className="block font-semibold text-neutral-900">[A] Harsha Vardan</span>
-                    <span className="text-[10px] text-neutral-500 truncate block font-medium">Admin • 2FA OTP</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleFillDemo('president@vasaviclub.org', 'password123')}
-                    className="p-2 border border-neutral-200 text-left font-sans text-xs text-neutral-600 hover:border-VASAVI-blue hover:text-neutral-900 transition-colors"
-                  >
-                    <span className="block font-semibold text-neutral-800">[P] President</span>
-                    <span className="text-[10px] text-neutral-400 font-medium">Admin • V-100201</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleFillDemo('member@vasaviclub.org', 'password123')}
-                    className="p-2 border border-neutral-200 text-left font-sans text-xs text-neutral-600 hover:border-VASAVI-blue hover:text-neutral-900 transition-colors"
-                  >
-                    <span className="block font-semibold text-neutral-800">[M] Siddharth</span>
-                    <span className="text-[10px] text-neutral-400 font-medium">Member • Standard</span>
-                  </button>
-                </div>
-              </div>
             </form>
           )}
 
@@ -489,8 +481,12 @@ export default function AuthPage() {
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
           <span>COMPASS LOCAL // 27017 ONLINE</span>
         </div>
-        <div>
-          <span>MOTTO: FELLOWSHIP AND SERVICE</span>
+        <div className="flex items-center space-x-4">
+          <Link to="/" className="text-neutral-500 hover:text-neutral-900 transition-colors uppercase text-[11px]">
+            ← Return to Home
+          </Link>
+          <span className="text-neutral-300">|</span>
+          <span>© {new Date().getFullYear()} VASAVI CLUBS INTERNATIONAL</span>
         </div>
       </footer>
 

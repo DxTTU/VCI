@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ShieldAlert, ArrowLeft } from 'lucide-react';
 import { getApiUrl } from '../config/api';
+import usePageSEO from '../utils/usePageSEO';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import OnboardingWizard from '../components/onboarding/OnboardingWizard';
@@ -30,7 +31,25 @@ export default function DashboardLayout({ initialView }) {
     return 'dashboard';
   });
 
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+  // Dynamic SEO Page Titles
+  const viewTitles = {
+    dashboard: 'Executive Dashboard // VCI District V-324',
+    'club-master': 'Club Master Registry // VCI District V-324',
+    'member-master': 'Member Master Dossier // VCI District V-324',
+    'pst-master': 'PST Leadership Master // VCI District V-324',
+    'drz-master': 'DRZ Hierarchy Master // VCI District V-324',
+    'audit-logs': 'System Telemetry & Audit Records // VCI District V-324',
+  };
+
+  usePageSEO({
+    title: viewTitles[currentView] || 'Chapter Management System // VCI District V-324',
+    description: 'Centralized Chapter Management System and Administrative Registry for Vasavi Clubs International District V-324.',
+  });
+
   useEffect(() => {
+    setIsMobileSidebarOpen(false);
     if (location.pathname.includes('audit-logs')) {
       setCurrentView('audit-logs');
     } else if (location.pathname.includes('drz-master')) {
@@ -283,20 +302,23 @@ export default function DashboardLayout({ initialView }) {
   const isAccessDenied = isMasterView && !isAdmin;
 
   return (
-    <div className="min-h-screen bg-white text-neutral-900 font-sans font-normal flex">
-      {/* Persistent Left Sidebar */}
+    <div className="min-h-screen bg-white text-neutral-900 font-sans font-normal flex overflow-x-hidden">
+      {/* Persistent Left Sidebar with Mobile Drawer */}
       <Sidebar
         currentView={currentView}
         setCurrentView={setCurrentView}
         openOnboardingModal={() => setIsOnboardingOpen(true)}
+        isOpen={isMobileSidebarOpen}
+        onClose={() => setIsMobileSidebarOpen(false)}
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 ml-64 md:ml-72 flex flex-col min-h-screen">
+      <div className="flex-1 ml-0 md:ml-72 flex flex-col min-h-screen w-full overflow-x-hidden">
         <Header
           currentView={currentView}
           openOnboardingModal={() => setIsOnboardingOpen(true)}
           refreshData={fetchData}
+          toggleMobileSidebar={() => setIsMobileSidebarOpen((prev) => !prev)}
         />
 
         {/* View Content */}
